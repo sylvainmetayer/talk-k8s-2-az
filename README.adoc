@@ -1,0 +1,13 @@
+= Un cluster Kubernetes sur deux sites : une simple histoire de disponibilité, non ?
+
+Slides disponibles sur https://sylvainmetayer.github.io/talk-k8s-2-az/#/[Github Pages]
+
+== Generate
+
+[source,bash]
+----
+./setup.sh
+
+docker compose up # exit 0
+python3 -m http.server # open localhost:8000
+----

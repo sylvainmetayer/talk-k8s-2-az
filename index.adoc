@@ -1,0 +1,39 @@
+= SOPS (de près), passez un savon à vos secrets en clair !
+:docinfo: private
+:source-highlighter: highlight.js
+:highlightjs-theme: js/highlight/styles/base16/solarized-light.min.css
+:highlightjs-languages: yaml,bash,shell,ini
+:highlightjsdir: js/highlight
+:autofit-option:
+:icons!:
+:iconfont-remote!:
+:notitle:
+:revealjs_slideNumber: true
+:revealjs_theme: white
+:revealjs_history: true
+:revealjs_pdfseparatefragments: false
+:revealjs_width: 1200
+:title-slide-background-image: tnt/background.png
+:title-slide-background-repeat: repeat
+:title-slide-background-size: auto
+// //:title-slide-filter: blur(4px)
+:stylesdir: css
+:customcss: css/meetup.css
+:imagesdir: images
+:revealjs_totalTime: 15*60
+:revealjs_defaultTiming: 60
+:tip-caption: 💡
+:important-caption: 📌
+:warning-caption: ⚠️
+:caution-caption: 🚨
+:example-caption: ✏️
+
+@sylvain_metayer
+
+
+include::slides/000-intro.adoc[]
+include::slides/010-sops.adoc[]
+include::slides/020-demo-usage.adoc[]
+include::slides/030-conclusion.adoc[]
+
+

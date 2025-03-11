@@ -1,0 +1,35 @@
+@startuml
+skinparam handwritten true
+
+title Déploiement d'une application
+
+actor Développeur
+artifact "dépôt git      " {
+artifact code
+
+storage c #lightblue;line:lightblue;line.bold;text:black [
+"secrets.yaml"
+]
+storage ".sops.yaml" #lightblue;line:lightblue;line.bold;text:black
+
+}
+
+cloud "Cloud Provider" {
+database bdd [
+"base de données"
+]
+node appli
+node "outil d'intégration"
+
+appli -d-> bdd : stocke données
+}
+
+Développeur - code : Produit
+Développeur -d-> c : Configure
+
+code -d-> "Cloud Provider" : se déploie sur
+"outil d'intégration" -d-> c : Déchiffre
+
+"outil d'intégration" -d-> appli : Injection d'identifiant
+
+@enduml

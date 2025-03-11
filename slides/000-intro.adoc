@@ -1,0 +1,25 @@
+include::001-presentation.adoc[]
+
+[.columns.is-vcentered]
+== Cas d'usage
+
+_Où persister la valeur des secrets ?_
+
+[.column.is-two-fifths]
+--
+plantuml::diagrams/010-problematique.puml[format=svg]
+--
+
+[.column.is-two-fifths]
+--
+plantuml::diagrams/011-problematique-env.puml[format=svg]
+--
+
+[.notes]
+****
+- Des secrets à passer à nos applications, pour autant on ne veut pas avoir à les mettre à la main et on veut les centraliser.
+- Directement sur le cloud provider, mais cela nécessite configuration manuelle
+- À la main dans l'application ?
+- Dans un Vault ? Si non existant, c'est une brique en plus à maintenir
+- Dans le code source, ça serait bien ? SOPS
+****
