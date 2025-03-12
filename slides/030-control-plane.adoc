@@ -1,0 +1,34 @@
+[%auto-animate.is-full]
+== Mono CP
+
+[.notes]
+****
+
+****
+
+[%auto-animate.is-full]
+== Multi CP
+
+[.notes]
+****
+
+****
+
+=== etcd
+
+[etcd](https://etcd.io) à la rescousse.
+
+=== Raft
+
+Algorithme [Raft](https://raft.github.io).
+
+== Scenarii
+
+=== 3 - 0
+
+=== 2 - 1
+
+== Redondance
+
+== Recovery
+

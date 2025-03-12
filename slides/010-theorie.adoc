@@ -1,0 +1,17 @@
+[%notitle.columns.is-vcentered]
+== Théorie
+
+[.columns.is-vcentered]
+=== Types de disponibilité / État de l’art
+
+[.notes]
+****
+
+****
+
+=== Stretched cluster
+
+[.notes]
+****
+Un schéma vaut mille mots
+****
