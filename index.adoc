@@ -28,7 +28,7 @@
 :caution-caption: 🚨
 :example-caption: ✏️
 
-@sylvain_metayer
+@sylvain_metayer @nicolas_trauwaen
 
 include::slides/000-intro.adoc[]
 include::slides/001-presentation.adoc[]
@@ -37,5 +37,3 @@ include::slides/020-contexte.adoc[]
 include::slides/030-control-plane.adoc[]
 include::slides/040-applications.adoc[]
 include::slides/099-conclusion.adoc[]
-
-
