@@ -1,4 +1,4 @@
-= SOPS (de près), passez un savon à vos secrets en clair !
+= Un cluster Kubernetes sur deux sites : une simple histoire de disponibilité, non ?
 :docinfo: private
 :source-highlighter: highlight.js
 :highlightjs-theme: js/highlight/styles/base16/solarized-light.min.css
@@ -28,12 +28,12 @@
 :caution-caption: 🚨
 :example-caption: ✏️
 
-@sylvain_metayer
-
+@sylvain_metayer @nicolas_trauwaen
 
 include::slides/000-intro.adoc[]
-include::slides/010-sops.adoc[]
-include::slides/020-demo-usage.adoc[]
-include::slides/030-conclusion.adoc[]
-
-
+include::slides/001-presentation.adoc[]
+include::slides/010-theorie.adoc[]
+include::slides/020-contexte.adoc[]
+include::slides/030-control-plane.adoc[]
+include::slides/040-applications.adoc[]
+include::slides/099-conclusion.adoc[]

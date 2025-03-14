@@ -1,0 +1,13 @@
+[%auto-animate.is-full]
+== Gestion applicative
+
+[.notes]
+****
+
+****
+
+=== Kafka
+
+=== Elasticsearch
+
+=== PostgreSQL
