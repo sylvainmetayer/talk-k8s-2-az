@@ -25,6 +25,7 @@ jobs:
       - name: Install and Build 🔧
         uses: addnab/docker-run-action@v3
         with:
+          # renovate: datasource=docker depName=asciidoctor/docker-asciidoctor
           image: asciidoctor/docker-asciidoctor:1.82
           options: -v ${{ github.workspace }}:/documents
           run: |
