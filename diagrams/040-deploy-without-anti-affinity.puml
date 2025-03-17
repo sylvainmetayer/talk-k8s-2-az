@@ -1,0 +1,55 @@
+@startuml kubernetes
+
+footer Déploiement avec des règles d'anti-affinité
+scale max 1024 width
+scale max 1080 height
+
+skinparam nodesep 10
+skinparam ranksep 10
+
+!define KubernetesPuml https://raw.githubusercontent.com/dcasati/kubernetes-PlantUML/master/dist
+
+!includeurl KubernetesPuml/kubernetes_Common.puml
+!includeurl KubernetesPuml/kubernetes_Context.puml
+!includeurl KubernetesPuml/kubernetes_Simplified.puml
+
+!includeurl KubernetesPuml/OSS/KubernetesSvc.puml
+!includeurl KubernetesPuml/OSS/KubernetesIng.puml
+!includeurl KubernetesPuml/OSS/KubernetesPod.puml
+!includeurl KubernetesPuml/OSS/KubernetesRs.puml
+!includeurl KubernetesPuml/OSS/KubernetesDeploy.puml
+!includeurl KubernetesPuml/OSS/KubernetesHpa.puml
+!includeurl KubernetesPuml/OSS/KubernetesNode.puml
+
+actor "User" as userAlias
+left to right direction
+
+Cluster_Boundary(cluster, "Kubernetes Cluster") {
+    Namespace_Boundary(ns, "my-app") {
+        KubernetesIng(ingress, "my-app.com", "")
+        KubernetesSvc(svc, "service", "")
+
+        Cluster_Boundary(region1, "Région A") {
+            KubernetesNode(regionA, "", "")
+            KubernetesPod(pod1, "frontend-1", "")
+            KubernetesPod(pod2, "frontend-2", "")
+        }
+
+        Cluster_Boundary(region2, "Région B") {
+            KubernetesNode(regionB, "", "")
+        }
+
+        KubernetesDeploy(deploy,"frontend","")
+    }
+}
+
+userAlias --> ingress: ""
+
+ingress --> svc: ""
+
+svc --> deploy: ""
+
+deploy ---> pod1: ""
+deploy ---> pod2: ""
+
+@enduml
