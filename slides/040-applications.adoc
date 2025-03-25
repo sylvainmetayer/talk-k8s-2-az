@@ -42,17 +42,60 @@ TODO Schéma déploiement avec affinité / anti-affinité sur 2 régions
 
 Parfois, nous dépendons d'opérateurs k8s, qui ont parfois leurs particularités.
 
-Pourrait être simple, si Stockage répliqué, mais ce n'est pas le cas du client = 2 zones stockage par région, mais pas de réplication entre les régions = il faut gérer la réplication au niveau applicatif.
+Pourrait être simple, si Stockage répliqué, mais ce n'est pas le cas du client = 2 zones stockage par région, mais pas de réplication entre les régions = il faut gérer la réplication des données au niveau applicatif.
 ****
 
+[.column]
+--
+mermaid::diagrams/040-storage-presentation.mmd[format=svg,id=040-storage-presentation]
+--
+
 === PostgreSQL
+
+https://cloudnative-pg.io/
+
+[source,yaml]
+----
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: ma-db
+spec:
+  affinity:
+    enablePodAntiAffinity: true
+    podAntiAffinityType: preferred
+    topologyKey: topology.kubernetes.io/region
+  instances: 2
+  postgresql:
+    syncReplicaElectionConstraint:
+      enabled: true
+      nodeLabelsAntiAffinity:
+      - topology.kubernetes.io/region
+  replicationSlots:
+    highAvailability:
+      enabled: true
+    synchronizeReplicas:
+      enabled: true
+----
 
 [.notes]
 ****
 L'opérateur fait le travail, pour peu que l'on configure l'anti-affinité entre les régions
-
-Anecdote : si API K8S KO, l'opérateur ne peut plus mettre à jour le service pour élire le nouveau principal
 ****
+
+=== ⚠️ Postgres
+
+--
+image::operator.webp[]
+--
+
+https://www.redhat.com/en/blog/build-your-kubernetes-operator-with-the-right-tool
+
+[.notes]
+----
+Anecdote : si API K8S KO, l'opérateur ne peut plus mettre à jour le service pour élire le nouveau principal. En effet, l'opérateur cherche à mettre à jour un service pour indiquer que le pod postgres restant doit devenir le pod principal et tente de mettre à jour le service Kubernetes correspondant. cependant, si pas d'API k8s... Pas de mise à jour du service !
+----
 
 === Elasticsearch
 
