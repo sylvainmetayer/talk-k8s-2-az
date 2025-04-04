@@ -3,11 +3,118 @@
 
 [.notes]
 ****
+Maintenant que notre cluster est résilient sur 2 régions, il est temps de s'intéresser aux applications qui tournent dessus.
+****
 
+=== Par défaut
+
+[.column]
+--
+plantuml::diagrams/040-deploy-without-anti-affinity.puml[format=svg,id=040-without-anti-affinity]
+--
+
+[.notes]
+****
+TODO manifeste Kubernetes basique sans affinité / anti-affinité
+
+TODO Schéma déploiement sans affinité / anti-affinité sur 2 régions
+****
+
+=== Gestion des régions
+
+[.column]
+--
+plantuml::diagrams/040-deploy-with-anti-affinity.puml[format=svg,id=040-with-anti-affinity]
+--
+
+[.notes]
+****
+TODO docs affinité / anti-affinité + exemples manifeste
+
+TODO Schéma déploiement avec affinité / anti-affinité sur 2 régions
+****
+
+=== Et pour des besoins plus complexes ?
+
+[.notes]
+****
+\= Stocker des données.
+
+Parfois, nous dépendons d'opérateurs k8s, qui ont parfois leurs particularités.
+
+Pourrait être simple, si Stockage répliqué, mais ce n'est pas le cas du client = 2 zones stockage par région, mais pas de réplication entre les régions = il faut gérer la réplication des données au niveau applicatif.
+****
+
+[.column]
+--
+mermaid::diagrams/040-storage-presentation.mmd[format=svg,id=040-storage-presentation]
+--
+
+=== PostgreSQL
+
+https://cloudnative-pg.io/
+
+[source,yaml]
+----
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: ma-db
+spec:
+  affinity:
+    enablePodAntiAffinity: true
+    podAntiAffinityType: preferred
+    topologyKey: topology.kubernetes.io/region
+  instances: 2
+  postgresql:
+    syncReplicaElectionConstraint:
+      enabled: true
+      nodeLabelsAntiAffinity:
+      - topology.kubernetes.io/region
+  replicationSlots:
+    highAvailability:
+      enabled: true
+    synchronizeReplicas:
+      enabled: true
+----
+
+[.notes]
+****
+L'opérateur fait le travail, pour peu que l'on configure l'anti-affinité entre les régions
+****
+
+=== ⚠️ Postgres
+
+--
+image::operator.webp[]
+--
+
+https://www.redhat.com/en/blog/build-your-kubernetes-operator-with-the-right-tool
+
+[.notes]
+----
+Anecdote : si API K8S KO, l'opérateur ne peut plus mettre à jour le service pour élire le nouveau principal. En effet, l'opérateur cherche à mettre à jour un service pour indiquer que le pod postgres restant doit devenir le pod principal et tente de mettre à jour le service Kubernetes correspondant. cependant, si pas d'API k8s... Pas de mise à jour du service !
+----
+
+=== Elasticsearch
+
+[.notes]
+****
+Cas particulier : n'utilise pas raft pour l'election de reader
+
+Si on perd une région, on perd les données de cette région.
 ****
 
 === Kafka
 
-=== Elasticsearch
+[.notes]
+****
+Même problématique que API K8S = 2/1 ou 3/0 ? Pas possible de faire du 3/0, si on perd la mauvaise région, on perd tout.
 
-=== PostgreSQL
+TODO Schéma déploiement avec affinité / anti-affinité sur 2 régions
+
+Procédure manuelle en cas de perte de région, en ajoutant un nouveau node Kafka, on provisionne un nouveau membre sur la région restante et le quorum peut de nouveau se faire si N > N/2
+
+https://github.com/orgs/strimzi/discussions/11012
+****

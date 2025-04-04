@@ -17,8 +17,7 @@ code/recipients/*.key
 code/recipients/.sops.yaml
 
 # generated image
-images/01-problematique.svg
-images/02-recapitulatif.svg
+images/040*.svg
 
 code/demo-magic.sh
 code/secrets/*

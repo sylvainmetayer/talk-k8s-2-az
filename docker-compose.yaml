@@ -1,6 +1,9 @@
 services:
   asciidoctor:
-    image: asciidoctor/docker-asciidoctor:1.79
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: custom-docker-asciidoctor:1.82
     command: asciidoctor-revealjs -r asciidoctor-diagram index.adoc
     volumes:
       - .:/documents
