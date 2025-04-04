@@ -1,4 +1,4 @@
-FROM asciidoctor/docker-asciidoctor:1.82
+FROM asciidoctor/docker-asciidoctor:1.84
 RUN apk add --update nodejs npm
 RUN apk upgrade
 RUN npm install -g @mermaid-js/mermaid-cli
