@@ -438,7 +438,62 @@ ul.byline li + li {
 <section><section id="_scenarii"><h2>Scenarii</h2></section><section id="_3_0"><h2>3 - 0</h2></section><section id="_2_1"><h2>2 - 1</h2></section></section>
 <section id="_redondance"><h2>Redondance</h2></section>
 <section id="_recovery"><h2>Recovery</h2></section>
-<section><section id="_gestion_applicative" class="is-full" data-auto-animate><h2>Gestion applicative</h2><div class="slide-content"><aside class="notes"></aside></div></section><section id="_kafka"><h2>Kafka</h2></section><section id="_elasticsearch"><h2>Elasticsearch</h2></section><section id="_postgresql"><h2>PostgreSQL</h2></section></section>
+<section><section id="_gestion_applicative" class="is-full" data-auto-animate><h2>Gestion applicative</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Maintenant que notre cluster est résilient sur 2 régions, il est temps de s&#8217;intéresser aux applications qui tournent dessus.</p></div></aside></div></section><section id="_par_défaut"><h2>Par défaut</h2><div class="slide-content"><div class="openblock column"><div class="content"><div id="040-without-anti-affinity" class="imageblock"><img src="images/040-deploy-without-anti-affinity.svg" alt="Diagram"></div></div></div>
+<aside class="notes"><div class="paragraph"><p>TODO manifeste Kubernetes basique sans affinité / anti-affinité</p></div>
+<div class="paragraph"><p>TODO Schéma déploiement sans affinité / anti-affinité sur 2 régions</p></div></aside></div></section><section id="_gestion_des_régions"><h2>Gestion des régions</h2><div class="slide-content"><div class="openblock column"><div class="content"><div id="040-with-anti-affinity" class="imageblock"><img src="images/040-deploy-with-anti-affinity.svg" alt="Diagram"></div></div></div>
+<aside class="notes"><div class="paragraph"><p>TODO docs affinité / anti-affinité + exemples manifeste</p></div>
+<div class="paragraph"><p>TODO Schéma déploiement avec affinité / anti-affinité sur 2 régions</p></div></aside></div></section><section id="_et_pour_des_besoins_plus_complexes"><h2>Et pour des besoins plus complexes ?</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>\= Stocker des données.</p></div>
+<div class="paragraph"><p>Parfois, nous dépendons d&#8217;opérateurs k8s, qui ont parfois leurs particularités.</p></div>
+<div class="paragraph"><p>Pourrait être simple, si Stockage répliqué, mais ce n&#8217;est pas le cas du client = 2 zones stockage par région, mais pas de réplication entre les régions = il faut gérer la réplication des données au niveau applicatif.</p></div></aside>
+<div class="openblock column"><div class="content"><div id="040-storage-presentation" class="listingblock"><div class="content"><pre>Failed to generate image: Could not find the 'mmdc' executable in PATH; add it to the PATH or specify its location using the 'mmdc' document attribute
+graph TB
+    subgraph "zoneB"
+        n3(Node3)
+        n4(Node4)
+        s1(Stockage VMWare)
+    end
+    subgraph "zoneA"
+        n1(Node1)
+        n2(Node2)
+        s2(Stockage VMWare)
+    end
+
+    classDef plain fill:#fff,stroke:#ddd,stroke-width:4px,color:#fff;
+    classDef k8s fill:#326ce5,stroke:#fff,stroke-width:4px,color:#fff;
+    classDef cluster fill:#fff,stroke:#bbb,stroke-width:2px,color:#326ce5;
+    classDef storage fill:#fff,stroke:#bbb,stroke-width:2px,color:#326ce5;
+    class n1,n2,n3,n4 k8s;
+    class s1,s2 storage;
+    class zoneA,zoneB cluster;
+    s1 &lt;-.-&gt;|Pas de réplication| s2</pre></div></div></div></div></div></section><section id="_postgresql"><h2>PostgreSQL</h2><div class="slide-content"><div class="paragraph"><p><a href="https://cloudnative-pg.io/" class="bare">https://cloudnative-pg.io/</a></p></div>
+<div class="listingblock"><div class="content"><pre class="highlightjs highlight"><code class="language-yaml hljs" data-noescape="true" data-lang="yaml">---
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: ma-db
+spec:
+  affinity:
+    enablePodAntiAffinity: true
+    podAntiAffinityType: preferred
+    topologyKey: topology.kubernetes.io/region
+  instances: 2
+  postgresql:
+    syncReplicaElectionConstraint:
+      enabled: true
+      nodeLabelsAntiAffinity:
+      - topology.kubernetes.io/region
+  replicationSlots:
+    highAvailability:
+      enabled: true
+    synchronizeReplicas:
+      enabled: true</code></pre></div></div>
+<aside class="notes"><div class="paragraph"><p>L&#8217;opérateur fait le travail, pour peu que l&#8217;on configure l&#8217;anti-affinité entre les régions</p></div></aside></div></section><section id="_️_postgres"><h2>⚠️ Postgres</h2><div class="slide-content"><div class="openblock"><div class="content"><div class="imageblock"><img src="images/operator.webp" alt="operator"></div></div></div>
+<div class="paragraph"><p><a href="https://www.redhat.com/en/blog/build-your-kubernetes-operator-with-the-right-tool" class="bare">https://www.redhat.com/en/blog/build-your-kubernetes-operator-with-the-right-tool</a></p></div>
+<div class="listingblock notes"><div class="content"><pre>Anecdote : si API K8S KO, l'opérateur ne peut plus mettre à jour le service pour élire le nouveau principal. En effet, l'opérateur cherche à mettre à jour un service pour indiquer que le pod postgres restant doit devenir le pod principal et tente de mettre à jour le service Kubernetes correspondant. cependant, si pas d'API k8s... Pas de mise à jour du service !</pre></div></div></div></section><section id="_elasticsearch"><h2>Elasticsearch</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Cas particulier : n&#8217;utilise pas raft pour l&#8217;election de reader</p></div>
+<div class="paragraph"><p>Si on perd une région, on perd les données de cette région.</p></div></aside></div></section><section id="_kafka"><h2>Kafka</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Même problématique que API K8S = 2/1 ou 3/0 ? Pas possible de faire du 3/0, si on perd la mauvaise région, on perd tout.</p></div>
+<div class="paragraph"><p>TODO Schéma déploiement avec affinité / anti-affinité sur 2 régions</p></div>
+<div class="paragraph"><p>Procédure manuelle en cas de perte de région, en ajoutant un nouveau node Kafka, on provisionne un nouveau membre sur la région restante et le quorum peut de nouveau se faire si N &gt; N/2</p></div>
+<div class="paragraph"><p><a href="https://github.com/orgs/strimzi/discussions/11012" class="bare">https://github.com/orgs/strimzi/discussions/11012</a></p></div></aside></div></section></section>
 <section id="_conclusion" class="columns transparency"><h2>Conclusion</h2><div class="slide-content"><div class="ulist"><ul><li><p>Limites</p></li><li><p>Alternatives</p></li></ul></div>
 <aside class="notes"></aside></div></section>
 <section id="_merci" class="columns transparency is-vcentered" data-background-image="images/tnt/background.png" data-background-size="fill"><div class="slide-content">
