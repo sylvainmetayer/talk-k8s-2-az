@@ -1,0 +1,38 @@
+@startuml
+
+skinparam cluster {
+    BackgroundColor white
+    BorderColor #bbb
+    BorderThickness 2
+    FontColor #326ce5
+}
+
+skinparam node {
+    BackgroundColor #326ce5
+    BorderColor white
+    BorderThickness 4
+    FontColor white
+}
+
+skinparam storage {
+    BackgroundColor white
+    BorderColor #bbb
+    BorderThickness 2
+    FontColor #326ce5
+}
+
+package "zoneB" as zoneB {
+    node "Node3" as n3
+    node "Node4" as n4
+    storage "Stockage VMWare" as s1
+}
+
+package "zoneA" as zoneA {
+    node "Node1" as n1
+    node "Node2" as n2
+    storage "Stockage VMWare" as s2
+}
+
+s1 -[#red,dashed]-> s2 : Pas de réplication
+
+@enduml

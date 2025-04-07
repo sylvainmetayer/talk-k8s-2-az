@@ -7,7 +7,25 @@
 
 [.notes]
 ****
+Faire un schéma : 2 régions, si vous avez un hypersiveur potable, du stockage distribué : oui, sinon, attendez vous à quelques péripéties. Préférez alors 3 régions.
 
+Conclusion : infra, redondcance modèle étendu sur 2 sites, pas aussi simple que pour une VM / BDD . ETcd adresse redondances des CP Kube mis apporte complexité sur 2 sites, il faut être vigilant. Se retrouve aussi côté applicatif avec attention applicatif
+
+Résumé : cluster kube etendu sur 2 sites, oui si bascule auto hypeviseur VM recovery du site A vers B et que vous ayez un stockagfe hyperconvergé. Sinon, pas forcément recommandé. ET dans ce cas, on fait quio ?
+
+Schéma CP externe sur 3ème zone. Oui 3 zones carrément ! C'est pas pour rien que l'on recommande 3 zones partout !
+
+Retrouver projet ou 3ème zone dans VM dédié ?
+
+****
+
+== Ouverture
+
+[.notes]
+****
+Multi cluster, et chaque cluster est sur chaque zone. avec meta cluster en administration (schéma / liens / images) : CGP Anthos: redhat advanced cluster management / submariner spinacher multi cluster / pl
+
+Modèleg edge : on a un mini cluster au plus
 ****
 
 [.columns.transparency%notitle.is-vcentered]

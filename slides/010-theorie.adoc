@@ -1,11 +1,27 @@
-[%notitle.columns.is-vcentered]
-== Théorie
-
-[.columns.is-vcentered]
-=== Types de disponibilité / État de l’art
+[columns.is-vcentered]
+== Contexte
 
 [.notes]
 ****
+On fait du Kube on prem, sur 2 régions.
+****
+
+[.columns.is-vcentered]
+== Définitions
+
+[%step]
+* Disponibilité
+* Redondance
+* Répartition de charge
+
+
+[.notes]
+****
+Afin de s'assurer que l'on parle de la même chose durant cette présentation.
+
+disponiblité = capacité à accéder à la plateforme au moment ou on le souhaite, redondance = panne sur un premier site pour permettre l'accès, notion de haute dispo, différentes stratégies (actif/passif avec sauvegarde ou miroir, TODO ajouter des schémas)
+
+Répartition charge - actif actif - autre schéma : partage de ressources (pool) sur les 2 sites. En cas de panne, le second peut récupérer charge du premier site et assurer service A
 
 ****
 
@@ -14,4 +30,12 @@
 [.notes]
 ****
 Un schéma vaut mille mots
+
+Terminologie : pour les contextes dont nous allons parler, nous sommes partis sur une stratégie "stretched cluster". Cad que nous avons un cluster k8s réparti sur deux sites en mode actif/actif.
+
 ****
+
+[.column]
+--
+plantuml::diagrams/010-contexte.puml[format=svg,id=010-contexte]
+--

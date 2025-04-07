@@ -1,7 +1,7 @@
 [%auto-animate.is-full]
-== Contexte
+== Maintenant qu'on parle la même de la même chose, qu'est-ce qu'il est possible de faire pour garantir la haute dispo de notre Cluster Kubernetes ?
 
 [.notes]
 ****
-
+(Parler hyperviseur) => Cela ne s'applique que si vous êtes sur un hyperviseur, pas sur bare metal. Le but étant de pouvoir créer/déplacer des VMs facilement afin d'équilibrer la charge/restaurer facilement les services en cas de panne.
 ****

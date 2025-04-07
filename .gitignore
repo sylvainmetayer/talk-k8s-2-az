@@ -18,6 +18,8 @@ code/recipients/.sops.yaml
 
 # generated image
 images/040*.svg
+images/010*.svg
+images/diag-*
 
 code/demo-magic.sh
 code/secrets/*

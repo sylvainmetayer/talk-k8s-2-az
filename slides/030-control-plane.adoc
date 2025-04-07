@@ -3,7 +3,9 @@
 
 [.notes]
 ****
+mono CP. 1 control plane pour notre cluster, 1 vm CP sur un des 2 sites. Redondacne à la VMWare (VRA ??) snapshot de la VM, on remonte de l'autre côté
 
+Présenter 3/0, sans parler d'ETCD RAFt, et besoin de CP sur les 2 côtés pour API haute dispo car opérateur qui met à jour services / pas de bascule auto VMWare car pas licence pour mon projet et aç créé problème supplémentaire, car mes opérateurs ne peuvent pas metre à jour les services / ...
 ****
 
 [%auto-animate.is-full]
@@ -11,24 +13,31 @@
 
 [.notes]
 ****
-
+multi CP, obligatoire 3 CP. 2/1 ? 3/0 ? => Pour faire du 2/1, est-ce que c'est possible ?
 ****
 
 === etcd
 
 [etcd](https://etcd.io) à la rescousse.
 
+[.notes]
+****
+TODO rajouter un schéma de fonctionnement d'etcd et expliquer comment marche les élections de leader.
+****
+
 === Raft
 
 Algorithme [Raft](https://raft.github.io).
 
-== Scenarii
-
-=== 3 - 0
-
-=== 2 - 1
-
-== Redondance
+[.notes]
+****
+Algo d'leection de leader dans ETCD. En cas de panne, comment gérer les pannes ? Schéma et illustrer
+****
 
 == Recovery
 
+[.notes]
+****
+Screenshot de crash election membre voir schéma RAFT.
+Recovery : ETCD crash, comment on récupère ? Snapshot d'une dernière VM / soit backup ETCD (avec recréation d'un nouveau quorum mono et intégration des autres membres) => Schéma !
+****

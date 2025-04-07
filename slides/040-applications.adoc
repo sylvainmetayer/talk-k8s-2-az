@@ -3,7 +3,7 @@
 
 [.notes]
 ****
-Maintenant que notre cluster est résilient sur 2 régions, il est temps de s'intéresser aux applications qui tournent dessus.
+Maintenant que notre cluster est résilient sur 2 régions, il est temps de s'intéresser aux applications qui tournent dessus. impact sur applications. partir de solution naive vers proposition solution
 ****
 
 === Par défaut
@@ -47,7 +47,7 @@ Pourrait être simple, si Stockage répliqué, mais ce n'est pas le cas du clien
 
 [.column]
 --
-mermaid::diagrams/040-storage-presentation.mmd[format=svg,id=040-storage-presentation]
+plantuml::diagrams/040-storage-presentation.puml[format=svg,id=040-storage-presentation]
 --
 
 === PostgreSQL
