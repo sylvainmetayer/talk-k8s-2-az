@@ -431,41 +431,28 @@ ul.byline li + li {
 <div class="openblock column is-3"><div class="content"><div class="paragraph vertical-align-right"><p><span class="image"><img src="images/logo.png" alt="logo" width="250"></span></p></div>
 <div class="paragraph"><p>Ingénieur production / SRE <a href="https://www.groupeonepoint.com/fr/">@Onepoint</a></p></div></div></div>
 <aside class="notes"></aside></div></section>
-<section><section id="_théorie" class="columns is-vcentered"></section><section id="_types_de_disponibilité_état_de_lart" class="columns is-vcentered"><h2>Types de disponibilité / État de l’art</h2><div class="slide-content"><aside class="notes"></aside></div></section><section id="_stretched_cluster"><h2>Stretched cluster</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Un schéma vaut mille mots</p></div></aside></div></section></section>
-<section id="_contexte" class="is-full" data-auto-animate><h2>Contexte</h2><div class="slide-content"><aside class="notes"></aside></div></section>
-<section id="_mono_cp" class="is-full" data-auto-animate><h2>Mono CP</h2><div class="slide-content"><aside class="notes"></aside></div></section>
-<section><section id="_multi_cp" class="is-full" data-auto-animate><h2>Multi CP</h2><div class="slide-content"><aside class="notes"></aside></div></section><section id="_etcd"><h2>etcd</h2><div class="slide-content"><div class="paragraph"><p>[etcd](<a href="https://etcd.io" class="bare">https://etcd.io</a>) à la rescousse.</p></div></div></section><section id="_raft"><h2>Raft</h2><div class="slide-content"><div class="paragraph"><p>Algorithme [Raft](<a href="https://raft.github.io" class="bare">https://raft.github.io</a>).</p></div></div></section></section>
-<section><section id="_scenarii"><h2>Scenarii</h2></section><section id="_3_0"><h2>3 - 0</h2></section><section id="_2_1"><h2>2 - 1</h2></section></section>
-<section id="_redondance"><h2>Redondance</h2></section>
-<section id="_recovery"><h2>Recovery</h2></section>
-<section><section id="_gestion_applicative" class="is-full" data-auto-animate><h2>Gestion applicative</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Maintenant que notre cluster est résilient sur 2 régions, il est temps de s&#8217;intéresser aux applications qui tournent dessus.</p></div></aside></div></section><section id="_par_défaut"><h2>Par défaut</h2><div class="slide-content"><div class="openblock column"><div class="content"><div id="040-without-anti-affinity" class="imageblock"><img src="images/040-deploy-without-anti-affinity.svg" alt="Diagram"></div></div></div>
+<section id="_contexte" class="is-vcentered"><h2>Contexte</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>On fait du Kube on prem, sur 2 régions.</p></div></aside></div></section>
+<section><section id="_définitions" class="columns is-vcentered"><h2>Définitions</h2><div class="slide-content"><div class="ulist"><ul><li class="fragment"><p>Disponibilité</p></li><li class="fragment"><p>Redondance</p></li><li class="fragment"><p>Répartition de charge</p></li></ul></div><aside class="notes"><div class="paragraph"><p>Afin de s&#8217;assurer que l&#8217;on parle de la même chose durant cette présentation.</p></div>
+<div class="paragraph"><p>disponiblité = capacité à accéder à la plateforme au moment ou on le souhaite, redondance = panne sur un premier site pour permettre l&#8217;accès, notion de haute dispo, différentes stratégies (actif/passif avec sauvegarde ou miroir, TODO ajouter des schémas)</p></div>
+<div class="paragraph"><p>Répartition charge - actif actif - autre schéma : partage de ressources (pool) sur les 2 sites. En cas de panne, le second peut récupérer charge du premier site et assurer service A</p></div></aside></div></section><section id="_stretched_cluster"><h2>Stretched cluster</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Un schéma vaut mille mots</p></div>
+<div class="paragraph"><p>Terminologie : pour les contextes dont nous allons parler, nous sommes partis sur une stratégie "stretched cluster". Cad que nous avons un cluster k8s réparti sur deux sites en mode actif/actif.</p></div></aside>
+<div class="openblock column"><div class="content"><div id="010-contexte" class="imageblock"><img src="images/010-contexte.svg" alt="Diagram"></div></div></div></div></section></section>
+<section id="_maintenant_quon_parle_la_même_de_la_même_chose_quest_ce_quil_est_possible_de_faire_pour_garantir_la_haute_dispo_de_notre_cluster_kubernetes" class="is-full" data-auto-animate><h2>Maintenant qu&#8217;on parle la même de la même chose, qu&#8217;est-ce qu&#8217;il est possible de faire pour garantir la haute dispo de notre Cluster Kubernetes ?</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>(Parler hyperviseur) &#8658; Cela ne s&#8217;applique que si vous êtes sur un hyperviseur, pas sur bare metal. Le but étant de pouvoir créer/déplacer des VMs facilement afin d&#8217;équilibrer la charge/restaurer facilement les services en cas de panne.</p></div></aside></div></section>
+<section id="_mono_cp" class="is-full" data-auto-animate><h2>Mono CP</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>mono CP. 1 control plane pour notre cluster, 1 vm CP sur un des 2 sites. Redondacne à la VMWare (VRA ??) snapshot de la VM, on remonte de l&#8217;autre côté</p></div>
+<div class="paragraph"><p>Présenter 3/0, sans parler d&#8217;ETCD RAFt, et besoin de CP sur les 2 côtés pour API haute dispo car opérateur qui met à jour services / pas de bascule auto VMWare car pas licence pour mon projet et aç créé problème supplémentaire, car mes opérateurs ne peuvent pas metre à jour les services / &#8230;&#8203;</p></div></aside></div></section>
+<section><section id="_multi_cp" class="is-full" data-auto-animate><h2>Multi CP</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>multi CP, obligatoire 3 CP. 2/1 ? 3/0 ? &#8658; Pour faire du 2/1, est-ce que c&#8217;est possible ?</p></div></aside></div></section><section id="_etcd"><h2>etcd</h2><div class="slide-content"><div class="paragraph"><p>[etcd](<a href="https://etcd.io" class="bare">https://etcd.io</a>) à la rescousse.</p></div>
+<aside class="notes"><div class="paragraph"><p>TODO rajouter un schéma de fonctionnement d&#8217;etcd et expliquer comment marche les élections de leader.</p></div></aside></div></section><section id="_raft"><h2>Raft</h2><div class="slide-content"><div class="paragraph"><p>Algorithme [Raft](<a href="https://raft.github.io" class="bare">https://raft.github.io</a>).</p></div>
+<aside class="notes"><div class="paragraph"><p>Algo d&#8217;leection de leader dans ETCD. En cas de panne, comment gérer les pannes ? Schéma et illustrer</p></div></aside></div></section></section>
+<section id="_recovery"><h2>Recovery</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Screenshot de crash election membre voir schéma RAFT.
+Recovery : ETCD crash, comment on récupère ? Snapshot d&#8217;une dernière VM / soit backup ETCD (avec recréation d&#8217;un nouveau quorum mono et intégration des autres membres) &#8658; Schéma !</p></div></aside></div></section>
+<section><section id="_gestion_applicative" class="is-full" data-auto-animate><h2>Gestion applicative</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Maintenant que notre cluster est résilient sur 2 régions, il est temps de s&#8217;intéresser aux applications qui tournent dessus. impact sur applications. partir de solution naive vers proposition solution</p></div></aside></div></section><section id="_par_défaut"><h2>Par défaut</h2><div class="slide-content"><div class="openblock column"><div class="content"><div id="040-without-anti-affinity" class="imageblock"><img src="images/040-deploy-without-anti-affinity.svg" alt="Diagram"></div></div></div>
 <aside class="notes"><div class="paragraph"><p>TODO manifeste Kubernetes basique sans affinité / anti-affinité</p></div>
 <div class="paragraph"><p>TODO Schéma déploiement sans affinité / anti-affinité sur 2 régions</p></div></aside></div></section><section id="_gestion_des_régions"><h2>Gestion des régions</h2><div class="slide-content"><div class="openblock column"><div class="content"><div id="040-with-anti-affinity" class="imageblock"><img src="images/040-deploy-with-anti-affinity.svg" alt="Diagram"></div></div></div>
 <aside class="notes"><div class="paragraph"><p>TODO docs affinité / anti-affinité + exemples manifeste</p></div>
 <div class="paragraph"><p>TODO Schéma déploiement avec affinité / anti-affinité sur 2 régions</p></div></aside></div></section><section id="_et_pour_des_besoins_plus_complexes"><h2>Et pour des besoins plus complexes ?</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>\= Stocker des données.</p></div>
 <div class="paragraph"><p>Parfois, nous dépendons d&#8217;opérateurs k8s, qui ont parfois leurs particularités.</p></div>
 <div class="paragraph"><p>Pourrait être simple, si Stockage répliqué, mais ce n&#8217;est pas le cas du client = 2 zones stockage par région, mais pas de réplication entre les régions = il faut gérer la réplication des données au niveau applicatif.</p></div></aside>
-<div class="openblock column"><div class="content"><div id="040-storage-presentation" class="listingblock"><div class="content"><pre>Failed to generate image: Could not find the 'mmdc' executable in PATH; add it to the PATH or specify its location using the 'mmdc' document attribute
-graph TB
-    subgraph "zoneB"
-        n3(Node3)
-        n4(Node4)
-        s1(Stockage VMWare)
-    end
-    subgraph "zoneA"
-        n1(Node1)
-        n2(Node2)
-        s2(Stockage VMWare)
-    end
-
-    classDef plain fill:#fff,stroke:#ddd,stroke-width:4px,color:#fff;
-    classDef k8s fill:#326ce5,stroke:#fff,stroke-width:4px,color:#fff;
-    classDef cluster fill:#fff,stroke:#bbb,stroke-width:2px,color:#326ce5;
-    classDef storage fill:#fff,stroke:#bbb,stroke-width:2px,color:#326ce5;
-    class n1,n2,n3,n4 k8s;
-    class s1,s2 storage;
-    class zoneA,zoneB cluster;
-    s1 &lt;-.-&gt;|Pas de réplication| s2</pre></div></div></div></div></div></section><section id="_postgresql"><h2>PostgreSQL</h2><div class="slide-content"><div class="paragraph"><p><a href="https://cloudnative-pg.io/" class="bare">https://cloudnative-pg.io/</a></p></div>
+<div class="openblock column"><div class="content"><div id="040-storage-presentation" class="imageblock"><img src="images/040-storage-presentation.svg" alt="Diagram"></div></div></div></div></section><section id="_postgresql"><h2>PostgreSQL</h2><div class="slide-content"><div class="paragraph"><p><a href="https://cloudnative-pg.io/" class="bare">https://cloudnative-pg.io/</a></p></div>
 <div class="listingblock"><div class="content"><pre class="highlightjs highlight"><code class="language-yaml hljs" data-noescape="true" data-lang="yaml">---
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
@@ -495,7 +482,13 @@ spec:
 <div class="paragraph"><p>Procédure manuelle en cas de perte de région, en ajoutant un nouveau node Kafka, on provisionne un nouveau membre sur la région restante et le quorum peut de nouveau se faire si N &gt; N/2</p></div>
 <div class="paragraph"><p><a href="https://github.com/orgs/strimzi/discussions/11012" class="bare">https://github.com/orgs/strimzi/discussions/11012</a></p></div></aside></div></section></section>
 <section id="_conclusion" class="columns transparency"><h2>Conclusion</h2><div class="slide-content"><div class="ulist"><ul><li><p>Limites</p></li><li><p>Alternatives</p></li></ul></div>
-<aside class="notes"></aside></div></section>
+<aside class="notes"><div class="paragraph"><p>Faire un schéma : 2 régions, si vous avez un hypersiveur potable, du stockage distribué : oui, sinon, attendez vous à quelques péripéties. Préférez alors 3 régions.</p></div>
+<div class="paragraph"><p>Conclusion : infra, redondcance modèle étendu sur 2 sites, pas aussi simple que pour une VM / BDD . ETcd adresse redondances des CP Kube mis apporte complexité sur 2 sites, il faut être vigilant. Se retrouve aussi côté applicatif avec attention applicatif</p></div>
+<div class="paragraph"><p>Résumé : cluster kube etendu sur 2 sites, oui si bascule auto hypeviseur VM recovery du site A vers B et que vous ayez un stockagfe hyperconvergé. Sinon, pas forcément recommandé. ET dans ce cas, on fait quio ?</p></div>
+<div class="paragraph"><p>Schéma CP externe sur 3ème zone. Oui 3 zones carrément ! C&#8217;est pas pour rien que l&#8217;on recommande 3 zones partout !</p></div>
+<div class="paragraph"><p>Retrouver projet ou 3ème zone dans VM dédié ?</p></div></aside></div></section>
+<section id="_ouverture"><h2>Ouverture</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Multi cluster, et chaque cluster est sur chaque zone. avec meta cluster en administration (schéma / liens / images) : CGP Anthos: redhat advanced cluster management / submariner spinacher multi cluster / pl</p></div>
+<div class="paragraph"><p>Modèleg edge : on a un mini cluster au plus</p></div></aside></div></section>
 <section id="_merci" class="columns transparency is-vcentered" data-background-image="images/tnt/background.png" data-background-size="fill"><div class="slide-content">
 <div class="openblock column"><div class="content"><div class="imageblock"><img src="images/slides_link.svg" alt="Slides" height="300"></div><div class="title">Slides</div></div></div>
 <div class="openblock column"><div class="content"><div class="paragraph"><p><a href="https://sylvain.dev"><strong>sylvain.dev</strong></a></p></div></div></div>
