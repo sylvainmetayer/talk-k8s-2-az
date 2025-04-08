@@ -1,0 +1,26 @@
+@startuml
+actor Utilisateur
+package "Région A" {
+    rectangle "Control Plane" {
+        component "Control Plane 1" as CP1_A
+        component "Control Plane 2" as CP2_A
+        component "Control Plane 3" as CP3_A
+    }
+    rectangle "Worker" as workerA {
+        component "Worker A1"
+        component "Worker A2"
+    }
+}
+
+package "Région B" {
+    rectangle "Worker" as workerB {
+        component "Worker B1"
+        component "Worker B2"
+    }
+}
+
+Utilisateur --> "Control Plane" : Requête API
+
+"Control Plane" --> "Région B" : En cas de crash,\n restauration des snapshots sur la région B
+
+@enduml
