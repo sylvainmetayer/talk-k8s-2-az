@@ -3,11 +3,15 @@
     --r-main-color: #111012;
     --r-heading1-text-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25), 0 20px 20px rgba(0, 0, 0, 0.15);
 }
+
+.reveal section.title {
+    background: rgba(255, 255, 255, 0.3); /* Couleur de fond blanche avec opacité */
+}
+
 .reveal section.title h1 {
     position: relative;
     color: black;
-    font-size: 80px;
-    background: rgba(255, 255, 255, 0.8); /* Couleur de fond blanche avec opacité */
+    font-size: 70px;
     text-shadow: var(--r-heading1-text-shadow);
     font-weight: 700;
     letter-spacing: normal;
@@ -15,7 +19,6 @@
 
 .reveal section.title h1 + .preamble > .paragraph > p {
     color: black;
-    background: rgba(255, 255, 255, 0.8); /* Couleur de fond blanche avec opacité */
     font-size: 50px;
     font-weight: 700;
     letter-spacing: normal;
@@ -36,8 +39,8 @@ footer {
 }
 
 body::after {
-    /*background-color: rgba(0, 0, 0, 0.1);*/
-    content: url("../images/tnt/logo.png");
+    background-color: rgba(242, 243, 245, 0.5);
+    content: url("../images/cloud-toulouse/logo.png");
     position: fixed;
     left: 10px;
     bottom: 10px;
