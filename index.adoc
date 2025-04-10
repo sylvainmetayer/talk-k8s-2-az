@@ -1,4 +1,4 @@
-= Un cluster Kubernetes sur deux sites : une simple histoire de disponibilité, non ?
+= Un cluster Kubernetes sur deux sites, une simple histoire de disponibilité, non ?
 :docinfo: private
 :source-highlighter: highlight.js
 :highlightjs-theme: js/highlight/styles/base16/solarized-light.min.css
@@ -13,7 +13,7 @@
 :revealjs_history: true
 :revealjs_pdfseparatefragments: false
 :revealjs_width: 1200
-:title-slide-background-image: tnt/background.png
+:title-slide-background-image: k8s-2az.png
 :title-slide-background-repeat: repeat
 :title-slide-background-size: auto
 // //:title-slide-filter: blur(4px)
@@ -28,9 +28,7 @@
 :caution-caption: 🚨
 :example-caption: ✏️
 
-@nicolas_trauwaen
-
-@sylvain_metayer
+@nicolas_trauwaen -- @sylvain_metayer
 
 include::slides/001-presentation.adoc[]
 include::slides/010-theorie.adoc[]

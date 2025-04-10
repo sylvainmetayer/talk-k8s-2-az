@@ -31,7 +31,7 @@ Modèleg edge : on a un mini cluster au plus
 [.columns.transparency%notitle.is-vcentered]
 == Merci !
 
-image::tnt/background.png[background, size=fill]
+image::k8s-2az.png[background, size=fill]
 
 [.column]
 --
@@ -43,6 +43,8 @@ image::slides_link.svg[height=300,alt='Slides']
 [.column]
 --
 link:https://sylvain.dev[*sylvain.dev*]
+
+link:https://nicolas.trauwaen.net[*nicolas.trauwaen.net*]
 --
 
 [.column]
