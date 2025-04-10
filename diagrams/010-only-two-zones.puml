@@ -1,0 +1,6 @@
+@startuml
+cloud "Région A"
+cloud "Région B"
+
+"Région A" <--> "Région B"
+@enduml

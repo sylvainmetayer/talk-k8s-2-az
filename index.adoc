@@ -28,9 +28,10 @@
 :caution-caption: 🚨
 :example-caption: ✏️
 
-@sylvain_metayer @nicolas_trauwaen
+@nicolas_trauwaen
 
-include::slides/000-intro.adoc[]
+@sylvain_metayer
+
 include::slides/001-presentation.adoc[]
 include::slides/010-theorie.adoc[]
 include::slides/020-contexte.adoc[]

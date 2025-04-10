@@ -9,3 +9,11 @@ services:
       - .:/documents
     working_dir: /documents
     # remove: true
+#  kroki:
+#    image: yuzutech/kroki:0.27.0@sha256:cf40792abb2c75c54950523072abb89cccc7fa7f2bbfcb16e262bf159d021374
+#    environment:
+#      KROKI_SAFE_MODE: UNSAFE
+#  kroki_mermaid:
+#    image: yuzutech/kroki-mermaid
+#    environment:
+#      KROKI_SAFE_MODE: UNSAFE

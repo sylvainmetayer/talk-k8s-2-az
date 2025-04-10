@@ -14,10 +14,11 @@ Utilisateur -> CP_A : Requête API
 destroy CP_A
 CP_A --> Utilisateur : Pas de réponse
 
-...<b>Une bascule auto plus tard</b>...
-
 == Restauration sur Région B ==
 HV_B -> CP_B : Restaure le dernier snapshot du Control Plane
+
+...<b>Une bascule auto plus tard</b>...
+
 Utilisateur -> CP_B : Requête API
 CP_B -> CP_B : Traite la requête
 CP_B -> Utilisateur : Réponse API

@@ -1,55 +1,35 @@
 [%notitle.columns.is-vcentered.transparency]
 == Présentation
 
-[.column.is-one-third]
+[.column.is-two-fifths.has-text-left.medium]
 --
-image::sm.png[]
+image::ntrauwaen.png[]
+
+Nicolas TRAUWAEN
+
+Ingénieur production / SRE
+
+link:https://nicolas.trauwaen.net[]
 --
 
-[.column.is-3.has-text-left.medium]
+[.column.is-two-fifths.has-text-left.medium]
 --
+image::smetayer.png[]
+
 Sylvain MÉTAYER
+
+Tech Lead
 
 link:https://sylvain.dev[]
 --
 
-[.column.is-3]
+[.column.is-one-fifths]
 --
-[.vertical-align-left]
+[.vertical-align-left,link=https://www.groupeonepoint.com/fr/]
 image:logo.png[width=250]
-
-Tech Lead link:https://www.groupeonepoint.com/fr/[@Onepoint]
 --
 
 [.notes]
 ****
 Conteneur / k8s quotidien, stocke/interagit secrets appli
-****
-
-[%notitle.columns.is-vcentered.transparency]
-== Présentation
-
-[.column.is-one-third]
---
-image::nt.webp[]
---
-
-[.column.is-3.has-text-right.medium]
---
-nicolas Trauwaen
-
-link:https://nicolas.trauwaen.net[]
---
-
-[.column.is-3]
---
-[.vertical-align-right]
-image:logo.png[width=250]
-
-Ingénieur production / SRE link:https://www.groupeonepoint.com/fr/[@Onepoint]
---
-
-[.notes]
-****
-
 ****

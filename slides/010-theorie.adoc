@@ -1,9 +1,38 @@
-[columns.is-vcentered]
+[.columns.is-vcentered]
 == Contexte
+
+[.column]
+--
+[link=https://en.m.wikipedia.org/wiki/File:Kubernetes_logo_without_workmark.svg]
+image::kubernetes-logo.svg[width=100]
+--
+
+[.column]
+--
+[link=https://fr.wikipedia.org/wiki/VMware#/media/Fichier:Vmware-by-broadcom.svg]
+image::vmware-logo.svg[width=100]
+--
+
+[.column]
+--
+TODO illustration haute dispo
+--
+
+[.column]
+--
+plantuml::diagrams/010-only-two-zones.puml[format=svg,id=010-only-two-zones]
+--
 
 [.notes]
 ****
 On fait du Kube on prem, sur 2 régions.
+
+Vous êtes en charge de mettre en place et maintenir un cluster Kubernetes. Il faut de la haute disponibilité. Vous n’avez que deux sites géographiques pour l’assurer.
+
+Quoi ? Les recommandations parlent de __trois sites__ ?
+Ça fait des années qu’on fait de la redondance avec deux sites, __au diable les recommandations !__ Ça va bien se passer.
+
+A travers nos expériences, découvrons ensemble les problèmes rencontrés, les solutions envisagées et mises en œuvre, tant au niveau administration du cluster, qu'au niveau applicatif.
 ****
 
 [.columns.is-vcentered]
@@ -31,8 +60,7 @@ Répartition charge - actif actif - autre schéma : partage de ressources (pool)
 ****
 Un schéma vaut mille mots
 
-Terminologie : pour les contextes dont nous allons parler, nous sommes partis sur une stratégie "stretched cluster". Cad que nous avons un cluster k8s réparti sur deux sites en mode actif/actif.
-
+Terminologie : pour les contextes dont nous allons parler, nous sommes partis sur une stratégie "stretched cluster". C'est-à-dire que nous avons un cluster k8s réparti sur deux sites en mode actif/actif.
 ****
 
 [.column]
