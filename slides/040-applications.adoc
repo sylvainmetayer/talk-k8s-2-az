@@ -36,9 +36,10 @@ TODO Schéma déploiement avec affinité / anti-affinité sur 2 régions
 
 === Affinité / Anti-affinité
 
---
+[qrcode, format="png", xdim=4]
+----
 https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
---
+----
 
 [source,yaml]
 ----

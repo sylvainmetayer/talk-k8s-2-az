@@ -1,9 +1,8 @@
-[.columns.transparency]
-== Conclusion
+== Du coup, Kubernetes sur 2 régions, on y va ?
 
 - Limites
-- Alternatives
 
+TODO arbre décisionnel
 
 [.notes]
 ****
@@ -19,7 +18,10 @@ Retrouver projet ou 3ème zone dans VM dédié ?
 
 ****
 
-== Ouverture
+[.columns.transparency]
+== Alternatives
+
+TODO
 
 [.notes]
 ****
