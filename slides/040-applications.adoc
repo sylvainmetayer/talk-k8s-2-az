@@ -1,6 +1,8 @@
 [%auto-animate.is-full]
 == Gestion applicative
 
+TODO Illustration
+
 [.notes]
 ****
 Maintenant que notre cluster est résilient sur 2 régions, il est temps de s'intéresser aux applications qui tournent dessus. impact sur applications. partir de solution naive vers proposition solution
@@ -99,7 +101,7 @@ Pourrait être simple, si Stockage répliqué, mais ce n'est pas le cas du clien
 plantuml::diagrams/040-storage-presentation.puml[format=svg,id=040-storage-presentation]
 --
 
-=== PostgreSQL
+== PostgreSQL
 
 https://cloudnative-pg.io/
 
@@ -133,20 +135,21 @@ spec:
 L'opérateur fait le travail, pour peu que l'on configure l'anti-affinité entre les régions
 ****
 
+[%notitle]
 === ⚠️ Postgres
 
 --
+[caption=,link=https://www.redhat.com/en/blog/build-your-kubernetes-operator-with-the-right-tool]
+.⚠️
 image::operator.webp[]
 --
 
-https://www.redhat.com/en/blog/build-your-kubernetes-operator-with-the-right-tool
-
 [.notes]
-----
+****
 Anecdote : si API K8S KO, l'opérateur ne peut plus mettre à jour le service pour élire le nouveau principal. En effet, l'opérateur cherche à mettre à jour un service pour indiquer que le pod postgres restant doit devenir le pod principal et tente de mettre à jour le service Kubernetes correspondant. cependant, si pas d'API k8s... Pas de mise à jour du service !
-----
+****
 
-=== Elasticsearch
+== Elasticsearch
 
 [.notes]
 ****
@@ -155,7 +158,50 @@ Cas particulier : n'utilise pas raft pour l'election de reader
 Si on perd une région, on perd les données de cette région.
 ****
 
-=== Kafka
+=== Ça pourrait être simple
+
+[.notes]
+****
+Voir opérateur Elastic doc
+****
+
+=== Et si je ne peux pas utiliser l'opérateur ?
+
+[.notes]
+****
+Helm chart bitnami
+
+Dans ce cas, on ne peut pas déployer 1 instance de chaque côté (car pair), 3 pas possible, car si on perds une région, on aura plus de quorum. 4, pas possible, car 2/2. 5 pas possible, car on se retrouvera à 2/3 et si on perds le 3, c'est mort. Du coup, on part sur 6 instances d'leastic, qui réduit le risque d'election de chacun et donc le cas nominal ne sera pas bloqué, et si on perds une région, on a toujours un quorum à 3 pour garantir une reprise.
+****
+
+== Kafka
+
+[link=https://fr.wikipedia.org/wiki/Fichier:Apache_Kafka_logo.svg]
+image::kafka.svg[]
+
+[.notes]
+****
+https://kafka.apache.org/documentation/#gettingStarted
+****
+
+=== Si vous êtes à la bourre... ⌚
+
+[.notes]
+****
+Si vous êtes encore sous zookeeper, et bien déjà, sachez que vous ne pouvez plus mettre à jour vers de nouvelles versions, car Kraft est le mode par défaut pour les éléctions de leader.
+****
+
+=== Et si je suis à jour ?
+
+[.notes]
+****
+Si vous avez déjà migré sur Kraft, vous ne devriez rien avoir à faire, si ce n'est faire attention à la configuration de vos topisc, afin de s'assurer de la bonne réplications de vos données. En effet, si les leaders pourront s'élire entre eux, il faudra s'assurer que les partitions sont bien répliquées sur les 2 régions.
+
+TODO POC test Kafka
+****
+
+
+=== ⚠️ Pensez à vos topics !
 
 [.notes]
 ****

@@ -35,23 +35,30 @@ Quoi ? Les recommandations parlent de __trois sites__ ?
 A travers nos expériences, découvrons ensemble les problèmes rencontrés, les solutions envisagées et mises en œuvre, tant au niveau administration du cluster, qu'au niveau applicatif.
 ****
 
-[.columns.is-vcentered]
+[%notitle]
 == Définitions
 
-[%step]
-* Disponibilité
-* Redondance
-* Répartition de charge
-
+image::definitions.jpg[]
 
 [.notes]
 ****
 Afin de s'assurer que l'on parle de la même chose durant cette présentation.
+****
 
-disponiblité = capacité à accéder à la plateforme au moment ou on le souhaite, redondance = panne sur un premier site pour permettre l'accès, notion de haute dispo, différentes stratégies (actif/passif avec sauvegarde ou miroir, TODO ajouter des schémas)
+=== Disponibilité
 
+[.notes]
+****
+Disponibilité = capacité à accéder à la plateforme au moment ou on le souhaite, redondance = panne sur un premier site pour permettre l'accès, notion de haute dispo, différentes stratégies (actif/passif avec sauvegarde ou miroir, TODO ajouter des schémas)
+****
+
+=== Redondance
+
+=== Répartition de charge
+
+[.notes]
+****
 Répartition charge - actif actif - autre schéma : partage de ressources (pool) sur les 2 sites. En cas de panne, le second peut récupérer charge du premier site et assurer service A
-
 ****
 
 === Stretched cluster

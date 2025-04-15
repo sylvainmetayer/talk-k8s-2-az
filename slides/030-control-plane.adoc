@@ -36,7 +36,7 @@ En théorie, la mécanique reste la même : on bascule nos 3 control planes sur 
 Bon, bah on va faire du 2/1, ça doit être possible ? Qu'est-ce qu'il y a derrière ce fameux control plane qui nous en empêche de faire ça ? Voyons ça !
 ****
 
-=== Control Plane
+== Control Plane
 
 [link=https://kubernetes.io/docs/concepts/overview/components/]
 image::kubernetes-components.svg[]
@@ -67,6 +67,10 @@ Algo d'élection de leader dans ETCD. En cas de panne, comment gérer les pannes
 ****
 
 == Recovery
+
+- https://etcd.io/docs/v3.5/op-guide/recovery/
+- https://docs.rke2.io/datastore/backup_restore#restoring-a-snapshot-to-new-nodes
+
 
 [.notes]
 ****
