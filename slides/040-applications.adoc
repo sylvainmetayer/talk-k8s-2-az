@@ -174,30 +174,55 @@ Helm chart bitnami
 Dans ce cas, on ne peut pas déployer 1 instance de chaque côté (car pair), 3 pas possible, car si on perds une région, on aura plus de quorum. 4, pas possible, car 2/2. 5 pas possible, car on se retrouvera à 2/3 et si on perds le 3, c'est mort. Du coup, on part sur 6 instances d'leastic, qui réduit le risque d'election de chacun et donc le cas nominal ne sera pas bloqué, et si on perds une région, on a toujours un quorum à 3 pour garantir une reprise.
 ****
 
+[.columns]
 == Kafka
 
+[.column]
+--
 [link=https://fr.wikipedia.org/wiki/Fichier:Apache_Kafka_logo.svg]
 image::kafka.svg[]
+--
+
+[.column]
+--
+.https://strimzi.io/
+[link=https://strimzi.io/,caption=]
+image::strimzi.png[]
+--
 
 [.notes]
 ****
 https://kafka.apache.org/documentation/#gettingStarted
+
+On déploie à l'aide d'un opérateur Strimzi, qui va nous permettre de gérer la réplication entre les régions. Cependant, il y a 2 cas de figures
 ****
 
 === Si vous êtes à la bourre... ⌚
 
+--
+plantuml::diagrams/040-kafka-zookeeper.puml[format=svg,id=040-kafka-zookeeper]
+--
+
 [.notes]
 ****
 Si vous êtes encore sous zookeeper, et bien déjà, sachez que vous ne pouvez plus mettre à jour vers de nouvelles versions, car Kraft est le mode par défaut pour les éléctions de leader.
+
+**⚠️ Depuis Kafka 4.0, le mode de fonctionnement par défaut est Kraft (Kafka Raft). Il n'y a plus de fonctionnement possible avec Zookeeper ⚠️**
+
+Pourquoi on a besoin de Zookeeper ? Parce que c'est lui qui gère les élections de leader entre les brokers. En effet, si on perd une région, il faut élire un nouveau leader, et pour cela, il faut que Zookeeper soit accessible. Ainsi, la consommation/production dans les topics n'est possible que si Zookeeper est disponible, car c'est lui qui indiquera au broker quelle est la partition leader.
+
+https://kafka.apache.org/documentation/
 ****
 
 === Et si je suis à jour ?
 
 [.notes]
 ****
-Si vous avez déjà migré sur Kraft, vous ne devriez rien avoir à faire, si ce n'est faire attention à la configuration de vos topisc, afin de s'assurer de la bonne réplications de vos données. En effet, si les leaders pourront s'élire entre eux, il faudra s'assurer que les partitions sont bien répliquées sur les 2 régions.
+Si vous avez déjà migré sur Kraft, vous ne devriez rien avoir à faire, si ce n'est faire attention à la configuration de vos topics, afin de s'assurer de la bonne réplications de vos données. En effet, si les leaders pourront s'élire entre eux, il faudra s'assurer que les partitions sont bien répliquées sur les 2 régions.
 
 TODO POC test Kafka
+Activer la sélection basée sur les racks : RackAwareReplicaSelector dans replica.selector.class. Cela garantit que Kafka essaiera de placer les réplicas sur des racks (ou régions) différents.
+
 ****
 
 

@@ -1,0 +1,58 @@
+@startuml kubernetes
+
+footer Déploiement Kafka avec Zookeeper
+scale max 1024 width
+scale max 1080 height
+
+skinparam nodesep 10
+skinparam ranksep 10
+
+!define KubernetesPuml https://raw.githubusercontent.com/dcasati/kubernetes-PlantUML/master/dist
+
+!includeurl KubernetesPuml/kubernetes_Common.puml
+!includeurl KubernetesPuml/kubernetes_Context.puml
+!includeurl KubernetesPuml/kubernetes_Simplified.puml
+
+!includeurl KubernetesPuml/OSS/KubernetesSvc.puml
+!includeurl KubernetesPuml/OSS/KubernetesCrd.puml
+!includeurl KubernetesPuml/OSS/KubernetesIng.puml
+!includeurl KubernetesPuml/OSS/KubernetesPod.puml
+!includeurl KubernetesPuml/OSS/KubernetesRs.puml
+!includeurl KubernetesPuml/OSS/KubernetesDeploy.puml
+!includeurl KubernetesPuml/OSS/KubernetesHpa.puml
+!includeurl KubernetesPuml/OSS/KubernetesNode.puml
+
+left to right direction
+
+Cluster_Boundary(cluster, "Kubernetes Cluster") {
+    Namespace_Boundary(ns, "my-app") {
+
+        KubernetesCrd(kafka, "Kafka CRD", "")
+
+        Cluster_Boundary(region1, "Région A") {
+            KubernetesNode(regionA, "", "")
+            KubernetesPod(kafka1, "kafka 1", "")
+            KubernetesPod(kafka2, "kafka 2", "")
+            KubernetesPod(zookeeper1, "zookeeper 1", "")
+            KubernetesPod(zookeeper2, "zookeeper 1", "")
+        }
+
+        Cluster_Boundary(region2, "Région B") {
+            KubernetesNode(regionB, "", "")
+            KubernetesPod(kafka3, "kafka 1", "")
+            KubernetesPod(kafka4, "kafka 2", "")
+            KubernetesPod(zookeeper3, "zookeeper 1", "")
+        }
+    }
+}
+
+kafka --> kafka1: ""
+kafka --> kafka2: ""
+kafka --> kafka3: ""
+kafka --> kafka4: ""
+
+kafka --> zookeeper1: ""
+kafka --> zookeeper2: ""
+kafka --> zookeeper3: ""
+
+@enduml
