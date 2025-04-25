@@ -48,22 +48,68 @@ TODO Schéma des composants d'un control plane, avec les différents composants 
 On va maintenant s'intéresser à la partie qui nécessite de la persistence de données, ETCD
 ****
 
+[%notitle]
 === etcd
 
-[etcd](https://etcd.io) à la rescousse.
+[link=https://etcd.io/]
+image::images/etcd-horizontal-color.svg[]
+image::images/etcd-xkcd-2347.webp[]
 
 [.notes]
 ****
-TODO rajouter un schéma de fonctionnement d'etcd et expliquer comment marche les élections de leader.
+Base clé-valeurs distribuée, créé par CoreOS en 2013, puis passé dans le giron de la CNCF depuis 2018.
+Composant du cœur de k8s
 ****
 
-=== Raft
+=== Raft consensus algorithm
 
-Algorithme [Raft](https://raft.github.io).
+[link=https://raft.github.io]
+image::images/raft-sticker.svg
 
 [.notes]
 ****
-Algo d'élection de leader dans ETCD. En cas de panne, comment gérer les pannes ? Schéma et illustrer
+Algo de consensus implémenté dans etcd.
+Illustration : raftscope (en JS) ou schéma ?
+Sinon une note sur la mécanique et explication orale uniquement.
+- algo pour implémenter la réplication de logs
+- le système évolue/avance tant que la majorité des nœuds sont disponibles
+- model d’erreur : fail-stop, delayed/lost messages
+- conçu pour la compréhensibilité
+****
+
+=== Follower failure
+
+[.notes]
+****
+https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure
+****
+
+=== Leader failure
+
+[.notes]
+****
+https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure
+****
+
+=== Majority failure
+
+[.notes]
+****
+https://etcd.io/docs/v3.5/op-guide/failures/#majority-failure
+****
+
+=== Network partition
+
+[.notes]
+****
+https://etcd.io/docs/v3.5/op-guide/failures/#network-partition
+****
+
+=== Failure during bootstrapping
+
+[.notes]
+****
+https://etcd.io/docs/v3.5/op-guide/failures/#failure-during-bootstrapping
 ****
 
 == Recovery
