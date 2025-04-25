@@ -424,16 +424,42 @@ ul.byline li + li {
 <div class="paragraph"><p><a href="https://sylvain.dev" class="bare">https://sylvain.dev</a></p></div></div></div>
 <div class="openblock column is-one-fifths"><div class="content"><div class="paragraph vertical-align-left"><p><span class="image"><img src="images/logo.png" alt="logo" width="250"></span></p></div></div></div>
 <aside class="notes"><div class="paragraph"><p>Conteneur / k8s quotidien, stocke/interagit secrets appli</p></div></aside></div></section>
-<section id="_contexte" class="columns is-vcentered"><h2>Contexte</h2><div class="slide-content"><div class="openblock column"><div class="content"><div class="imageblock"><a class="image" href="https://en.m.wikipedia.org/wiki/File:Kubernetes_logo_without_workmark.svg"><img src="images/kubernetes-logo.svg" alt="kubernetes logo" width="100"></a></div></div></div>
-<div class="openblock column"><div class="content"><div class="imageblock"><a class="image" href="https://fr.wikipedia.org/wiki/VMware#/media/Fichier:Vmware-by-broadcom.svg"><img src="images/vmware-logo.svg" alt="vmware logo" width="100"></a></div></div></div>
-<div class="openblock column"><div class="content"><div class="paragraph"><p>TODO illustration haute dispo</p></div></div></div>
-<div class="openblock column"><div class="content"><div id="010-only-two-zones" class="imageblock"><img src="images/010-only-two-zones.svg" alt="Diagram"></div></div></div>
+<section id="_contexte_technique" class="columns is-vcentered"><h2>Contexte technique</h2><div class="slide-content"><div class="openblock column"><div class="content"><div class="imageblock"><a class="image" href="https://en.m.wikipedia.org/wiki/File:Kubernetes_logo_without_workmark.svg"><img src="images/kubernetes-logo.svg" alt="kubernetes logo" width="100"></a></div></div></div>
+<div class="openblock column"><div class="content"><div class="imageblock"><a class="image" href="https://fr.wikipedia.org/wiki/VMware#/media/Fichier:Vmware-by-broadcom.svg"><img src="images/vmware-logo.svg" alt="vmware logo" width="100"></a></div></div></div></div></section>
+<section><div class="slide-content"><div class="openblock column"><div class="content"><div id="010-only-two-zones" class="imageblock"><img src="images/010-only-two-zones.svg" alt="Diagram"></div></div></div>
 <aside class="notes"><div class="paragraph"><p>On fait du Kube on prem, sur 2 régions.</p></div>
 <div class="paragraph"><p>Vous êtes en charge de mettre en place et maintenir un cluster Kubernetes. Il faut de la haute disponibilité. Vous n’avez que deux sites géographiques pour l’assurer.</p></div>
 <div class="paragraph"><p>Quoi ? Les recommandations parlent de <em>trois sites</em> ?
 Ça fait des années qu’on fait de la redondance avec deux sites, <em>au diable les recommandations !</em> Ça va bien se passer.</p></div>
 <div class="paragraph"><p>A travers nos expériences, découvrons ensemble les problèmes rencontrés, les solutions envisagées et mises en œuvre, tant au niveau administration du cluster, qu&#8217;au niveau applicatif.</p></div></aside></div></section>
-<section><section id="_définitions"><div class="slide-content"><div class="imageblock"><img src="images/definitions.jpg" alt="definitions"></div><aside class="notes"><div class="paragraph"><p>Afin de s&#8217;assurer que l&#8217;on parle de la même chose durant cette présentation.</p></div></aside></div></section><section id="_disponibilité"><h2>Disponibilité</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Disponibilité = capacité à accéder à la plateforme au moment ou on le souhaite, redondance = panne sur un premier site pour permettre l&#8217;accès, notion de haute dispo, différentes stratégies (actif/passif avec sauvegarde ou miroir, TODO ajouter des schémas)</p></div></aside></div></section><section id="_redondance"><h2>Redondance</h2></section><section id="_répartition_de_charge"><h2>Répartition de charge</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Répartition charge - actif actif - autre schéma : partage de ressources (pool) sur les 2 sites. En cas de panne, le second peut récupérer charge du premier site et assurer service A</p></div></aside></div></section><section id="_stretched_cluster"><h2>Stretched cluster</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Un schéma vaut mille mots</p></div>
+<section><section id="_définitions"><div class="slide-content"><div class="imageblock"><img src="images/definitions.jpg" alt="definitions"></div><aside class="notes"><div class="paragraph"><p>Afin de s&#8217;assurer que l&#8217;on parle de la même chose durant cette présentation.</p></div></aside></div></section><section id="_haute_disponibilité"><h2>Haute Disponibilité</h2><div class="slide-content"><div class="openblock column"><div class="content"><div class="listingblock"><div class="content"><pre>Failed to generate image: Could not find the 'mmdc' executable in PATH; add it to the PATH or specify its location using the 'mmdc' document attribute
+---
+config:
+  layout: fixed
+---
+flowchart TD
+ subgraph LB["Répartiteur"]
+        vip("LB")
+  end
+ subgraph zoneA["zoneA"]
+        n1("Node1")
+  end
+ subgraph zoneB["zoneB"]
+        n2["Node2"]
+  end
+    zoneA x--x zoneB
+    vip --&gt; n1 &amp; n2
+     vip:::k8s
+     n1:::k8s
+     n2:::k8s
+     zoneA:::cluster
+     zoneB:::cluster
+     LB:::cluster
+    classDef plain fill:#ddd,stroke:#fff,stroke-width:4px,color:#000
+    classDef k8s fill:#326ce5,stroke:#fff,stroke-width:4px,color:#fff
+    classDef cluster fill:#fff,stroke:#bbb,stroke-width:2px,color:#326ce5
+    linkStyle 0 stroke:#D50000,fill:none</pre></div></div></div></div>
+<aside class="notes"><div class="paragraph"><p>HD = capacité à accéder à la plateforme au moment ou on le souhaite, redondance = panne sur un premier site pour permettre l&#8217;accès, notion de haute dispo, différentes stratégies (actif/passif avec sauvegarde ou miroir, TODO ajouter des schémas)</p></div></aside></div></section><section id="_redondance"><h2>Redondance</h2></section><section id="_répartition_de_charge"><h2>Répartition de charge</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Répartition charge - actif actif - autre schéma : partage de ressources (pool) sur les 2 sites. En cas de panne, le second peut récupérer charge du premier site et assurer service A</p></div></aside></div></section><section id="_stretched_cluster"><h2>Stretched cluster</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Un schéma vaut mille mots</p></div>
 <div class="paragraph"><p>Terminologie : pour les contextes dont nous allons parler, nous sommes partis sur une stratégie "stretched cluster". C&#8217;est-à-dire que nous avons un cluster k8s réparti sur deux sites en mode actif/actif.</p></div></aside>
 <div class="openblock column"><div class="content"><div id="010-contexte" class="imageblock"><img src="images/010-contexte.svg" alt="Diagram"></div></div></div></div></section></section>
 <section id="_maintenant_quon_parle_la_même_de_la_même_chose_quest_ce_quil_est_possible_de_faire_pour_garantir_la_haute_dispo_de_notre_cluster_kubernetes" class="is-full" data-auto-animate><h2>Maintenant qu&#8217;on parle la même de la même chose, qu&#8217;est-ce qu&#8217;il est possible de faire pour garantir la haute dispo de notre Cluster Kubernetes ?</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>(Parler hyperviseur) &#8658; Cela ne s&#8217;applique que si vous êtes sur un hyperviseur, pas sur bare metal. Le but étant de pouvoir créer/déplacer des VMs facilement afin d&#8217;équilibrer la charge/restaurer facilement les services en cas de panne.</p></div></aside></div></section>
@@ -446,9 +472,17 @@ ul.byline li + li {
 <div class="paragraph"><p>=&#8658; Attention, moi j&#8217;ai besoin d&#8217;avoir l&#8217;API dispo en continu, j&#8217;ai des opérateurs qui dépendent de l&#8217;API k8s !</p></div>
 <div class="paragraph"><p>Bon, bah on va faire du 2/1, ça doit être possible ? Qu&#8217;est-ce qu&#8217;il y a derrière ce fameux control plane qui nous en empêche de faire ça ? Voyons ça !</p></div></aside></div></section>
 <section><section id="_control_plane"><h2>Control Plane</h2><div class="slide-content"><div class="imageblock"><a class="image" href="https://kubernetes.io/docs/concepts/overview/components/"><img src="images/kubernetes-components.svg" alt="kubernetes components"></a></div><aside class="notes"><div class="paragraph"><p>TODO Schéma des composants d&#8217;un control plane, avec les différents composants (kube-apiserver, kube-controller-manager, kube-scheduler, etcd) et comment ils interagissent entre eux.</p></div>
-<div class="paragraph"><p>On va maintenant s&#8217;intéresser à la partie qui nécessite de la persistence de données, ETCD</p></div></aside></div></section><section id="_etcd"><h2>etcd</h2><div class="slide-content"><div class="paragraph"><p>[etcd](<a href="https://etcd.io" class="bare">https://etcd.io</a>) à la rescousse.</p></div>
-<aside class="notes"><div class="paragraph"><p>TODO rajouter un schéma de fonctionnement d&#8217;etcd et expliquer comment marche les élections de leader.</p></div></aside></div></section><section id="_raft"><h2>Raft</h2><div class="slide-content"><div class="paragraph"><p>Algorithme [Raft](<a href="https://raft.github.io" class="bare">https://raft.github.io</a>).</p></div>
-<aside class="notes"><div class="paragraph"><p>Algo d&#8217;élection de leader dans ETCD. En cas de panne, comment gérer les pannes ? Schéma et illustrer</p></div></aside></div></section></section>
+<div class="paragraph"><p>On va maintenant s&#8217;intéresser à la partie qui nécessite de la persistence de données, ETCD</p></div></aside></div></section><section id="_etcd"><div class="slide-content"><div class="imageblock"><a class="image" href="https://etcd.io/"><img src="images/images/etcd-horizontal-color.svg" alt="etcd horizontal color"></a></div>
+<div class="imageblock"><img src="images/images/etcd-xkcd-2347.webp" alt="etcd xkcd 2347"></div>
+<aside class="notes"><div class="paragraph"><p>Base clé-valeurs distribuée, créé par CoreOS en 2013, puis passé dans le giron de la CNCF depuis 2018.
+Composant du cœur de k8s</p></div></aside></div></section><section id="_raft_consensus_algorithm"><h2>Raft consensus algorithm</h2><div class="slide-content"><div class="paragraph"><p>image::images/raft-sticker.svg</p></div>
+<aside class="notes"><div class="paragraph"><p>Algo de consensus implémenté dans etcd.
+Illustration : raftscope (en JS) ou schéma ?
+Sinon une note sur la mécanique et explication orale uniquement.
+- algo pour implémenter la réplication de logs
+- le système évolue/avance tant que la majorité des nœuds sont disponibles
+- model d’erreur : fail-stop, delayed/lost messages
+- conçu pour la compréhensibilité</p></div></aside></div></section><section id="_follower_failure"><h2>Follower failure</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure</a></p></div></aside></div></section><section id="_leader_failure"><h2>Leader failure</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure</a></p></div></aside></div></section><section id="_majority_failure"><h2>Majority failure</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://etcd.io/docs/v3.5/op-guide/failures/#majority-failure" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#majority-failure</a></p></div></aside></div></section><section id="_network_partition"><h2>Network partition</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://etcd.io/docs/v3.5/op-guide/failures/#network-partition" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#network-partition</a></p></div></aside></div></section><section id="_failure_during_bootstrapping"><h2>Failure during bootstrapping</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://etcd.io/docs/v3.5/op-guide/failures/#failure-during-bootstrapping" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#failure-during-bootstrapping</a></p></div></aside></div></section></section>
 <section id="_recovery"><h2>Recovery</h2><div class="slide-content"><div class="ulist"><ul><li><p><a href="https://etcd.io/docs/v3.5/op-guide/recovery/" class="bare">https://etcd.io/docs/v3.5/op-guide/recovery/</a></p></li><li><p><a href="https://docs.rke2.io/datastore/backup_restore#restoring-a-snapshot-to-new-nodes" class="bare">https://docs.rke2.io/datastore/backup_restore#restoring-a-snapshot-to-new-nodes</a></p></li></ul></div>
 <aside class="notes"><div class="paragraph"><p>Screenshot de crash election membre voir schéma RAFT.
 Recovery : ETCD crash, comment on récupère ? Snapshot d&#8217;une dernière VM / soit backup ETCD (avec recréation d&#8217;un nouveau quorum mono et intégration des autres membres) &#8658; Schéma !</p></div></aside></div></section>
