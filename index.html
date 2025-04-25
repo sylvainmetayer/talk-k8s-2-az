@@ -482,7 +482,41 @@ Sinon une note sur la mécanique et explication orale uniquement.
 - algo pour implémenter la réplication de logs
 - le système évolue/avance tant que la majorité des nœuds sont disponibles
 - model d’erreur : fail-stop, delayed/lost messages
-- conçu pour la compréhensibilité</p></div></aside></div></section><section id="_follower_failure"><h2>Follower failure</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure</a></p></div></aside></div></section><section id="_leader_failure"><h2>Leader failure</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure</a></p></div></aside></div></section><section id="_majority_failure"><h2>Majority failure</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://etcd.io/docs/v3.5/op-guide/failures/#majority-failure" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#majority-failure</a></p></div></aside></div></section><section id="_network_partition"><h2>Network partition</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://etcd.io/docs/v3.5/op-guide/failures/#network-partition" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#network-partition</a></p></div></aside></div></section><section id="_failure_during_bootstrapping"><h2>Failure during bootstrapping</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://etcd.io/docs/v3.5/op-guide/failures/#failure-during-bootstrapping" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#failure-during-bootstrapping</a></p></div></aside></div></section></section>
+- conçu pour la compréhensibilité</p></div></aside></div></section><section id="_follower_failure"><h2>Follower failure</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure</a></p></div></aside></div></section><section id="_leader_failure"><h2>Leader failure</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure</a></p></div></aside></div></section><section id="_majority_failure"><h2>Majority failure</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://etcd.io/docs/v3.5/op-guide/failures/#majority-failure" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#majority-failure</a></p></div></aside></div></section><section id="_network_partition"><h2>Network partition</h2><div class="slide-content"><div class="listingblock"><div class="content"><pre>Failed to generate image: Could not find the 'mmdc' executable in PATH; add it to the PATH or specify its location using the 'mmdc' document attribute
+graph TD
+    A[Partition Réseau] --&gt; B[Cluster Divisé]
+    B --&gt; C[Majorité Disponible]
+    B --&gt; D[Minorité Indisponible]
+    C --&gt; E[Leader dans Majorité]
+    C --&gt; F[Leader dans Minorité]
+    E --&gt; G[Défaillance Minorité]
+    F --&gt; H[Leader Retiré]
+    H --&gt; I[Nouveau Leader Élu]
+    D --&gt; J[Reconnaissance Leader Majorité]
+    J --&gt; K[Récupération État]
+
+    style A fill:#f9f,stroke:#333,stroke-width:4px;
+    style B fill:#bbf,stroke:#333,stroke-width:2px;
+    style C fill:#ff9,stroke:#333,stroke-width:2px;
+    style D fill:#fbb,stroke:#333,stroke-width:2px;
+    style E fill:#bdf,stroke:#333,stroke-width:2px;
+    style F fill:#dfb,stroke:#333,stroke-width:2px;
+    style G fill:#f9c,stroke:#333,stroke-width:2px;
+    style H fill:#cfd,stroke:#333,stroke-width:2px;
+    style I fill:#bfc,stroke:#333,stroke-width:2px;
+    style J fill:#fcc,stroke:#333,stroke-width:2px;
+    style K fill:#cff,stroke:#333,stroke-width:2px;</pre></div></div>
+<aside class="notes"><div class="paragraph"><p>## Résumé des Modes de Défaillance dans etcd</p></div>
+<div class="paragraph"><p># Partition Réseau
+- <strong>Description</strong> : Une partition réseau divise un cluster etcd en deux parties : une majorité et une minorité de membres.
+- <strong>Disponibilité</strong> : La partie majoritaire reste disponible, tandis que la partie minoritaire devient indisponible.
+- <strong>Absence de "Split-brain"</strong> : etcd évite le phénomène de "split-brain" car les membres du cluster sont explicitement ajoutés ou retirés avec l&#8217;approbation de la majorité actuelle.</p></div>
+<div class="paragraph"><p># Conséquences Selon la Position du Leader
+- <strong>Leader dans la Majorité</strong> : Si le leader est du côté majoritaire, la défaillance est perçue comme une défaillance des followers minoritaires.
+- <strong>Leader dans la Minorité</strong> : Si le leader est du côté minoritaire, il se retire, et un nouveau leader est élu par la majorité.</p></div>
+<div class="paragraph"><p># Récupération Après la Partition
+- <strong>Reconnaissance Automatique</strong> : Une fois la partition réseau résolue, la minorité reconnaît automatiquement le leader de la majorité et récupère son état.
+<a href="https://etcd.io/docs/v3.5/op-guide/failures/#network-partition" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#network-partition</a></p></div></aside></div></section><section id="_failure_during_bootstrapping"><h2>Failure during bootstrapping</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://etcd.io/docs/v3.5/op-guide/failures/#failure-during-bootstrapping" class="bare">https://etcd.io/docs/v3.5/op-guide/failures/#failure-during-bootstrapping</a></p></div></aside></div></section></section>
 <section id="_recovery"><h2>Recovery</h2><div class="slide-content"><div class="ulist"><ul><li><p><a href="https://etcd.io/docs/v3.5/op-guide/recovery/" class="bare">https://etcd.io/docs/v3.5/op-guide/recovery/</a></p></li><li><p><a href="https://docs.rke2.io/datastore/backup_restore#restoring-a-snapshot-to-new-nodes" class="bare">https://docs.rke2.io/datastore/backup_restore#restoring-a-snapshot-to-new-nodes</a></p></li></ul></div>
 <aside class="notes"><div class="paragraph"><p>Screenshot de crash election membre voir schéma RAFT.
 Recovery : ETCD crash, comment on récupère ? Snapshot d&#8217;une dernière VM / soit backup ETCD (avec recréation d&#8217;un nouveau quorum mono et intégration des autres membres) &#8658; Schéma !</p></div></aside></div></section>
