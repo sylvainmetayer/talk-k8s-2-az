@@ -11,5 +11,3 @@ Slides disponibles sur https://sylvainmetayer.github.io/talk-k8s-2-az/#/[Github 
 docker compose up # exit 0
 python3 -m http.server # open localhost:8000
 ----
-
-https://docs.asciidoctor.org/diagram-extension/latest/diagram_types/blockdiag/

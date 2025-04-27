@@ -1,11 +1,9 @@
 @startuml kubernetes
 
-footer Déploiement Kafka avec Zookeeper
-scale max 1024 width
-scale max 1080 height
+' footer Déploiement Kafka avec Zookeeper
 
-skinparam nodesep 10
-skinparam ranksep 10
+'skinparam nodesep 10
+'skinparam ranksep 10
 
 !define KubernetesPuml https://raw.githubusercontent.com/dcasati/kubernetes-PlantUML/master/dist
 
@@ -34,25 +32,25 @@ Cluster_Boundary(cluster, "Kubernetes Cluster") {
             KubernetesPod(kafka1, "kafka 1", "")
             KubernetesPod(kafka2, "kafka 2", "")
             KubernetesPod(zookeeper1, "zookeeper 1", "")
-            KubernetesPod(zookeeper2, "zookeeper 1", "")
+            KubernetesPod(zookeeper2, "zookeeper 2", "")
         }
 
         Cluster_Boundary(region2, "Région B") {
             KubernetesNode(regionB, "", "")
-            KubernetesPod(kafka3, "kafka 1", "")
-            KubernetesPod(kafka4, "kafka 2", "")
-            KubernetesPod(zookeeper3, "zookeeper 1", "")
+            KubernetesPod(kafka3, "kafka 3", "")
+            KubernetesPod(kafka4, "kafka 4", "")
+            KubernetesPod(zookeeper3, "zookeeper 3", "")
         }
     }
 }
 
-kafka --> kafka1: ""
-kafka --> kafka2: ""
+kafka ---> kafka1: ""
+kafka ---> kafka2: ""
 kafka --> kafka3: ""
 kafka --> kafka4: ""
 
-kafka --> zookeeper1: ""
-kafka --> zookeeper2: ""
+kafka ---> zookeeper1: ""
+kafka ---> zookeeper2: ""
 kafka --> zookeeper3: ""
 
 @enduml

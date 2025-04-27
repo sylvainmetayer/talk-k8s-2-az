@@ -1,33 +1,27 @@
 == Du coup, Kubernetes sur 2 régions, on y va ?
 
-- Limites
-
-TODO arbre décisionnel
+plantuml::diagrams/099-conclusion.puml[format=svg,id=099-conclusion]
 
 [.notes]
 ****
-Faire un schéma : 2 régions, si vous avez un hypersiveur potable, du stockage distribué : oui, sinon, attendez vous à quelques péripéties. Préférez alors 3 régions.
-
 Conclusion : infra, redondcance modèle étendu sur 2 sites, pas aussi simple que pour une VM / BDD . ETcd adresse redondances des CP Kube mis apporte complexité sur 2 sites, il faut être vigilant. Se retrouve aussi côté applicatif avec attention applicatif
 
-Résumé : cluster kube etendu sur 2 sites, oui si bascule auto hypeviseur VM recovery du site A vers B et que vous ayez un stockagfe hyperconvergé. Sinon, pas forcément recommandé. ET dans ce cas, on fait quio ?
-
-Schéma CP externe sur 3ème zone. Oui 3 zones carrément ! C'est pas pour rien que l'on recommande 3 zones partout !
-
-Retrouver projet ou 3ème zone dans VM dédié ?
-
+Résumé : cluster kube etendu sur 2 sites, oui si bascule auto hyperviseur VM recovery du site A vers B et que vous ayez un stockage hyperconvergé. Sinon, pas forcément recommandé. ET dans ce cas, on fait quoi ? On a quelques alternatives possibles, selon votre client
 ****
 
-[.columns.transparency]
+[.transparency]
 == Alternatives
 
-TODO
+plantuml::diagrams/099-3-zones.puml[format=svg,id=099-3-zones]
+
+TODO Multi cluster
 
 [.notes]
 ****
+Schéma CP externe sur 3ème zone. Oui 3 zones carrément ! C'est pas pour rien que l'on recommande 3 zones partout !
+
 Multi cluster, et chaque cluster est sur chaque zone. avec meta cluster en administration (schéma / liens / images) : CGP Anthos: redhat advanced cluster management / submariner spinacher multi cluster / pl
 
-Modèleg edge : on a un mini cluster au plus
 ****
 
 [.columns.transparency%notitle.is-vcentered]
@@ -39,7 +33,7 @@ image::k8s-2az.png[background, size=fill]
 --
 [caption=]
 .Slides
-image::slides_link.svg[height=300,alt='Slides']
+qrcode::https://sylvainmetayer.github.io/talk-k8s-2-az[height=300,alt='Slides',format="png", xdim=4]
 --
 
 [.column]
@@ -53,10 +47,5 @@ link:https://nicolas.trauwaen.net[*nicolas.trauwaen.net*]
 --
 [caption=]
 .Openfeedback
-image::openfeedback.svg[height=300,alt='Vos retours']
+qrcode::https://openfeedback.io/cloud-toulouse-2025[height=300,alt='Vos retours',format="png", xdim=4]
 --
-
-[.notes]
-****
-
-****

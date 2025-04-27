@@ -1,0 +1,24 @@
+graph TD
+A[Partition Réseau] --> B[Cluster Divisé]
+B --> C[Majorité Disponible]
+B --> D[Minorité Indisponible]
+C --> E[Leader dans Majorité]
+C --> F[Leader dans Minorité]
+E --> G[Défaillance Minorité]
+F --> H[Leader Retiré]
+H --> I[Nouveau Leader Élu]
+D --> J[Reconnaissance Leader Majorité]
+J --> K[Récupération État]
+
+style A fill:#f9f,stroke:#333,stroke-width:4px;
+style B fill:#bbf,stroke:#333,stroke-width:2px;
+style C fill:#ff9,stroke:#333,stroke-width:2px;
+style D fill:#fbb,stroke:#333,stroke-width:2px;
+style E fill:#bdf,stroke:#333,stroke-width:2px;
+style F fill:#dfb,stroke:#333,stroke-width:2px;
+style G fill:#f9c,stroke:#333,stroke-width:2px;
+style H fill:#cfd,stroke:#333,stroke-width:2px;
+style I fill:#bfc,stroke:#333,stroke-width:2px;
+style J fill:#fcc,stroke:#333,stroke-width:2px;
+style K fill:#cff,stroke:#333,stroke-width:2px;
+....

@@ -1,0 +1,17 @@
+@startuml
+
+start
+
+if (Votre hyperviseur supporte le déplacement/restauration à chaud de VM ?) then (oui)
+    if (Vous avez du stockage distribué/répliqué ?) then (oui)
+      :Vous éviterez surement\nune partie des soucis que nous avons rencontrés;
+    else (non)
+      :Vous allez devoir gérer la réplication de vos données\nentre les 2 régions au niveau applicatif;
+    endif
+else (non)
+  :Pas de bascule automatique,\nrisque d'indisponibilité\nPréférez 3 régions;
+endif
+
+stop
+
+@enduml

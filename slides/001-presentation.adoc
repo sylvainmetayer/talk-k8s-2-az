@@ -33,3 +33,12 @@ image:logo.png[width=250]
 ****
 Conteneur / k8s quotidien, stocke/interagit secrets appli
 ****
+
+// == Merci aux sponsors
+//
+// image::cloud-toulouse/sponsors.png[]
+//
+// [.notes]
+// ****
+// Merci aux sponsors de l'événement qui rendent cet évènement possible !
+// ****

@@ -1,0 +1,26 @@
+---
+config:
+  layout: fixed
+---
+flowchart TD
+subgraph LB["Répartiteur"]
+vip("LB")
+end
+subgraph zoneA["zoneA"]
+n1("Node1")
+end
+subgraph zoneB["zoneB"]
+n2["Node2"]
+end
+zoneA x--x zoneB
+vip --> n1 & n2
+vip:::k8s
+n1:::k8s
+n2:::k8s
+zoneA:::cluster
+zoneB:::cluster
+LB:::cluster
+classDef plain fill:#ddd,stroke:#fff,stroke-width:4px,color:#000
+classDef k8s fill:#326ce5,stroke:#fff,stroke-width:4px,color:#fff
+classDef cluster fill:#fff,stroke:#bbb,stroke-width:2px,color:#326ce5
+linkStyle 0 stroke:#D50000,fill:none

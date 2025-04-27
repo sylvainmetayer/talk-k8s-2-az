@@ -1,5 +1,5 @@
 [%auto-animate.is-full]
-== Maintenant qu'on parle la même de la même chose, qu'est-ce qu'il est possible de faire pour garantir la haute dispo de notre Cluster Kubernetes ?
+== Concrètement, on la garantit comment cette haute disponibilité ?
 
 [.notes]
 ****

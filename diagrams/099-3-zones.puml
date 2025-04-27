@@ -22,17 +22,15 @@ skinparam storage {
 }
 
 package "Région B" as zoneB {
-    node "Node3" as n3
-    node "Node4" as n4
-    storage "Stockage VMWare" as s1
+    node "Control Plane 2" as cp2
 }
 
 package "Région A" as zoneA {
-    node "Node1" as n1
-    node "Node2" as n2
-    storage "Stockage VMWare" as s2
+    node "Control Plane 1" as cp1
 }
 
-s1 -[#red,dashed]-> s2 : Pas de réplication
+package "Voting Zone" as votingZone {
+    node "etcd 3" as etcd3
+}
 
 @enduml
