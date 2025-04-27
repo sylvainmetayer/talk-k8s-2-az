@@ -113,7 +113,7 @@ Pourrait être simple, si Stockage répliqué, mais ce n'est pas le cas du clien
 
 [.column]
 --
-plantuml::diagrams/040-storage-presentation.puml[format=svg,id=040-storage-presentation]
+plantuml::diagrams/040-storage-presentation.puml[format=svg,id=040-storage-presentation,height=500]
 --
 
 == PostgreSQL

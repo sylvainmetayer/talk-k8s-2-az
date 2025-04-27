@@ -4,13 +4,13 @@
 [.column]
 --
 [link=https://en.m.wikipedia.org/wiki/File:Kubernetes_logo_without_workmark.svg]
-image::kubernetes-logo.svg[width=100]
+image::kubernetes-logo.svg[width=300]
 --
 
 [.column]
 --
 [link=https://fr.wikipedia.org/wiki/VMware#/media/Fichier:Vmware-by-broadcom.svg]
-image::vmware-logo.svg[width=100]
+image::vmware-logo.svg[width=300]
 --
 
 [.notes]
@@ -69,5 +69,5 @@ Répartition charge - Partage de ressources (pool) sur les 2 sites. En cas de pa
 
 [.column]
 --
-plantuml::diagrams/010-contexte.puml[format=svg,id=010-contexte]
+plantuml::diagrams/010-contexte.puml[format=svg,id=010-contexte,height=500px]
 --

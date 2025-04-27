@@ -1,6 +1,6 @@
 == Du coup, Kubernetes sur 2 régions, on y va ?
 
-plantuml::diagrams/099-conclusion.puml[format=svg,id=099-conclusion]
+plantuml::diagrams/099-conclusion.puml[format=svg,id=099-conclusion,height=500px]
 
 [.notes]
 ****
@@ -12,7 +12,7 @@ Résumé : cluster kube etendu sur 2 sites, oui si bascule auto hyperviseur VM r
 [.transparency]
 == Alternatives
 
-plantuml::diagrams/099-3-zones.puml[format=svg,id=099-3-zones]
+plantuml::diagrams/099-3-zones.puml[format=svg,id=099-3-zones,height=300px]
 
 TODO Multi cluster
 

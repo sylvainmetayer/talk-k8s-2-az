@@ -69,6 +69,8 @@ image::raft-sticker.svg[]
 
 [.notes]
 ****
+TODO Ajouter un schéma ou 2 ? (GIF fonctionnement)
+
 Algo de consensus implémenté dans etcd.
 Illustration : raftscope (en JS) ou schéma ?
 Sinon une note sur la mécanique et explication orale uniquement.
