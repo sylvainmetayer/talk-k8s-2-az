@@ -1,15 +1,14 @@
-== Du coup, Kubernetes sur 2 régions, on y va ?
+== Kubernetes sur 2 régions, on y va ?
 
 plantuml::diagrams/099-conclusion.puml[format=svg,id=099-conclusion,height=500px]
 
 [.notes]
 ****
-Conclusion : infra, redondcance modèle étendu sur 2 sites, pas aussi simple que pour une VM / BDD . ETcd adresse redondances des CP Kube mis apporte complexité sur 2 sites, il faut être vigilant. Se retrouve aussi côté applicatif avec attention applicatif
+Conclusion : infra, redondance modèle étendu sur 2 sites, pas aussi simple que pour une VM / BDD . ETcd adresse redondances des CP Kube mis apporte complexité sur 2 sites, il faut être vigilant. Se retrouve aussi côté applicatif avec attention applicatif
 
-Résumé : cluster kube etendu sur 2 sites, oui si bascule auto hyperviseur VM recovery du site A vers B et que vous ayez un stockage hyperconvergé. Sinon, pas forcément recommandé. ET dans ce cas, on fait quoi ? On a quelques alternatives possibles, selon votre client
+Résumé : cluster kube étendu sur deux sites, oui si bascule auto hyperviseur VM recovery du site A vers B et que vous ayez un stockage hyperconvergé. Sinon, pas forcément recommandé. ET dans ce cas, on fait quoi ? On a quelques alternatives possibles, selon votre client
 ****
 
-[.transparency]
 == Alternatives : Une troisième zone ?
 
 plantuml::diagrams/099-3-zones.puml[format=svg,id=099-3-zones,height=300px]
@@ -19,7 +18,7 @@ plantuml::diagrams/099-3-zones.puml[format=svg,id=099-3-zones,height=300px]
 Oui 3 zones carrément ! C'est pas pour rien que l'on recommande 3 zones partout !
 ****
 
-[.transparency.columns.small-title]
+[.columns.small-title]
 == Alternatives : Du stockage distribué ?
 
 [.column]
@@ -39,16 +38,15 @@ image::longhorn-logo.png[height=300px]
 Si vous n'avez pas de stockage distribué via votre hyperviseur ou votre cloud, vous pouvez bâtir une solution de stockage distribué sur votre cluster Kubernetes.
 ****
 
-[.transparency.columns]
 == Alternatives : Multi cluster
 
-TODO Multi cluster
+plantuml::diagrams/099-multi-cluster.puml[format=svg,id=099-multi-cluster,height=500px]
 
 [.notes]
 ****
+Multi cluster, et chaque cluster est sur chaque zone. avec meta cluster en administration
 
-Multi cluster, et chaque cluster est sur chaque zone. avec meta cluster en administration (schéma / liens / images) : CGP Anthos: redhat advanced cluster management / submariner spinacher multi cluster / pl
-
+CGP Anthos: redhat advanced cluster management / submariner spinacher multi cluster / pl
 ****
 
 [.columns.transparency%notitle.is-vcentered]

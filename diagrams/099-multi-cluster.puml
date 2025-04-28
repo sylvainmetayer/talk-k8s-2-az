@@ -1,0 +1,27 @@
+@startuml
+
+skinparam component {
+    BackgroundColor white
+    BorderColor #326ce5
+    FontColor #326ce5
+}
+
+package "Région 1" {
+    [Kubernetes Cluster 1] as k8s1
+    [Node1] as n1
+    [Node2] as n2
+    k8s1 -down-> n1
+    k8s1 -down-> n2
+}
+
+package "Région 2" {
+[Kubernetes Cluster 2] as k8s2
+    [Node3] as n3
+    [Node4] as n4
+    k8s2 -down-> n3
+    k8s2 -down-> n4
+}
+
+k8s1 <-> k8s2
+
+@enduml

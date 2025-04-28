@@ -20,6 +20,7 @@ code/recipients/.sops.yaml
 images/040*.svg
 images/010*.svg
 images/030*.svg
+images/099*.svg
 images/diag-*
 
 code/demo-magic.sh
