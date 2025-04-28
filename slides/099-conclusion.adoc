@@ -10,15 +10,42 @@ Résumé : cluster kube etendu sur 2 sites, oui si bascule auto hyperviseur VM r
 ****
 
 [.transparency]
-== Alternatives
+== Alternatives : Une troisième zone ?
 
 plantuml::diagrams/099-3-zones.puml[format=svg,id=099-3-zones,height=300px]
+
+[.notes]
+****
+Oui 3 zones carrément ! C'est pas pour rien que l'on recommande 3 zones partout !
+****
+
+[.transparency.columns.small-title]
+== Alternatives : Du stockage distribué ?
+
+[.column]
+--
+[link=https://rook.io/]
+image::rook-logo.svg[height=100px]
+--
+
+[.column]
+--
+[link=https://longhorn.io/]
+image::longhorn-logo.png[height=300px]
+--
+
+[.notes]
+****
+Si vous n'avez pas de stockage distribué via votre hyperviseur ou votre cloud, vous pouvez bâtir une solution de stockage distribué sur votre cluster Kubernetes.
+****
+
+[.transparency.columns]
+== Alternatives : Multi cluster
 
 TODO Multi cluster
 
 [.notes]
 ****
-Schéma CP externe sur 3ème zone. Oui 3 zones carrément ! C'est pas pour rien que l'on recommande 3 zones partout !
 
 Multi cluster, et chaque cluster est sur chaque zone. avec meta cluster en administration (schéma / liens / images) : CGP Anthos: redhat advanced cluster management / submariner spinacher multi cluster / pl
 

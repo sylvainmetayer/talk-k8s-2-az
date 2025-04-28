@@ -22,35 +22,27 @@
 
 left to right direction
 
-Cluster_Boundary(cluster, "Kubernetes Cluster") {
-    Namespace_Boundary(ns, "my-app") {
+Namespace_Boundary(ns, "my-app") {
 
-        KubernetesCrd(kafka, "Kafka CRD", "")
+    KubernetesCrd(kafka, "Kafka CRD", "")
 
-        Cluster_Boundary(region1, "Région A") {
-            KubernetesNode(regionA, "", "")
-            KubernetesPod(kafka1, "kafka 1", "")
-            KubernetesPod(kafka2, "kafka 2", "")
-            KubernetesPod(zookeeper1, "zookeeper 1", "")
-            KubernetesPod(zookeeper2, "zookeeper 2", "")
-        }
+    Cluster_Boundary(region1, "Région A") {
+        KubernetesNode(regionA, "", "")
+        KubernetesPod(kafka1, "kafka 1", "")
+        KubernetesPod(kafka2, "kafka 2", "")
+        KubernetesPod(zookeeper1, "zookeeper 1", "")
+        KubernetesPod(zookeeper2, "zookeeper 2", "")
+    }
 
-        Cluster_Boundary(region2, "Région B") {
-            KubernetesNode(regionB, "", "")
-            KubernetesPod(kafka3, "kafka 3", "")
-            KubernetesPod(kafka4, "kafka 4", "")
-            KubernetesPod(zookeeper3, "zookeeper 3", "")
-        }
+    Cluster_Boundary(region2, "Région B") {
+        KubernetesNode(regionB, "", "")
+        KubernetesPod(kafka3, "kafka 3", "")
+        KubernetesPod(kafka4, "kafka 4", "")
+        KubernetesPod(zookeeper3, "zookeeper 3", "")
     }
 }
 
-kafka ---> kafka1: ""
-kafka ---> kafka2: ""
-kafka --> kafka3: ""
-kafka --> kafka4: ""
-
-kafka ---> zookeeper1: ""
-kafka ---> zookeeper2: ""
-kafka --> zookeeper3: ""
+kafka -> region1: ""
+kafka ---> region2: ""
 
 @enduml

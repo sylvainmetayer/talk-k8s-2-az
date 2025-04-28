@@ -47,11 +47,11 @@ Cluster_Boundary(cluster, "Kubernetes Cluster") {
 
 userAlias --> ingress: ""
 
-ingress --> svc: ""
+ingress -> svc: ""
 
-svc --> deploy: ""
+svc -> deploy: ""
 
-deploy ---> pod1: ""
+deploy --> pod1: ""
 deploy ---> pod2: ""
 
 @enduml
