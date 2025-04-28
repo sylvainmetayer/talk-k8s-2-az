@@ -9,6 +9,17 @@
     top: -20%;
 }
 
+/**
+Change the QR code position
+ */
+.qrcode.five {
+    top: -5%;
+}
+
+.qrcode.right {
+    left: 90%;
+}
+
 .small-title {
     font-size: medium;
 }
