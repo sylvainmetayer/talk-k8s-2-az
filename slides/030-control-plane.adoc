@@ -134,14 +134,17 @@ https://etcd.io/docs/v3.5/op-guide/failures/#failure-during-bootstrapping
 
 == Recovery
 
-TODO Schéma / améliorer cette slide
+[.qrcode.five]
+qrcode::https://docs.rke2.io/datastore/backup_restore[format="png", xdim=4]
 
-- https://etcd.io/docs/v3.5/op-guide/recovery/
-- https://docs.rke2.io/datastore/backup_restore#restoring-a-snapshot-to-new-nodes
+[.qrcode.right.five]
+qrcode::https://etcd.io/docs/v3.5/op-guide/recovery/[format="png", xdim=4]
 
+plantuml::diagrams/030-recovery.puml[format=svg,id=030-recovery]
 
 [.notes]
 ****
-Screenshot de crash election membre voir schéma RAFT.
 Recovery : ETCD crash, comment on récupère ? Snapshot d'une dernière VM / soit backup ETCD (avec recréation d'un nouveau quorum mono et intégration des autres membres) => Schéma !
+
+On précise que l'on doit supprimer les données de l'ETCD avant de le réintégrer dans le cluster, sinon, il ne pourra pas se réintégrer au quorum en tant que nouveau membre
 ****

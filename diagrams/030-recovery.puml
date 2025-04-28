@@ -1,0 +1,28 @@
+@startuml
+autonumber
+
+actor "Administrateur" as Admin
+participant "Backup/Snapshot" as Backup
+participant "Nouveau Cluster ETCD" as NewCluster
+participant "Control Plane 1" as Node1
+participant "Control Plane 2" as Node2
+participant "Control Plane 3" as Node3
+
+== Initialisation ==
+Admin -> Backup : Récupère le dernier snapshot
+
+== Nettoyage ==
+
+== Création du cluster ==
+Admin -> Node1 : Démarre ETCD avec le snapshot restauré
+Admin -> Node2 : Démarre ETCD et rejoint le cluster
+Admin -> Node3 : Démarre ETCD et rejoint le cluster
+
+Node1 -> NewCluster : Initie le cluster avec le snapshot
+Node2 -> NewCluster : Rejoint le cluster
+Node3 -> NewCluster : Rejoint le cluster
+
+== Vérification ==
+Admin -> NewCluster : Vérifie l'état du cluster
+
+@enduml

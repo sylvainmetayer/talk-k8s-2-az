@@ -1,5 +1,6 @@
 @startuml
 actor Utilisateur
+autonumber
 participant "Control Plane\nRégion A" as CP_A
 participant "Hyperviseur\nRégion A" as HV_A
 participant "Hyperviseur\nRégion B" as HV_B
