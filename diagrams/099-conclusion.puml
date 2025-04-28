@@ -4,7 +4,7 @@ start
 
 if (Votre hyperviseur supporte le déplacement/restauration à chaud de VM ?) then (oui)
     if (Vous avez du stockage distribué/répliqué ?) then (oui)
-      :Vous éviterez sûrement\nune partie des soucis \nque nous avons rencontrés;
+      :La réplication des données n’est pas à faire au niveau applicatif;
     else (non)
       :Vous allez devoir gérer la réplication de vos données\nentre les 2 régions au niveau applicatif;
     endif

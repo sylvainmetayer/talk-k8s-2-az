@@ -30,7 +30,7 @@ package "Région A" as zoneA {
 }
 
 package "Voting Zone" as votingZone {
-    node "etcd 3" as etcd3
+    node "CP / etcd 3" as etcd3
 }
 
 @enduml

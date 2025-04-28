@@ -16,7 +16,7 @@
 :title-slide-background-image: k8s-2az.png
 :title-slide-background-repeat: repeat
 :title-slide-background-size: auto
-// //:title-slide-filter: blur(4px)
+//:title-slide-filter: blur(4px)
 :stylesdir: css
 :customcss: css/meetup.css
 :imagesdir: images
@@ -32,7 +32,7 @@
 
 include::slides/001-presentation.adoc[]
 include::slides/010-theorie.adoc[]
-include::slides/020-contexte.adoc[]
+// include::slides/020-contexte.adoc[]
 include::slides/030-control-plane.adoc[]
 include::slides/040-applications.adoc[]
 include::slides/099-conclusion.adoc[]

@@ -1,0 +1,17 @@
+@startmindmap
+
+* Partition réseau - Cluster divisé
+** Majorité indisponible
+*** Leader dans majorité
+**** etcd en lecture seule
+***** Retour de la majorité
+****** Résolution automatique
+***** Majorité HS
+****** Disaster recovery
+*** Leader dans minorité
+**** Leader retiré
+***** Nouveau leader élu dans la majorité
+** Minorité indisponible
+*** Leader reste leader
+
+@endmindmap

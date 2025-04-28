@@ -16,6 +16,8 @@ plantuml::diagrams/099-3-zones.puml[format=svg,id=099-3-zones,height=300px]
 [.notes]
 ****
 Oui 3 zones carrément ! C'est pas pour rien que l'on recommande 3 zones partout !
+
+Attention si votre distribution impose d’utiliser 3 CP, comme openshift, alors c’est un CP qui sera dans la "voting zone"
 ****
 
 [.columns.small-title]
@@ -44,9 +46,9 @@ plantuml::diagrams/099-multi-cluster.puml[format=svg,id=099-multi-cluster,height
 
 [.notes]
 ****
-Multi cluster, et chaque cluster est sur chaque zone. avec meta cluster en administration
+Multi cluster, et chaque cluster est sur sa zone. avec meta cluster en administration
 
-CGP Anthos: redhat advanced cluster management / submariner spinacher multi cluster / pl
+GCP Anthos / redhat advanced cluster management / submariner spinacher multi cluster
 ****
 
 [.columns.transparency%notitle.is-vcentered]
@@ -64,8 +66,6 @@ qrcode::https://sylvainmetayer.github.io/talk-k8s-2-az[height=300,alt='Slides',f
 [.column]
 --
 link:https://sylvain.dev[*sylvain.dev*]
-
-link:https://nicolas.trauwaen.net[*nicolas.trauwaen.net*]
 --
 
 [.column]

@@ -14,14 +14,20 @@ skinparam node {
     FontColor white
 }
 
-package "Région A" as zoneA {
-    node "Server 1" as cp1
+package "Répartiteur" as LB {
+  node "LB" as vip
 }
 
-package "Région B" as zoneB {
-    node "Server 2" as cp2
+package "zoneA" as zoneA {
+  node "Node1" as n1
 }
 
-cp1 .. cp2
+package "zoneB" as zoneB {
+  node "Node2" as n2
+}
+
+vip -> n1
+vip -> n2
+n1 .. n2
 
 @enduml

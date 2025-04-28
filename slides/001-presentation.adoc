@@ -1,18 +1,16 @@
 [%notitle.columns.is-vcentered.transparency]
 == Présentation
 
-[.column.is-two-fifths.has-text-left.medium]
+[.column.is-half.has-text-left.medium]
 --
-image::ntrauwaen.png[]
+image::ntrauwaen.webp[]
 
 Nicolas TRAUWAEN
 
 Ingénieur production / SRE
-
-link:https://nicolas.trauwaen.net[]
 --
 
-[.column.is-two-fifths.has-text-left.medium]
+[.column.is-half.has-text-left.medium]
 --
 image::smetayer.png[]
 
@@ -23,11 +21,11 @@ Tech Lead
 link:https://sylvain.dev[]
 --
 
-[.column.is-one-fifths]
---
-[.vertical-align-left,link=https://www.groupeonepoint.com/fr/]
-image:logo.png[width=250]
---
+// [.column.is-one-fifths]
+// --
+// [.vertical-align-left,link=https://www.groupeonepoint.com/fr/]
+// image:logo.png[width=250]
+// --
 
 [.notes]
 ****

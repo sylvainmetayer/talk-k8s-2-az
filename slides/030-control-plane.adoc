@@ -1,10 +1,7 @@
 [%auto-animate.is-full]
 == Mono Control Plane
 
-[.column]
---
 plantuml::diagrams/030-mono-cp.puml[format=svg,id=030-mono-cp]
---
 
 [.notes]
 ****
@@ -26,7 +23,6 @@ plantuml::diagrams/030-multi-cp.puml[format=svg,id=030-multi-cp]
 image::openshift-logo.svg[width=100]
 --
 
-
 [.notes]
 ****
 En théorie, la mécanique reste la même : on bascule nos 3 control planes sur la région B. On a donc 3 control planes sur la région B.
@@ -43,8 +39,6 @@ image::kubernetes-components.svg[]
 
 [.notes]
 ****
-TODO Schéma des composants d'un control plane, avec les différents composants (kube-apiserver, kube-controller-manager, kube-scheduler, etcd) et comment ils interagissent entre eux.
-
 On va maintenant s'intéresser à la partie qui nécessite de la persistence de données, ETCD
 ****
 
@@ -78,61 +72,37 @@ Sinon une note sur la mécanique et explication orale uniquement.
 - le système évolue/avance tant que la majorité des nœuds sont disponibles
 - model d’erreur : fail-stop, delayed/lost messages
 - conçu pour la compréhensibilité
-****
 
-=== Follower failure
-
-[.notes]
-****
-TODO Nico fusionner les slides pour faire un schéma récapitulatif des scénarios.
-
-https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure
-****
-
-=== Leader failure
-
-[.notes]
-****
-https://etcd.io/docs/v3.5/op-guide/failures/#minor-followers-failure
-****
-
-=== Majority failure
-
-[.notes]
-****
-https://etcd.io/docs/v3.5/op-guide/failures/#majority-failure
+https://github.com/ongardie/raftscope.git
 ****
 
 === Network partition
 
-TODO Nico fusionner les slides pour faire un schéma récapitulatif des scénarios. (voir diagrams/030-etcd-haute-dispo.mmd)
+plantuml::diagrams/030-etcd-netpart.puml[format=svg,id=030-etcd-netpart]
 
 [.notes]
 ****
-## Résumé des Modes de Défaillance dans etcd
-
 ### Partition Réseau
 - **Description** : Une partition réseau divise un cluster etcd en deux parties : une majorité et une minorité de membres.
-- **Disponibilité** : La partie majoritaire reste disponible, tandis que la partie minoritaire devient indisponible.
-- **Absence de "Split-brain"** : etcd évite le phénomène de "split-brain" car les membres du cluster sont explicitement ajoutés ou retirés avec l'approbation de la majorité actuelle. => TODO Définition split brain (slide à part ?)
+- **Absence de "Split-brain"** : etcd évite le phénomène de "split-brain" car les membres du cluster sont explicitement ajoutés ou retirés avec l'approbation de la majorité actuelle.
+- **Split brain** : quand deux membres sont leaders au même moment, créant un conflit dans les données écrites au moment de la synchro.
 
 ### Conséquences Selon la Position du Leader
 - **Leader dans la Majorité** : Si le leader est du côté majoritaire, la défaillance est perçue comme une défaillance des followers minoritaires.
 - **Leader dans la Minorité** : Si le leader est du côté minoritaire, il se retire, et un nouveau leader est élu par la majorité.
 
-### Récupération Après la Partition
-- **Reconnaissance Automatique** : Une fois la partition réseau résolue, la minorité reconnaît automatiquement le leader de la majorité et récupère son état.
 https://etcd.io/docs/v3.5/op-guide/failures/#network-partition
 ****
 
-=== Failure during bootstrapping
+=== Défaillance pendant l’initialisation
 
 [.notes]
 ****
+Failure during bootstrapping : **redo**
 https://etcd.io/docs/v3.5/op-guide/failures/#failure-during-bootstrapping
 ****
 
-== Recovery
+=== Recovery
 
 [.qrcode.five]
 qrcode::https://docs.rke2.io/datastore/backup_restore[format="png", xdim=4]
@@ -144,7 +114,7 @@ plantuml::diagrams/030-recovery.puml[format=svg,id=030-recovery]
 
 [.notes]
 ****
-Recovery : ETCD crash, comment on récupère ? Snapshot d'une dernière VM / soit backup ETCD (avec recréation d'un nouveau quorum mono et intégration des autres membres) => Schéma !
+Recovery : ETCD crash, comment on récupère ? Snapshot d'une dernière VM / soit backup ETCD (avec recréation d'un nouveau quorum mono et intégration des autres membres)
 
-On précise que l'on doit supprimer les données de l'ETCD avant de le réintégrer dans le cluster, sinon, il ne pourra pas se réintégrer au quorum en tant que nouveau membre
+On précise que l'on doit supprimer les données de l'ETCD encore disponible avant de le réintégrer dans le cluster, sinon, il ne pourra pas se réintégrer au quorum en tant que nouveau membre
 ****

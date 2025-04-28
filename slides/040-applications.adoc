@@ -10,29 +10,13 @@ Maintenant que notre cluster est résilient sur deux régions, il est temps de s
 
 === Par défaut
 
-[.column]
---
 plantuml::diagrams/040-deploy-without-anti-affinity.puml[format=svg,id=040-without-anti-affinity]
---
-
-[.notes]
-****
-TODO manifeste Kubernetes basique sans affinité / anti-affinité
-
-TODO Schéma déploiement sans affinité / anti-affinité sur 2 régions
-****
 
 [%notitle]
 === Gestion des régions
 
 plantuml::diagrams/040-deploy-with-anti-affinity.puml[format=svg,id=040-with-anti-affinity,height=650px]
 
-[.notes]
-****
-TODO docs affinité / anti-affinité + exemples manifeste
-
-TODO Schéma déploiement avec affinité / anti-affinité sur 2 régions
-****
 
 === Affinité
 
@@ -102,6 +86,8 @@ Insister sur le fait que ici, c'est obligatoire et que le pod ne démarrera pas 
 
 === Et pour du stateful ?
 
+plantuml::diagrams/040-storage-presentation.puml[format=svg,id=040-storage-presentation,height=500]
+
 [.notes]
 ****
 = Stocker des données, bdd, faire des statefulset ne suffit pas, il faut gérer réplication données entre les régions.
@@ -110,11 +96,6 @@ Parfois, nous dépendons d'opérateurs k8s, qui ont parfois leurs particularité
 
 Pourrait être simple, si Stockage répliqué, mais ce n'est pas le cas du client = 2 zones stockage par région, mais pas de réplication entre les régions > il faut gérer la réplication des données au niveau applicatif. Du coup, nos PVC ne sont pas répliqués entre les régions et il faut gérer cela au niveau applicatif.
 ****
-
-[.column]
---
-plantuml::diagrams/040-storage-presentation.puml[format=svg,id=040-storage-presentation,height=500]
---
 
 == PostgreSQL
 
@@ -142,12 +123,12 @@ L'opérateur fait le travail, pour peu que l'on configure l'anti-affinité entre
 Configuration de la CRD pour indiquer que l'on répartit les pods sur les deux régions et on indique que l'anti-affinité est obligatoire selon le nombre d'instances demandées.
 
 prefered, attention, nos instances pg peuvent se retrouver sur la même région
-
 ****
 
 [%notitle]
 === ⚠️ Postgres
 
+[.column]
 --
 [caption=,link=https://www.redhat.com/en/blog/build-your-kubernetes-operator-with-the-right-tool]
 .⚠️

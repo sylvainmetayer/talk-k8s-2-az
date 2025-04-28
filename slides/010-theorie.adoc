@@ -13,19 +13,22 @@ image::kubernetes-logo.svg[width=300]
 image::vmware-logo.svg[width=300]
 --
 
+[.column]
+--
+[link=https://www.nutanix.com/content/dam/nutanix/global/media-resources/nutanix-logo-charcoal-gray.svg]
+image::images/nutanix-logo-charcoal-gray.svg[width=300]
+--
+
 [.notes]
 ****
-On fait du Kube on prem sur un hyperviseur, VMware
+On fait du Kube on prem sur un hyperviseur : VMware, Nutanix
 
 Pas toutes les fonctionnalités du cloud public, mais on est quand même sur un environnement virtualisé, et on va pouvoir s'appuyer dessus.
 ****
 
 == Deux régions
 
-[.column]
---
 plantuml::diagrams/010-only-two-zones.puml[format=svg,id=010-only-two-zones,width=300]
---
 
 [.notes]
 ****
@@ -51,7 +54,7 @@ Afin de s'assurer que l'on parle de la même chose durant cette présentation.
 
 === Haute Disponibilité
 
-TODO Generate mermaid diagram and reference image
+plantuml::diagrams/010-haute-dispo.puml[format=svg,id=010-haute-dispo,width=300]
 
 [.notes]
 ****
@@ -60,14 +63,11 @@ Capacité à accéder à la plateforme au moment où on le souhaite, redondance 
 
 === Stretched cluster
 
+plantuml::diagrams/010-contexte.puml[format=svg,id=010-contexte,height=500px]
+
 [.notes]
 ****
 Terminologie : pour les contextes dont nous allons parler, nous sommes partis sur une stratégie "stretched cluster". C'est-à-dire que nous avons un cluster k8s réparti sur deux sites en mode actif/actif.
 
 Répartition charge - Partage de ressources (pool) sur les 2 sites. En cas de panne, le second peut récupérer charge du premier site et assurer service A
 ****
-
-[.column]
---
-plantuml::diagrams/010-contexte.puml[format=svg,id=010-contexte,height=500px]
---
