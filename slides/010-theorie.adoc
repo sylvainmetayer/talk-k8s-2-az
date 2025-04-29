@@ -16,7 +16,7 @@ image::vmware-logo.svg[width=300]
 [.column]
 --
 [link=https://www.nutanix.com/content/dam/nutanix/global/media-resources/nutanix-logo-charcoal-gray.svg]
-image::images/nutanix-logo-charcoal-gray.svg[width=300]
+image::nutanix-logo-charcoal-gray.svg[width=300]
 --
 
 [.notes]
