@@ -65,7 +65,7 @@ qrcode::https://sylvainmetayer.github.io/talk-k8s-2-az[height=300,alt='Slides',f
 
 [.column]
 --
-link:https://sylvain.dev[*sylvain.dev*]
+// link:https://sylvain.dev[*sylvain.dev*]
 --
 
 [.column]

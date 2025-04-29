@@ -18,7 +18,7 @@ Sylvain MÉTAYER
 
 Tech Lead
 
-link:https://sylvain.dev[]
+// link:https://sylvain.dev[]
 --
 
 // [.column.is-one-fifths]
