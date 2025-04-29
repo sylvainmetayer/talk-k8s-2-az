@@ -74,6 +74,16 @@ Sinon une note sur la mécanique et explication orale uniquement.
 - conçu pour la compréhensibilité
 
 https://github.com/ongardie/raftscope.git
+scénario :
+1. Dès qu’un leader est élu, Request pour écrire
+2. Stop follower
+3. Request
+4. Time out pour lancer une nouvelle élection sur follower, puis Request
+5. Stop leader - pas d’élection possible
+6. Resume followers
+7. Request, et Stop leader avant consensus
+8. Time out sur un follower, dès élection Request
+9. Retour de l’ancien leader : il se met à jour
 ****
 
 === Network partition
