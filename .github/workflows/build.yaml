@@ -15,6 +15,8 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
 
       - name: Install required dependencies
         run: ./setup.sh
@@ -35,6 +37,8 @@ jobs:
           cp -r favicon.ico *.html images css js build/ && \
           cp -r reveal.js/dist/* build/reveal.js/dist/ && \
           cp -r reveal.js/plugin build/reveal.js/
+          sed -i 's/var NUM_SERVERS = 5;/var NUM_SERVERS = 3;/' raftscope/raft.js
+          cp -r raftscope build/
 
       - name: Archive results
         uses: actions/upload-artifact@v4
