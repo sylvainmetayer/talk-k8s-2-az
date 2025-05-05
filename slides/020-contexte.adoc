@@ -1,7 +1,0 @@
-[%auto-animate.is-full]
-== Concrètement, on la garantit comment cette haute disponibilité ?
-
-[.notes]
-****
-(Parler hyperviseur) => Cela ne s'applique que si vous êtes sur un hyperviseur, pas sur bare metal. Le but étant de pouvoir créer/déplacer des VMs facilement afin d'équilibrer la charge/restaurer facilement les services en cas de panne.
-****

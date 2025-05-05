@@ -1,0 +1,14 @@
+@startuml
+autonumber
+
+actor "Administrateur" as Admin
+participant "Backup/Snapshot" as Backup
+participant "Nouveau Cluster ETCD" as NewCluster
+participant "Control Plane 1" as Node1
+participant "Control Plane 2" as Node2
+participant "Control Plane 3" as Node3
+
+== Initialisation ==
+Admin -> Backup : Récupère le dernier snapshot
+
+@enduml

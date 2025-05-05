@@ -17,13 +17,4 @@ Admin -> Backup : Récupère le dernier snapshot
 Admin -> Node1 : Démarre ETCD avec le snapshot restauré
 Node1 -> NewCluster : Initie le cluster avec le snapshot
 
-Admin -> Node2 : Démarre ETCD et rejoint le cluster
-Node2 -> NewCluster : Rejoint le cluster
-
-Admin -> Node3 : Démarre ETCD et rejoint le cluster
-Node3 -> NewCluster : Rejoint le cluster
-
-== Vérification ==
-Admin -> NewCluster : Vérifie l'état du cluster
-
 @enduml

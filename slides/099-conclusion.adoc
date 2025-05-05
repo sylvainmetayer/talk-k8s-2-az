@@ -20,18 +20,20 @@ Oui 3 zones carrément ! C'est pas pour rien que l'on recommande 3 zones partout
 Attention si votre distribution impose d’utiliser 3 CP, comme openshift, alors c’est un CP qui sera dans la "voting zone"
 ****
 
-[.columns.small-title]
+[.columns]
 == Alternatives : Du stockage distribué ?
 
 [.column]
 --
-[link=https://rook.io/]
+.Rook
+[link=https://rook.io/,caption=]
 image::rook-logo.svg[height=100px]
 --
 
 [.column]
 --
-[link=https://longhorn.io/]
+.Longhorn
+[link=https://longhorn.io/,caption=]
 image::longhorn-logo.png[height=300px]
 --
 
@@ -47,7 +49,14 @@ plantuml::diagrams/099-multi-cluster.puml[format=svg,id=099-multi-cluster,height
 [.notes]
 ****
 Multi cluster, et chaque cluster est sur sa zone. avec meta cluster en administration
+****
 
+== Alternatives : Multi cluster
+
+TODO Nico - Logo / Alternatives / autres ?
+
+[.notes]
+****
 GCP Anthos / redhat advanced cluster management / submariner spinacher multi cluster
 ****
 

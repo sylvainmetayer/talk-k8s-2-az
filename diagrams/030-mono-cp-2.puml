@@ -1,0 +1,18 @@
+@startuml
+actor Utilisateur
+autonumber
+participant "Control Plane\nRégion A" as CP_A
+participant "Hyperviseur\nRégion A" as HV_A
+participant "Hyperviseur\nRégion B" as HV_B
+participant "Control Plane\nRégion B" as CP_B
+
+Utilisateur -> CP_A : Requête API
+CP_A -> CP_A : Traite la requête
+
+
+== Crash de la région A ==
+Utilisateur -> CP_A : Requête API
+destroy CP_A
+CP_A --> Utilisateur : Pas de réponse
+
+@enduml

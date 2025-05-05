@@ -1,7 +1,31 @@
-[%auto-animate.is-full]
+[%auto-animate.is-full.no-transition]
 == Mono Control Plane
 
-plantuml::diagrams/030-mono-cp.puml[format=svg,id=030-mono-cp]
+plantuml::diagrams/030-mono-cp-1.puml[format=svg,id=030-mono-cp-1]
+
+[.notes]
+****
+mono CP. 1 control plane pour notre cluster, 1 vm CP sur un des 2 sites. Redondacne à la VMWare (VRA ??) snapshot de la VM, on remonte de l'autre côté
+
+Présenter 3/0, sans parler d'ETCD RAFt, et besoin de CP sur les 2 côtés pour API haute dispo car opérateur qui met à jour services / pas de bascule auto VMWare car pas licence pour mon projet et aç créé problème supplémentaire, car mes opérateurs ne peuvent pas metre à jour les services / ...
+****
+
+[%auto-animate.is-full.no-transition]
+=== Mono Control Plane
+
+plantuml::diagrams/030-mono-cp-2.puml[format=svg,id=030-mono-cp-2]
+
+[.notes]
+****
+mono CP. 1 control plane pour notre cluster, 1 vm CP sur un des 2 sites. Redondacne à la VMWare (VRA ??) snapshot de la VM, on remonte de l'autre côté
+
+Présenter 3/0, sans parler d'ETCD RAFt, et besoin de CP sur les 2 côtés pour API haute dispo car opérateur qui met à jour services / pas de bascule auto VMWare car pas licence pour mon projet et aç créé problème supplémentaire, car mes opérateurs ne peuvent pas metre à jour les services / ...
+****
+
+[%auto-animate.is-full.no-transition]
+=== Mono Control Plane
+
+plantuml::diagrams/030-mono-cp-3.puml[format=svg,id=030-mono-cp-3]
 
 [.notes]
 ****
@@ -27,19 +51,9 @@ image::openshift-logo.svg[width=100]
 ****
 En théorie, la mécanique reste la même : on bascule nos 3 control planes sur la région B. On a donc 3 control planes sur la région B.
 
-==> Attention, moi j'ai besoin d'avoir l'API dispo en continu, j'ai des opérateurs qui dépendent de l'API k8s !
+==> Attention, moi j'ai besoin d'avoir l'API disponible en continu, j'ai des opérateurs qui dépendent de l'API k8s ! TODO Jamy
 
 Bon, bah on va faire du 2/1, ça doit être possible ? Qu'est-ce qu'il y a derrière ce fameux control plane qui nous en empêche de faire ça ? Voyons ça !
-****
-
-== Control Plane
-
-[link=https://kubernetes.io/docs/concepts/overview/components/]
-image::kubernetes-components.svg[]
-
-[.notes]
-****
-On va maintenant s'intéresser à la partie qui nécessite de la persistence de données, ETCD
 ****
 
 [%notitle]
@@ -72,8 +86,15 @@ Sinon une note sur la mécanique et explication orale uniquement.
 - le système évolue/avance tant que la majorité des nœuds sont disponibles
 - model d’erreur : fail-stop, delayed/lost messages
 - conçu pour la compréhensibilité
+****
 
+[%notitle,background-iframe="/raftscope"]
+=== Démo
+
+[.notes]
+****
 https://github.com/ongardie/raftscope.git
+
 scénario :
 1. Dès qu’un leader est élu, Request pour écrire
 2. Stop follower
@@ -112,18 +133,52 @@ Failure during bootstrapping : **redo**
 https://etcd.io/docs/v3.5/op-guide/failures/#failure-during-bootstrapping
 ****
 
+[.is-full.no-transition]
 === Recovery
 
-[.qrcode.five]
-qrcode::https://docs.rke2.io/datastore/backup_restore[format="png", xdim=4]
+// [.qrcode.five]
+// qrcode::https://docs.rke2.io/datastore/backup_restore[format="png", xdim=4]
+//
+// [.qrcode.right.five]
+// qrcode::https://etcd.io/docs/v3.5/op-guide/recovery/[format="png", xdim=4]
 
-[.qrcode.right.five]
-qrcode::https://etcd.io/docs/v3.5/op-guide/recovery/[format="png", xdim=4]
-
-plantuml::diagrams/030-recovery.puml[format=svg,id=030-recovery]
+plantuml::diagrams/030-recovery-1.puml[format=svg,id=030-recovery-1]
 
 [.notes]
 ****
+Importance d'avoir des sauvegardes, et pas uniuqmenet sur le node !
+****
+
+[.is-full.no-transition]
+=== Recovery
+
+plantuml::diagrams/030-recovery-2.puml[format=svg,id=030-recovery-2]
+
+[.notes]
+****
+Phase de nettoyage : on supprime les données de l'ETCD avant de le réintégrer dans le cluster, sinon, il ne pourra pas se réintégrer au quorum en tant que nouveau membre
+
+****
+
+[.is-full.no-transition]
+=== Recovery
+
+plantuml::diagrams/030-recovery-3.puml[format=svg,id=030-recovery-3]
+
+[.notes]
+****
+Ensuite, on démarre un mono cluster à partir du snapshot
+****
+
+[.is-full.no-transition]
+=== Recovery
+
+plantuml::diagrams/030-recovery-4.puml[format=svg,id=030-recovery-4]
+
+[.notes]
+****
+Ajout des autres nodes + vérification
+
 Recovery : ETCD crash, comment on récupère ? Snapshot d'une dernière VM / soit backup ETCD (avec recréation d'un nouveau quorum mono et intégration des autres membres)
 
 On précise que l'on doit supprimer les données de l'ETCD encore disponible avant de le réintégrer dans le cluster, sinon, il ne pourra pas se réintégrer au quorum en tant que nouveau membre

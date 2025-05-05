@@ -8,6 +8,7 @@ Un control plane haute disponibilité, mais un seul pod pour son application, ç
 Maintenant que notre cluster est résilient sur deux régions, il est temps de s'intéresser aux applications qui tournent dessus. impact sur applications. partir de solution naive vers une proposition de solution
 ****
 
+[%notitle]
 === Par défaut
 
 plantuml::diagrams/040-deploy-without-anti-affinity.puml[format=svg,id=040-without-anti-affinity]
@@ -17,11 +18,42 @@ plantuml::diagrams/040-deploy-without-anti-affinity.puml[format=svg,id=040-witho
 
 plantuml::diagrams/040-deploy-with-anti-affinity.puml[format=svg,id=040-with-anti-affinity,height=650px]
 
+=== Anti-affinité
+
+// [.qrcode]
+// qrcode::https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity[format="png", xdim=4,class=qrcode]
+
+[source%linenums,yaml,highlight=6-8|10-15]
+----
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app.kubernetes.io/name
+            operator: In
+            values:
+            - my-app
+        topologyKey: topology.kubernetes.io/region
+  containers: # [...]
+----
+
+[.notes]
+****
+Cas d'usage : pour répartir les pods sur les deux régions
+
+Insister sur le fait que ici, c'est obligatoire et que le pod ne démarrera pas si scheduler non valide
+****
 
 === Affinité
 
-[.qrcode]
-qrcode::https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity[format="png", xdim=4]
+// [.qrcode]
+// qrcode::https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity[format="png", xdim=4]
 
 [source%linenums,yaml,highlight=6-8|10-17]
 ----
@@ -50,38 +82,6 @@ spec:
 Cas d'usage : latence faible, pour regrouper par exemple bdd et cache
 
 Montrer que scheduler peut ignorer ici, car c'est une préférence
-****
-
-=== Anti-affinité
-
-[.qrcode]
-qrcode::https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity[format="png", xdim=4,class=qrcode]
-
-[source%linenums,yaml,highlight=6-8|10-15]
-----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: my-pod
-spec:
-  affinity:
-    podAntiAffinity:
-      requiredDuringSchedulingIgnoredDuringExecution:
-      - labelSelector:
-          matchExpressions:
-          - key: app.kubernetes.io/name
-            operator: In
-            values:
-            - my-app
-        topologyKey: topology.kubernetes.io/region
-  containers: # [...]
-----
-
-[.notes]
-****
-Cas d'usage : pour répartir les pods sur les deux régions
-
-Insister sur le fait que ici, c'est obligatoire et que le pod ne démarrera pas si scheduler non valide
 ****
 
 === Et pour du stateful ?
@@ -217,7 +217,7 @@ plantuml::diagrams/040-kafka.puml[format=svg,id=040-kafka,height=650px]
 ****
 Si vous avez déjà migré sur Kraft (ça vous rappelle quelques choses ?), vous ne devriez rien avoir à faire, si ce n'est faire attention à la configuration de vos topics, afin de s'assurer de la bonne réplications de vos données. En effet, l'election est géré par les brokers eux-mêmes et non plus par Zookeeper. Il n'y a donc plus de dépendance à Zookeeper pour l'élection des leaders, mais il faut tout de même s'assurer que les brokers sont bien répartis sur les deux régions.
 
-TODO POC test Kafka (cf Jérôme)
+https://learn.conduktor.io/kafka/kafka-topic-configuration-min-insync-replicas/#Overriding-Topic-Configuration-Defaults-2
 
 Cependant, attention à la configuration applicative de vos topics, sinon, vous pourriez avoir un kafka certes disponible, mais les données de vos topics ne seront pas répliquées entre les deux régions.
 ****

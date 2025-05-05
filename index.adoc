@@ -32,7 +32,6 @@
 
 include::slides/001-presentation.adoc[]
 include::slides/010-theorie.adoc[]
-// include::slides/020-contexte.adoc[]
 include::slides/030-control-plane.adoc[]
 include::slides/040-applications.adoc[]
 include::slides/099-conclusion.adoc[]
