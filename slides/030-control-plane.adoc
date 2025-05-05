@@ -88,7 +88,7 @@ Sinon une note sur la mécanique et explication orale uniquement.
 - conçu pour la compréhensibilité
 ****
 
-[%notitle,background-iframe="/raftscope"]
+[%notitle,background-iframe="{raftscope_url}"]
 === Démo
 
 [.notes]

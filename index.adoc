@@ -1,4 +1,5 @@
 = Un cluster Kubernetes sur deux sites, une simple histoire de disponibilité, non ?
+:raftscope_url: /raftscope
 :docinfo: private
 :source-highlighter: highlight.js
 :highlightjs-theme: js/highlight/styles/base16/solarized-light.min.css
