@@ -12,6 +12,10 @@
 **** Leader retiré
 ***** Nouveau leader élu dans la majorité
 ** Minorité indisponible
-*** Leader reste leader
+*** Leader dans majorité
+**** Leader reste leader
+*** Leader dans minorité
+**** Leader retiré
+***** Nouveau leader élu dans la majorité
 
 @endmindmap

@@ -1,0 +1,71 @@
+[%auto-animate.is-full.no-transition]
+== Mono Control Plane
+
+plantuml::diagrams/030-mono-cp-1.puml[format=svg,id=030-mono-cp-1]
+
+[.notes]
+****
+TODO revoir speaker notes
+
+mono CP. 1 control plane pour notre cluster, 1 vm CP sur un des 2 sites. Redondacne à la VMWare (VRA ??) snapshot de la VM, on remonte de l'autre côté
+
+Présenter 3/0, sans parler d'ETCD RAFt, et besoin de CP sur les 2 côtés pour API haute dispo car opérateur qui met à jour services / pas de bascule auto VMWare car pas licence pour mon projet et aç créé problème supplémentaire, car mes opérateurs ne peuvent pas metre à jour les services / ...
+****
+
+[%auto-animate.is-full.no-transition]
+=== Mono Control Plane
+
+plantuml::diagrams/030-mono-cp-2.puml[format=svg,id=030-mono-cp-2]
+
+[.notes]
+****
+mono CP. 1 control plane pour notre cluster, 1 vm CP sur un des 2 sites. Redondacne à la VMWare (VRA ??) snapshot de la VM, on remonte de l'autre côté
+
+Présenter 3/0, sans parler d'ETCD RAFt, et besoin de CP sur les 2 côtés pour API haute dispo car opérateur qui met à jour services / pas de bascule auto VMWare car pas licence pour mon projet et aç créé problème supplémentaire, car mes opérateurs ne peuvent pas metre à jour les services / ...
+****
+
+[%auto-animate.is-full.no-transition]
+=== Mono Control Plane
+
+plantuml::diagrams/030-mono-cp-3.puml[format=svg,id=030-mono-cp-3]
+
+[.notes]
+****
+mono CP. 1 control plane pour notre cluster, 1 vm CP sur un des 2 sites. Redondacne à la VMWare (VRA ??) snapshot de la VM, on remonte de l'autre côté
+
+Présenter 3/0, sans parler d'ETCD RAFt, et besoin de CP sur les 2 côtés pour API haute dispo car opérateur qui met à jour services / pas de bascule auto VMWare car pas licence pour mon projet et aç créé problème supplémentaire, car mes opérateurs ne peuvent pas metre à jour les services / ...
+****
+
+[%notitle]
+=== Dis-moi Jamy
+
+// audio::c-est-pas-sorcier.wav[opts=autoplay]
+
+video::c-est-pas-sorcier.mp4[width=900,options=autoplay,loop]
+
+[.notes]
+****
+Cas ou hyperviseur ne gère pas déplacement à chaud, pas pratique et produit une indispo. Et pendant ce temps, les applications ne peuvent pas forcément être disponible. Donc, un seul CP, c'est pas vraiment la solution ?
+****
+
+[%auto-animate.is-full.columns]
+== Multi Control Plane
+
+[.column.is-four-fifths]
+--
+plantuml::diagrams/030-multi-cp.puml[format=svg,id=030-multi-cp]
+--
+
+[.column]
+--
+image::openshift-logo.svg[width=100]
+--
+
+[.notes]
+****
+En théorie, la mécanique reste la même : on bascule nos 3 control planes sur la région B. On a donc 3 control planes sur la région B.
+
+==> Attention, moi j'ai besoin d'avoir l'API disponible en continu, j'ai des opérateurs qui dépendent de l'API k8s ! TODO Jamy
+
+Bon, bah on va faire du 2/1, ça doit être possible ? Qu'est-ce qu'il y a derrière ce fameux control plane qui nous en empêche de faire ça ? Voyons ça !
+****
