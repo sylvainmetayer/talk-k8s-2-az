@@ -35,11 +35,22 @@ image::rook-logo.svg[height=100px]
 .Longhorn
 [link=https://longhorn.io/,caption=]
 image::longhorn-logo.png[height=300px]
+// TODO logo noir
 --
 
 [.notes]
 ****
 Si vous n'avez pas de stockage distribué via votre hyperviseur ou votre cloud, vous pouvez bâtir une solution de stockage distribué sur votre cluster Kubernetes.
+
+Pourquoi on ne l'a pas fait ? Contraintes projet-client / hyperviseur qui devait initialement gérer stockage
+****
+
+[.columns]
+== Alternatives : Externaliser le stockage ?
+
+[.notes]
+****
+Utiliser un s3 managé, BDD managée, le stockage c'est galère à gérer, si c'est une contrainte majeure pour vous et que vous ne pouvez garantir la haute dispo, déléguez le.
 ****
 
 == Alternatives : Multi cluster
@@ -53,10 +64,10 @@ Multi cluster, et chaque cluster est sur sa zone. avec meta cluster en administr
 
 == Alternatives : Multi cluster
 
-TODO Nico - Logo / Alternatives / autres ?
-
 [.notes]
 ****
+TODO Nico - Logo / Alternatives / autres ? rancher / rajout slides name drop et un peu de détail
+
 GCP Anthos / redhat advanced cluster management / submariner spinacher multi cluster
 ****
 

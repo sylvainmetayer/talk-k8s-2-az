@@ -33,7 +33,7 @@ plantuml::diagrams/010-only-two-zones.puml[format=svg,id=010-only-two-zones,heig
 
 [.notes]
 ****
-On fait du Kube on prem, sur 2 régions.
+On fait du Kube on prem, sur 2 régions. Ce sont les types de projets sur lesquels nous sommes intervenus.
 
 Vous êtes en charge de mettre en place et maintenir un cluster Kubernetes. Il faut de la haute disponibilité. Vous n’avez que deux sites géographiques pour l’assurer.
 

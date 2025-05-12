@@ -22,13 +22,11 @@ Namespace_Boundary(ns, "my-app") {
     KubernetesCrd(kafka, "Kafka CRD", "")
 
     Cluster_Boundary(region1, "Région A") {
-        KubernetesNode(regionA, "", "")
         KubernetesPod(kafka1, "kafka 1", "")
         KubernetesPod(kafka2, "kafka 2", "")
     }
 
     Cluster_Boundary(region2, "Région B") {
-        KubernetesNode(regionB, "", "")
         KubernetesPod(kafka3, "kafka 3", "")
         KubernetesPod(kafka4, "kafka 4", "")
     }

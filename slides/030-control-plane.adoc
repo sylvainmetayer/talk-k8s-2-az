@@ -5,6 +5,8 @@ plantuml::diagrams/030-mono-cp-1.puml[format=svg,id=030-mono-cp-1]
 
 [.notes]
 ****
+TODO revoir speaker notes
+
 mono CP. 1 control plane pour notre cluster, 1 vm CP sur un des 2 sites. Redondacne à la VMWare (VRA ??) snapshot de la VM, on remonte de l'autre côté
 
 Présenter 3/0, sans parler d'ETCD RAFt, et besoin de CP sur les 2 côtés pour API haute dispo car opérateur qui met à jour services / pas de bascule auto VMWare car pas licence pour mon projet et aç créé problème supplémentaire, car mes opérateurs ne peuvent pas metre à jour les services / ...
@@ -32,6 +34,18 @@ plantuml::diagrams/030-mono-cp-3.puml[format=svg,id=030-mono-cp-3]
 mono CP. 1 control plane pour notre cluster, 1 vm CP sur un des 2 sites. Redondacne à la VMWare (VRA ??) snapshot de la VM, on remonte de l'autre côté
 
 Présenter 3/0, sans parler d'ETCD RAFt, et besoin de CP sur les 2 côtés pour API haute dispo car opérateur qui met à jour services / pas de bascule auto VMWare car pas licence pour mon projet et aç créé problème supplémentaire, car mes opérateurs ne peuvent pas metre à jour les services / ...
+****
+
+[%notitle]
+=== Dis-moi Jamy
+
+// audio::c-est-pas-sorcier.wav[opts=autoplay]
+
+video::c-est-pas-sorcier.mp4[width=900,options=autoplay,loop]
+
+[.notes]
+****
+Cas ou hyperviseur ne gère pas déplacement à chaud, pas pratique et produit une indispo. Et pendant ce temps, les applications ne peuvent pas forcément être disponible. Donc, un seul CP, c'est pas vraiment la solution ?
 ****
 
 [%auto-animate.is-full.columns]
@@ -77,7 +91,11 @@ image::raft-sticker.svg[]
 
 [.notes]
 ****
+TODO Ajout légende = faut que ça figure sur l'aspect election (N/2+1) = slide qu'est-ce que l'election ?
+
 TODO Ajouter un schéma ou 2 ? (GIF fonctionnement)
+
+TODO légende données committée / en attente d'évcritute (index.html à revoir)
 
 Algo de consensus implémenté dans etcd.
 Illustration : raftscope (en JS) ou schéma ?
@@ -134,6 +152,8 @@ plantuml::diagrams/030-etcd-netpart.puml[format=svg,id=030-etcd-netpart]
 - **Leader dans la Minorité** : Si le leader est du côté minoritaire, il se retire, et un nouveau leader est élu par la majorité.
 
 https://etcd.io/docs/v3.5/op-guide/failures/#network-partition
+
+TODO contraintes partition / réseau / tabeau avantage/inconvénietn rapide
 ****
 
 === Défaillance pendant l’initialisation
@@ -146,12 +166,6 @@ https://etcd.io/docs/v3.5/op-guide/failures/#failure-during-bootstrapping
 
 [.is-full.no-transition]
 === Recovery
-
-// [.qrcode.five]
-// qrcode::https://docs.rke2.io/datastore/backup_restore[format="png", xdim=4]
-//
-// [.qrcode.right.five]
-// qrcode::https://etcd.io/docs/v3.5/op-guide/recovery/[format="png", xdim=4]
 
 plantuml::diagrams/030-recovery-1.puml[format=svg,id=030-recovery-1]
 

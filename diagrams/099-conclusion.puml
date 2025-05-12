@@ -5,13 +5,14 @@ start
 if (Votre hyperviseur supporte le déplacement/restauration à chaud de VM ?) then (oui)
     if (Vous avez du stockage distribué/répliqué ?) then (oui)
       :La réplication des données n’est pas à faire au niveau applicatif;
+      stop
     else (non)
       :Vous allez devoir gérer la réplication de vos données\nentre les 2 régions au niveau applicatif;
+      stop
     endif
 else (non)
   :Pas de bascule automatique,\nrisque d'indisponibilité\nPréférez 3 régions;
+  stop
 endif
-
-stop
 
 @enduml

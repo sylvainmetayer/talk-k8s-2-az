@@ -17,6 +17,7 @@ python3 -m http.server
 
 == Sources
 
+- https://etcd.io/docs/v3.5/op-guide/failures/#network-partition
 - https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
 - https://strimzi.io/docs/operators/latest/configuring.html
 - https://docs.rke2.io/datastore/backup_restore

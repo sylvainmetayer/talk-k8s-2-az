@@ -23,14 +23,18 @@ skinparam storage {
 
 package "Région B" as zoneB {
     node "Control Plane 2" as cp2
+    node "Worker 1" as wo1
+    node "Worker 2" as wo2
 }
 
 package "Région A" as zoneA {
     node "Control Plane 1" as cp1
+    node "Worker 3" as wo3
 }
 
 package "Voting Zone" as votingZone {
     node "CP / etcd 3" as etcd3
+' TODO Schématiser que pas de worker dans cette zone
 }
 
 @enduml

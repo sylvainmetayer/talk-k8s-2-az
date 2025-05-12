@@ -13,6 +13,11 @@ Maintenant que notre cluster est résilient sur deux régions, il est temps de s
 
 plantuml::diagrams/040-deploy-without-anti-affinity.puml[format=svg,id=040-without-anti-affinity]
 
+[.notes]
+****
+Pas de garantie de placement du pod (scheduler)
+****
+
 [%notitle]
 === Gestion des régions
 
@@ -20,7 +25,7 @@ plantuml::diagrams/040-deploy-with-anti-affinity.puml[format=svg,id=040-with-ant
 
 === Anti-affinité
 
-[source%linenums,yaml,highlight=6-8|10-15]
+[source%linenums,yaml,highlight=6-9]
 ----
 apiVersion: v1
 kind: Pod
@@ -30,13 +35,7 @@ spec:
   affinity:
     podAntiAffinity:
       requiredDuringSchedulingIgnoredDuringExecution:
-      - labelSelector:
-          matchExpressions:
-          - key: app.kubernetes.io/name
-            operator: In
-            values:
-            - my-app
-        topologyKey: topology.kubernetes.io/region
+      - topologyKey: topology.kubernetes.io/region
   containers: # [...]
 ----
 
@@ -54,7 +53,7 @@ Insister sur le fait que ici, c'est obligatoire et que le pod ne démarrera pas 
 apiVersion: v1
 kind: Pod
 metadata:
-  name: my-pod
+  name: my-bdd
 spec:
   affinity:
     podAffinity:
@@ -66,7 +65,7 @@ spec:
             - key: app.kubernetes.io/name
               operator: In
               values:
-              - my-app
+              - my-redis
           topologyKey: topology.kubernetes.io/region
   containers: # [...]
 ----
@@ -95,7 +94,7 @@ Pourrait être simple, si Stockage répliqué, mais ce n'est pas le cas du clien
 
 https://cloudnative-pg.io/
 
-[source%linenums,yaml,highlight=7-11]
+[source%linenums,yaml,highlight=2-3|7-11]
 ----
 ---
 apiVersion: postgresql.cnpg.io/v1
@@ -112,6 +111,8 @@ spec:
 
 [.notes]
 ****
+Focus sur CRD custom
+
 L'opérateur fait le travail, pour peu que l'on configure l'anti-affinité entre les régions
 
 Configuration de la CRD pour indiquer que l'on répartit les pods sur les deux régions et on indique que l'anti-affinité est obligatoire selon le nombre d'instances demandées.
