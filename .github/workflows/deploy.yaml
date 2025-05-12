@@ -43,6 +43,7 @@ jobs:
           cp -r reveal.js/plugin build/reveal.js/
           sed -i 's/var NUM_SERVERS = 5;/var NUM_SERVERS = 3;/' raftscope/raft.js
           cp -r raftscope build/
+          tree build/raftscope
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.7.3
