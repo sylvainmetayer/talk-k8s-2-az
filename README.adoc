@@ -10,6 +10,18 @@ Slides disponibles sur https://sylvainmetayer.github.io/talk-k8s-2-az/#/[Github 
 
 git submodule update --init --recursive
 
-docker compose up # exit 0
-python3 -m http.server # open localhost:8000
+docker compose up
+python3 -m http.server
+# open localhost:8000
 ----
+
+== Sources
+
+- https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
+- https://strimzi.io/docs/operators/latest/configuring.html
+- https://docs.rke2.io/datastore/backup_restore
+- https://etcd.io/docs/v3.5/op-guide/recovery/
+- https://kafka.apache.org/documentation/
+- https://strimzi.io/
+- https://learn.conduktor.io/kafka/kafka-topic-configuration-min-insync-replicas/#Overriding-Topic-Configuration-Defaults-2
+- https://cloudnative-pg.io/

@@ -20,9 +20,6 @@ plantuml::diagrams/040-deploy-with-anti-affinity.puml[format=svg,id=040-with-ant
 
 === Anti-affinité
 
-// [.qrcode]
-// qrcode::https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity[format="png", xdim=4,class=qrcode]
-
 [source%linenums,yaml,highlight=6-8|10-15]
 ----
 apiVersion: v1
@@ -51,9 +48,6 @@ Insister sur le fait que ici, c'est obligatoire et que le pod ne démarrera pas 
 ****
 
 === Affinité
-
-// [.qrcode]
-// qrcode::https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity[format="png", xdim=4]
 
 [source%linenums,yaml,highlight=6-8|10-17]
 ----
@@ -140,31 +134,6 @@ image::operator.webp[]
 Anecdote : si API K8S KO, l'opérateur ne peut plus mettre à jour le service pour élire le nouveau principal. En effet, l'opérateur cherche à mettre à jour un service pour indiquer que le pod postgres restant doit devenir le pod principal et tente de mettre à jour le service Kubernetes correspondant. cependant, si pas d'API k8s... Pas de mise à jour du service !
 ****
 
-// == Elasticsearch
-//
-// [.notes]
-// ****
-// Cas particulier : n'utilise pas raft pour l'election de reader
-//
-// Si on perd une région, on perd les données de cette région.
-// ****
-//
-// === Ça pourrait être simple
-//
-// [.notes]
-// ****
-// Voir opérateur Elastic doc
-// ****
-//
-// === Et si je ne peux pas utiliser l'opérateur ?
-//
-// [.notes]
-// ****
-// Helm chart bitnami
-//
-// Dans ce cas, on ne peut pas déployer 1 instance de chaque côté (car pair), 3 pas possible, car si on perds une région, on aura plus de quorum. 4, pas possible, car 2/2. 5 pas possible, car on se retrouvera à 2/3 et si on perds le 3, c'est mort. Du coup, on part sur 6 instances d'leastic, qui réduit le risque d'election de chacun et donc le cas nominal ne sera pas bloqué, et si on perds une région, on a toujours un quorum à 3 pour garantir une reprise.
-// ****
-
 [.columns]
 == Kafka
 
@@ -190,6 +159,8 @@ https://kafka.apache.org/documentation/#gettingStarted
 On déploie à l'aide d'un opérateur Strimzi, qui va nous permettre de gérer la réplication entre les régions.
 
 Cependant, il y a 2 cas de figures
+
+https://github.com/emeraldhieu/raft-consensus
 ****
 
 [.small-title]
@@ -206,6 +177,8 @@ Si vous êtes encore sous zookeeper, et bien déjà, sachez que vous ne pouvez p
 Pourquoi on a besoin de Zookeeper ? Parce que c'est lui qui gère les élections de leader entre les brokers. En effet, si on perd une région, il faut élire un nouveau leader, et pour cela, il faut que Zookeeper soit accessible. Ainsi, la consommation/production dans les topics n'est possible que si Zookeeper est disponible, car c'est lui qui indiquera au broker quelle est la partition leader.
 
 https://kafka.apache.org/documentation/
+
+Comment on fait dans ce cas ? On doit garantir la stabilité de notre zookeeper, et dans ce cas, s'assurer qu'il soit répartir sur les 2 régions, et en cas de crash de la région ou N/2-1, rétablir manuellement l'accès au service, via provisionnement d'un nouveau node zookeeper.
 ****
 
 [.small-title]
@@ -217,11 +190,8 @@ plantuml::diagrams/040-kafka.puml[format=svg,id=040-kafka,height=650px]
 ****
 Si vous avez déjà migré sur Kraft (ça vous rappelle quelques choses ?), vous ne devriez rien avoir à faire, si ce n'est faire attention à la configuration de vos topics, afin de s'assurer de la bonne réplications de vos données. En effet, l'election est géré par les brokers eux-mêmes et non plus par Zookeeper. Il n'y a donc plus de dépendance à Zookeeper pour l'élection des leaders, mais il faut tout de même s'assurer que les brokers sont bien répartis sur les deux régions.
 
-https://learn.conduktor.io/kafka/kafka-topic-configuration-min-insync-replicas/#Overriding-Topic-Configuration-Defaults-2
-
 Cependant, attention à la configuration applicative de vos topics, sinon, vous pourriez avoir un kafka certes disponible, mais les données de vos topics ne seront pas répliquées entre les deux régions.
 ****
-
 
 === ⚠️ Pensez à vos topics !
 

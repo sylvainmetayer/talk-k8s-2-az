@@ -88,6 +88,17 @@ Sinon une note sur la mécanique et explication orale uniquement.
 - conçu pour la compréhensibilité
 ****
 
+=== Raft - Consensus
+
+[.notes]
+****
+TOOD
+
+raft = consensus insister dessus qu'est-ce que c'est
+
+Schéma ?
+****
+
 [%notitle,background-iframe="{raftscope_url}"]
 === Démo
 
