@@ -1,7 +1,7 @@
 version: "3.8"
 services:
   asciidoctor:
-    image: asciidoctor/docker-asciidoctor:1.84
+    image: asciidoctor/docker-asciidoctor:1.87
     command: asciidoctor-revealjs -r asciidoctor-diagram index.adoc
     volumes:
       - .:/documents
