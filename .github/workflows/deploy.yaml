@@ -46,8 +46,6 @@ jobs:
           # https://github.com/JamesIves/github-pages-deploy-action?tab=readme-ov-file#required-setup
           # css is ignored, force delete
           find build/ -name .gitignore -delete
-          tree build/raftscope
-          tree raftscope
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4.7.3
