@@ -72,14 +72,14 @@ image::k8s-2az.png[background, size=fill]
 qrcode::https://sylvainmetayer.github.io/talk-k8s-2-az[height=300,alt='Slides',format="png", xdim=4]
 --
 
-[.column]
---
+// [.column]
+// --
 // link:https://sylvain.dev[*sylvain.dev*]
---
+// --
 
 [.column]
 --
 [caption=]
 .Openfeedback
-qrcode::https://openfeedback.io/cloud-toulouse-2025[height=300,alt='Vos retours',format="png", xdim=4]
+qrcode::https://openfeedback.io/cloud-toulouse-2025/0/noqFLsouCucbnVm6jbvf[height=300,alt='Vos retours',format="png", xdim=4]
 --

@@ -1,5 +1,6 @@
 @startuml
 autonumber
+hide footbox
 
 actor "Administrateur" as Admin
 participant "Backup/Snapshot" as Backup

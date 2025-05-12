@@ -1,4 +1,5 @@
 @startuml
+hide footbox
 actor Utilisateur
 autonumber
 participant "Control Plane\nRégion A" as CP_A
