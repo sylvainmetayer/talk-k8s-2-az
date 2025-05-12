@@ -23,8 +23,5 @@ images/030*.svg
 images/099*.svg
 images/diag-*
 
-code/demo-magic.sh
-code/secrets/*
-!code/secrets/.gitkeep
-
 highlight.js/
+!raftscope/bootstrap-slider/css/

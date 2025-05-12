@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 git submodule update --init --recursive
-tree raftscope/bootstrap-slider/
 curl -sLo code/demo-magic.sh https://raw.githubusercontent.com/paxtonhare/demo-magic/master/demo-magic.sh
 git clone https://github.com/hakimel/reveal.js --depth 1 --branch 5.0.5
 git clone https://github.com/denehyg/reveal.js-menu --depth 1 --branch 2.1.0 reveal.js/plugin/menu

@@ -43,6 +43,9 @@ jobs:
           cp -r reveal.js/plugin build/reveal.js/
           sed -i 's/var NUM_SERVERS = 5;/var NUM_SERVERS = 3;/' raftscope/raft.js
           cp -r raftscope build/
+          # https://github.com/JamesIves/github-pages-deploy-action?tab=readme-ov-file#required-setup
+          # css is ignored, force delete
+          find build/ -name .gitignore -delete
           tree build/raftscope
           tree raftscope
 
