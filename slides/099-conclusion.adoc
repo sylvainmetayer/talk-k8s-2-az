@@ -1,6 +1,6 @@
 == Kubernetes sur 2 régions, on y va ?
 
-plantuml::diagrams/099-conclusion.puml[format=svg,id=099-conclusion,height=500px]
+plantuml::diagrams/099-conclusion.puml[format=svg,id=099-conclusion]
 
 [.notes]
 ****
@@ -9,7 +9,7 @@ Conclusion : infra, redondance modèle étendu sur 2 sites, pas aussi simple que
 Résumé : cluster kube étendu sur deux sites, oui si bascule auto hyperviseur VM recovery du site A vers B et que vous ayez un stockage hyperconvergé. Sinon, pas forcément recommandé. ET dans ce cas, on fait quoi ? On a quelques alternatives possibles, selon votre client
 ****
 
-== Alternatives : Une troisième zone ?
+=== Alternatives : Une troisième zone ?
 
 plantuml::diagrams/099-3-zones.puml[format=svg,id=099-3-zones,height=300px]
 
@@ -21,7 +21,7 @@ Attention si votre distribution impose d’utiliser 3 CP, comme openshift, alors
 ****
 
 [.columns]
-== Alternatives : Du stockage distribué ?
+=== Alternatives : Du stockage distribué ?
 
 [.column]
 --
@@ -34,8 +34,7 @@ image::rook-logo.svg[height=100px]
 --
 .Longhorn
 [link=https://longhorn.io/,caption=]
-image::longhorn-logo.png[height=300px]
-// TODO logo noir
+image::longhorn-logo.png[]
 --
 
 [.notes]
@@ -46,14 +45,14 @@ Pourquoi on ne l'a pas fait ? Contraintes projet-client / hyperviseur qui devait
 ****
 
 [.columns]
-== Alternatives : Externaliser le stockage ?
+=== Alternatives : Externaliser le stockage ?
 
 [.notes]
 ****
 Utiliser un s3 managé, BDD managée, le stockage c'est galère à gérer, si c'est une contrainte majeure pour vous et que vous ne pouvez garantir la haute dispo, déléguez le.
 ****
 
-== Alternatives : Multi cluster
+=== Alternatives : Multi cluster
 
 plantuml::diagrams/099-multi-cluster.puml[format=svg,id=099-multi-cluster,height=500px]
 
@@ -62,7 +61,7 @@ plantuml::diagrams/099-multi-cluster.puml[format=svg,id=099-multi-cluster,height
 Multi cluster, et chaque cluster est sur sa zone. avec meta cluster en administration
 ****
 
-== Alternatives : Multi cluster
+=== Alternatives : Multi cluster
 
 [.notes]
 ****

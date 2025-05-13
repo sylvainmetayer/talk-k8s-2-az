@@ -21,18 +21,12 @@ Tech Lead
 // link:https://sylvain.dev[]
 --
 
-// [.column.is-one-fifths]
-// --
-// [.vertical-align-left,link=https://www.groupeonepoint.com/fr/]
-// image:logo.png[width=250]
-// --
-
 [.notes]
 ****
 Conteneur / k8s quotidien, stocke/interagit secrets appli
 ****
 
-== Merci aux sponsors
+=== Merci aux sponsors
 
 image::cloud-toulouse/sponsors.png[]
 

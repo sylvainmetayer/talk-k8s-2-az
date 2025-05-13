@@ -32,12 +32,12 @@ Cluster_Boundary(cluster, "Kubernetes Cluster") {
         KubernetesSvc(svc, "service", "")
 
         Cluster_Boundary(region1, "Région A") {
-            KubernetesNode(regionA, "", "")
+            'KubernetesNode(regionA, "", "")
             KubernetesPod(pod1, "frontend-1", "")
         }
 
         Cluster_Boundary(region2, "Région B") {
-            KubernetesNode(regionB, "", "")
+            'KubernetesNode(regionB, "", "")
             KubernetesPod(pod2, "frontend-2", "")
         }
 
@@ -47,11 +47,11 @@ Cluster_Boundary(cluster, "Kubernetes Cluster") {
 
 userAlias --> ingress: ""
 
-ingress -> svc: ""
+ingress --> svc: ""
 
-svc -> deploy: ""
+svc --> deploy: ""
 
-deploy --> pod1: ""
+deploy ---> pod1: ""
 deploy ---> pod2: ""
 
 @enduml

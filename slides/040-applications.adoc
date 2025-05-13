@@ -196,9 +196,6 @@ Cependant, attention à la configuration applicative de vos topics, sinon, vous 
 
 === ⚠️ Pensez à vos topics !
 
-[.qrcode]
-qrcode::https://strimzi.io/docs/operators/latest/configuring.html[format="png", xdim=4]
-
 [source,yaml%linenums,highlight=7-11]
 ----
 ---

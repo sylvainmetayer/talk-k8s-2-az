@@ -1,6 +1,6 @@
 @startuml kubernetes
 
-footer Déploiement avec des règles d'anti-affinité
+'footer Déploiement sans règles d'anti-affinité
 scale max 1024 width
 scale max 1080 height
 
@@ -30,13 +30,13 @@ Cluster_Boundary(cluster, "Kubernetes Cluster") {
         KubernetesSvc(svc, "service", "")
 
         Cluster_Boundary(region1, "Région A") {
-            KubernetesNode(regionA, "", "")
+            'KubernetesNode(regionA, "", "")
             KubernetesPod(pod1, "frontend-1", "")
             KubernetesPod(pod2, "frontend-2", "")
         }
 
         Cluster_Boundary(region2, "Région B") {
-            KubernetesNode(regionB, "", "")
+            'KubernetesNode(regionB, "", "")
         }
 
         KubernetesDeploy(deploy,"frontend","")
@@ -51,5 +51,6 @@ svc --> deploy: ""
 
 deploy ---> pod1: ""
 deploy ---> pod2: ""
+'deploy ..> region2: ""
 
 @enduml

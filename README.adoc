@@ -19,10 +19,10 @@ python3 -m http.server
 
 - https://etcd.io/docs/v3.5/op-guide/failures/#network-partition
 - https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity
-- https://strimzi.io/docs/operators/latest/configuring.html
 - https://docs.rke2.io/datastore/backup_restore
 - https://etcd.io/docs/v3.5/op-guide/recovery/
 - https://kafka.apache.org/documentation/
 - https://strimzi.io/
+- https://strimzi.io/docs/operators/latest/configuring.html#type-Rack-reference
 - https://learn.conduktor.io/kafka/kafka-topic-configuration-min-insync-replicas/#Overriding-Topic-Configuration-Defaults-2
 - https://cloudnative-pg.io/

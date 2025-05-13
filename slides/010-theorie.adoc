@@ -27,7 +27,7 @@ Pas toutes les fonctionnalités du cloud public, mais on est quand même sur un 
 ****
 
 [%notitle]
-== Deux régions
+=== Deux régions
 
 plantuml::diagrams/010-only-two-zones.puml[format=svg,id=010-only-two-zones,height=650]
 

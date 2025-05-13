@@ -1,5 +1,5 @@
 [%notitle]
-=== etcd
+== etcd
 
 [link=https://etcd.io/]
 image::etcd-horizontal-color.svg[]
@@ -19,14 +19,10 @@ image::raft-sticker.svg[]
 
 [.notes]
 ****
-TODO Ajout légende = faut que ça figure sur l'aspect election (N/2+1) = slide qu'est-ce que l'election ?
-
-TODO Ajouter un schéma ou 2 ? (GIF fonctionnement)
-
-TODO légende données committée / en attente d'évcritute (index.html à revoir)
+TODO Ajout légende = faut que ça figure sur l'aspect election (N/2+1) = slide qu'est-ce que l'élection ? Speaker notes à revoir > légende des données committées / en attente d'écriture (index.html à revoir)
 
 Algo de consensus implémenté dans etcd.
-Illustration : raftscope (en JS) ou schéma ?
+
 Sinon une note sur la mécanique et explication orale uniquement.
 - algo pour implémenter la réplication de logs
 - le système évolue/avance tant que la majorité des nœuds sont disponibles
@@ -81,7 +77,7 @@ plantuml::diagrams/030-etcd-netpart.puml[format=svg,id=030-etcd-netpart]
 
 https://etcd.io/docs/v3.5/op-guide/failures/#network-partition
 
-TODO contraintes partition / réseau / tabeau avantage/inconvénietn rapide
+TODO contraintes partition / réseau / tabeau avantage/inconvénietn rapide // Corriger le schéma !
 ****
 
 === Défaillance pendant l’initialisation

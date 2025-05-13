@@ -1,21 +1,23 @@
 @startmindmap
 
+top to bottom direction
+
 * Partition réseau - Cluster divisé
 ** Majorité indisponible
 *** Leader dans majorité
-**** etcd en lecture seule
+****[#orange] etcd en lecture seule
 ***** Retour de la majorité
-****** Résolution automatique
-***** Majorité HS
-****** Disaster recovery
+******[#green] Résolution automatique
+*****[#red] Majorité HS
+******[#red] Disaster recovery
 *** Leader dans minorité
 **** Leader retiré
-***** Nouveau leader élu dans la majorité
+*****[#green] Nouveau leader élu dans la majorité
 ** Minorité indisponible
 *** Leader dans majorité
-**** Leader reste leader
+****[#green] Leader reste leader
 *** Leader dans minorité
 **** Leader retiré
-***** Nouveau leader élu dans la majorité
+*****[#green] Nouveau leader élu dans la majorité
 
 @endmindmap
