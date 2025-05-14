@@ -1,5 +1,5 @@
 [#links.columns.small-title.transparency]
-= Un cluster Kubernetes sur deux sites, une simple histoire de disponibilité, non ?
+== Un cluster Kubernetes sur deux sites, une simple histoire de disponibilité, non ?
 
 image::k8s-2az.png[background, size=fill]
 
