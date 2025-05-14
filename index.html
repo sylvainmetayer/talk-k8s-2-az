@@ -453,10 +453,10 @@ Composant du cœur de k8s, qui contient la mémoire de k8s, et de tout ce qui es
 - algo pour implémenter la réplication de logs
 - le système évolue/avance tant que la majorité des nœuds sont disponibles
 - model d’erreur : fail-stop, delayed/lost messages
-- conçu pour la compréhensibilité</p></div></aside></div></section><section id="_raft_consensus" class="transparency" data-background-image="images/definitions.jpg" data-background-size="cover"><h2>Raft - Consensus</h2><div class="slide-content">
-<div class="dlist"><dl><dt class="hdlist1">Consensus, ~subst. masc.~</dt><dd><p>Accord de plusieurs personnes, de plusieurs textes dans un domaine déterminé</p></dd></dl></div>
+- conçu pour la compréhensibilité</p></div></aside></div></section><section id="_raft_consensus" class="transparency" data-background-image="images/definitions.jpg" data-background-size="cover"><div class="slide-content">
+<div class="dlist"><dl><dt class="hdlist1">Consensus, <sub>subst.</sub> <sub>masc.</sub></dt><dd><p>Accord de plusieurs personnes, de plusieurs textes dans un domaine déterminé</p></dd></dl></div>
 <div class="paragraph"><p><a href="https://cnrtl.fr/definition/consensus" class="bare">https://cnrtl.fr/definition/consensus</a></p></div>
-<aside class="notes"></aside></div></section><section id="_raft_consensus_2"><h2>Raft - Consensus</h2><div class="slide-content"><div id="030-raft-consensus" class="imageblock"><img src="images/030-raft-consensus.svg" alt="Diagram"></div>
+<aside class="notes"></aside></div></section><section id="_raft_consensus_2"><h2>Raft - Consensus</h2><div class="slide-content"><div id="030-raft-consensus" class="imageblock"><img src="images/030-raft-consensus.svg" alt="Diagram" height="300"></div>
 <aside class="notes"></aside></div></section><section id="_démo" data-background-iframe="https://sylvainmetayer.github.io/talk-k8s-2-az/raftscope/"><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://github.com/ongardie/raftscope.git" class="bare">https://github.com/ongardie/raftscope.git</a></p></div>
 <div class="paragraph"><p>scénario :
 1. Dès qu’un leader est élu, Request pour écrire
@@ -467,7 +467,7 @@ Composant du cœur de k8s, qui contient la mémoire de k8s, et de tout ce qui es
 6. Resume followers
 7. Request, et Stop leader avant consensus
 8. Time out sur un follower, dès élection Request
-9. Retour de l’ancien leader : il se met à jour</p></div></aside></div></section><section id="_network_partition"><h2>Network partition</h2><div class="slide-content"><div id="030-etcd-netpart" class="imageblock"><img src="images/030-etcd-netpart.svg" alt="Diagram"></div>
+9. Retour de l’ancien leader : il se met à jour</p></div></aside></div></section><section id="_network_partition"><h2>Network partition</h2><div class="slide-content"><div id="030-etcd-netpart" class="imageblock"><img src="images/030-etcd-netpart.svg" alt="Diagram" height="450"></div>
 <aside class="notes"><div class="paragraph"><p># Partition Réseau
 - <strong>Description</strong> : Une partition réseau divise un cluster etcd en deux parties : une majorité et une minorité de membres.
 - <strong>Absence de "Split-brain"</strong> : etcd évite le phénomène de "split-brain" car les membres du cluster sont explicitement ajoutés ou retirés avec l&#8217;approbation de la majorité actuelle.
