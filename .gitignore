@@ -5,6 +5,7 @@ target
 .DS_Store
 reveal.js/
 *.html
+!links.html
 .asciidoctor
 !index-docinfo-footer.html
 js/highlight/
