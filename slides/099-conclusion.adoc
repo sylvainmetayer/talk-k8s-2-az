@@ -58,15 +58,18 @@ plantuml::diagrams/099-multi-cluster.puml[format=svg,id=099-multi-cluster,height
 
 [.notes]
 ****
-Multi cluster, et chaque cluster est sur sa zone. avec meta cluster en administration
+Multi cluster, chaque cluster est sur sa zone : chacun chez soit, à vous de gérer la répartition des applications dans vos CD
 ****
 
-=== Alternatives : Multi cluster
+=== Alternatives : Multi cluster federation
+
+plantuml::diagrams/099-multi-cluster_federated.puml[format=svg,id=099-multi-cluster-federated,height=500px]
 
 [.notes]
 ****
-TODO Nico - Logo / Alternatives / autres ? rancher / rajout slides name drop et un peu de détail
+Avec un fédérateur en amont des clusters. Plusieurs solutions sur le marché, dont l’API k8s ....
 
+/!\ ne pas mentionner les solutions, les garder pour QA ou discussions ultérieures.
 GCP Anthos / redhat advanced cluster management / submariner spinacher multi cluster
 ****
 

@@ -2,22 +2,35 @@
 
 top to bottom direction
 
-* Partition réseau - Cluster divisé
-** Majorité indisponible
+* Partition réseau - Cluster divisé (3 membres)
+** Majorité indisponible (1 membre)
 *** Leader dans majorité
-****[#orange] etcd en lecture seule
-***** Retour de la majorité
-******[#green] Résolution automatique
-*****[#red] Majorité HS
-******[#red] Disaster recovery
-*** Leader dans minorité
-**** Leader retiré
-*****[#green] Nouveau leader élu dans la majorité
-** Minorité indisponible
+****[#orange]: Perte du consensus, nouvelle élection impossible
+  etcd bloqué en lecture seule sans leader
+  ;
+******[#green]: Retour de la majorité (3 membres)
+  Retour du consensus : résolution automatique
+  ;
+
+******[#red] Majorité HS : disaster recovery
+
+*** Leader dans minorité (1 membre)
+**** Perte du consensus, pas de nouvelle élection
+  etcd bloqué en lecture seule avec leader
+  ;
+****** Retour de la majorité (3 membres)
+*******[#green] Retour de la majorité (3 membres)
+  Retour du consensus : résolution automatique
+  ;
+
+******[#red] Majorité HS : disaster recovery
+
+** Minorité indisponible (2 membres)
 *** Leader dans majorité
-****[#green] Leader reste leader
+****[#green] Consensus conservé, pas de nouvelle élection
+
 *** Leader dans minorité
-**** Leader retiré
+****[#green] Consensus conservé et nouvelle élection
 *****[#green] Nouveau leader élu dans la majorité
 
 @endmindmap
