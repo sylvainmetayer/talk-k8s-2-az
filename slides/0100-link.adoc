@@ -7,31 +7,31 @@ image::k8s-2az.png[background, size=fill]
 --
 [caption=]
 .Sylvain
-link:https://linkedin.com/in/sylvainmetayer[qrcode::https://linkedin.com/in/sylvainmetayer[format="png", xdim=4]]
+link:https://linkedin.com/in/sylvainmetayer[image:linkedin.png[alt="Linkedin Sylvain",width=100]]
 
 [caption=]
 .Nicolas
-link:https://linkedin.com/in/nicolastrauwaen[qrcode::https://linkedin.com/in/nicolastrauwaen[format="png", xdim=4]]
+link:https://linkedin.com/in/nicolastrauwaen[image:linkedin.png[alt="linkedin Nicolas",width=100]]
 --
 
 [.column]
 --
 [caption=]
 .Slides
-link:https://sylvainmetayer.github.io/talk-k8s-2-az[qrcode::https://sylvainmetayer.github.io/talk-k8s-2-az[format="png", xdim=4]]
+link:https://sylvainmetayer.github.io/talk-k8s-2-az[image:favico.ico[alt="Slides"]]
 
 [caption=]
 .Openfeedback
-link:https://openfeedback.io/cloud-toulouse-2025/0/noqFLsouCucbnVm6jbvf[qrcode::https://openfeedback.io/cloud-toulouse-2025/0/noqFLsouCucbnVm6jbvf[format="png", xdim=4]]
+link:https://openfeedback.io/cloud-toulouse-2025/0/noqFLsouCucbnVm6jbvf[image:openfeedback.png[alt="openfeedback"]]
 --
 
 [.column]
 --
 [caption=]
 .Github
-link:https://github.com/sylvainmetayer/talk-k8s-2-az/[qrcode::https://github.com/sylvainmetayer/talk-k8s-2-az/[format="png", xdim=4]]
+link:https://github.com/sylvainmetayer/talk-k8s-2-az/[image:github.svg[alt="Github"]]
 
 [caption=]
 .onepoint
-link:https://www.groupeonepoint.com/fr/[qrcode::https://www.groupeonepoint.com/fr/[format="png", xdim=4]]
+link:https://www.groupeonepoint.com/fr/[image:logo.png[alt="onepoint"]]
 --
