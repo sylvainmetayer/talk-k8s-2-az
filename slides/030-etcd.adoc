@@ -32,12 +32,12 @@ Sinon une note sur la mécanique et explication orale uniquement.
 - conçu pour la compréhensibilité
 ****
 
-[.transparency]
+[.transparency%notitle]
 === Raft - Consensus
 
 image::definitions.jpg[background,size=cover]
 
-Consensus, ~subst. masc.~:: Accord de plusieurs personnes, de plusieurs textes dans un domaine déterminé
+Consensus, ~subst.~ ~masc.~:: Accord de plusieurs personnes, de plusieurs textes dans un domaine déterminé
 
 https://cnrtl.fr/definition/consensus
 
@@ -48,7 +48,7 @@ https://cnrtl.fr/definition/consensus
 
 === Raft - Consensus
 
-plantuml::diagrams/030-raft-consensus.puml[format=svg,id=030-raft-consensus]
+plantuml::diagrams/030-raft-consensus.puml[format=svg,id=030-raft-consensus,height=300]
 
 [.notes]
 ****
@@ -76,7 +76,7 @@ scénario :
 
 === Network partition
 
-plantuml::diagrams/030-etcd-netpart.puml[format=svg,id=030-etcd-netpart]
+plantuml::diagrams/030-etcd-netpart.puml[format=svg,id=030-etcd-netpart,height=450]
 
 [.notes]
 ****

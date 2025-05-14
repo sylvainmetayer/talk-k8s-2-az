@@ -6,8 +6,8 @@ skinparam component {
     FontColor #326ce5
 }
 
-package "Cluster federater" {
-    [Node0] as kubefed
+package "Cluster Manager" {
+    [ ] as kubefed
 }
 
 package "Région 1" {
@@ -26,8 +26,8 @@ package "Région 2" {
     k8s2 -down-> n4
 }
 
-kubefed -> k8s1
-kubefed -> k8s2
+kubefed --> k8s1
+kubefed --> k8s2
 k8s1 <-> k8s2
 
 @enduml
