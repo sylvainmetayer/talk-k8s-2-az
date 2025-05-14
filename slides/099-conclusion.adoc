@@ -81,8 +81,8 @@ image::k8s-2az.png[background, size=fill]
 [.column]
 --
 [caption=]
-.Liens
-qrcode::{links_url}[height=300,alt='Slides',format="png", xdim=4]
+.Liens {base_url}{links_url}
+qrcode::{base_url}{links_url}[height=300,alt='Slides',format="png", xdim=4]
 --
 
 // [.column]

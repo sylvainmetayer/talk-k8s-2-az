@@ -1,4 +1,6 @@
 = Un cluster Kubernetes sur deux sites, une simple histoire de disponibilité, non ?
+:revealjs_fragmentInURL: true
+:base_url: http://localhost:8080
 :raftscope_url: /raftscope
 :links_url: /#/links
 :docinfo: private
@@ -22,7 +24,7 @@
 :stylesdir: css
 :customcss: css/meetup.css
 :imagesdir: images
-:revealjs_totalTime: 15*60
+:revealjs_totalTime: 45*60
 :revealjs_defaultTiming: 60
 :tip-caption: 💡
 :important-caption: 📌

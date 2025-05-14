@@ -33,7 +33,7 @@ jobs:
           run: |
             gem install asciidoctor-revealjs --pre
             sed -i 's,^:raftscope_url: .*,:raftscope_url: https://sylvainmetayer.github.io/talk-k8s-2-az/raftscope/,' index.adoc
-            sed -i 's,^:links_url: .*,:links_url: https://sylvainmetayer.github.io/talk-k8s-2-az/#/links,' index.adoc
+            sed -i 's,^:base_url: .*,:base_url: https://sylvainmetayer.github.io,' index.adoc
             asciidoctor-revealjs -r asciidoctor-diagram /documents/index.adoc
 
       - name: Copy build to folder 📦
