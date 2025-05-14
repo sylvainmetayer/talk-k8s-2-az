@@ -48,7 +48,10 @@ image::definitions.jpg[background,size=cover]
 Afin de s'assurer que l'on parle de la même chose durant cette présentation.
 ****
 
+[.transparency]
 === Haute Disponibilité
+
+image::definitions.jpg[background,size=cover]
 
 plantuml::diagrams/010-haute-dispo.puml[format=svg,id=010-haute-dispo,width=600]
 
@@ -57,7 +60,10 @@ plantuml::diagrams/010-haute-dispo.puml[format=svg,id=010-haute-dispo,width=600]
 Capacité à accéder à la plateforme au moment où on le souhaite, redondance = panne sur un premier site pour permettre l'accès, notion de haute dispo, différentes stratégies (actif/passif avec sauvegarde ou miroir, actif/actif avec partage de charge, etc.)
 ****
 
+[.transparency]
 === Stretched cluster
+
+image::definitions.jpg[background,size=cover]
 
 plantuml::diagrams/010-contexte.puml[format=svg,id=010-contexte,height=500px]
 
@@ -68,7 +74,10 @@ Terminologie : pour les contextes dont nous allons parler, nous sommes partis su
 Répartition charge - Partage de ressources (pool) sur les 2 sites. En cas de panne, le second peut récupérer charge du premier site et assurer service A
 ****
 
+[.transparency]
 === Control Plane
+
+image::definitions.jpg[background,size=cover]
 
 [link=https://kubernetes.io/docs/concepts/overview/components/]
 image::kubernetes-components.svg[]
