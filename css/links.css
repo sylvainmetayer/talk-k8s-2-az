@@ -37,15 +37,6 @@ header {
         margin: 5%;
     }
 
-    .raton {
-        position: fixed;
-        bottom: 0;
-        width: 100vw;
-        left: 0;
-        z-index: -100;
-    }
-
-
     .bulle {
         width: 90%;
         height: auto;
