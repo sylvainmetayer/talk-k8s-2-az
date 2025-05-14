@@ -3,25 +3,22 @@
 
 [.column]
 --
-[link=https://en.m.wikipedia.org/wiki/File:Kubernetes_logo_without_workmark.svg]
-image::kubernetes-logo.svg[width=300]
---
-
-[.column]
---
 [link=https://fr.wikipedia.org/wiki/VMware#/media/Fichier:Vmware-by-broadcom.svg]
 image::vmware-logo.svg[width=300]
+[link=https://en.m.wikipedia.org/wiki/File:Kubernetes_logo_without_workmark.svg]
+image::kubernetes-logo.svg[width=200]
 --
 
 [.column]
 --
 [link=https://www.nutanix.com/content/dam/nutanix/global/media-resources/nutanix-logo-charcoal-gray.svg]
 image::nutanix-logo-charcoal-gray.svg[width=300]
+image::openshift-logo.svg[width=200]
 --
 
 [.notes]
 ****
-On fait du Kube on prem sur un hyperviseur : VMware, Nutanix
+On fait du Kube ou du openshift on prem sur un hyperviseur : VMware, Nutanix
 
 Pas toutes les fonctionnalités du cloud public, mais on est quand même sur un environnement virtualisé, et on va pouvoir s'appuyer dessus.
 ****
@@ -33,14 +30,12 @@ plantuml::diagrams/010-only-two-zones.puml[format=svg,id=010-only-two-zones,heig
 
 [.notes]
 ****
-On fait du Kube on prem, sur 2 régions. Ce sont les types de projets sur lesquels nous sommes intervenus.
+On est sur 2 régions, ce sont les types de projets sur lesquels nous sommes intervenus, et il nous faut de la haute dispo.
 
-Vous êtes en charge de mettre en place et maintenir un cluster Kubernetes. Il faut de la haute disponibilité. Vous n’avez que deux sites géographiques pour l’assurer.
-
-Quoi ? Les recommandations parlent de __trois sites__ ?
+En général, les recommandations parlent de __trois sites__ ?
 Ça fait des années qu’on fait de la redondance avec deux sites, __au diable les recommandations !__ Ça va bien se passer.
 
-A travers nos expériences, découvrons ensemble les problèmes rencontrés, les solutions envisagées et mises en œuvre, tant au niveau administration du cluster, qu'au niveau applicatif.
+Objectif => découvrir les problèmes rencontrés, les solutions envisagées et mises en œuvre, tant au niveau administration du cluster, qu'au niveau applicatif.
 ****
 
 [%notitle]

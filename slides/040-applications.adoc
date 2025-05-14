@@ -23,6 +23,11 @@ Pas de garantie de placement du pod (scheduler)
 
 plantuml::diagrams/040-deploy-with-anti-affinity.puml[format=svg,id=040-with-anti-affinity,height=650px]
 
+[.notes]
+****
+Etat désiré, un pod par région
+****
+
 === Anti-affinité
 
 [source%linenums,yaml,highlight=6-9]
@@ -90,9 +95,7 @@ Parfois, nous dépendons d'opérateurs k8s, qui ont parfois leurs particularité
 Pourrait être simple, si Stockage répliqué, mais ce n'est pas le cas du client = 2 zones stockage par région, mais pas de réplication entre les régions > il faut gérer la réplication des données au niveau applicatif. Du coup, nos PVC ne sont pas répliqués entre les régions et il faut gérer cela au niveau applicatif.
 ****
 
-== PostgreSQL
-
-https://cloudnative-pg.io/
+== PostgreSQL (CNPG)
 
 [source%linenums,yaml,highlight=2-3|7-11]
 ----
@@ -165,15 +168,13 @@ https://github.com/emeraldhieu/raft-consensus
 ****
 
 [.small-title]
-=== Si vous êtes à la bourre... ⌚
+=== Avant la version 4
 
 plantuml::diagrams/040-kafka-zookeeper.puml[format=svg,id=040-kafka-zookeeper,height=650px]
 
 [.notes]
 ****
 Si vous êtes encore sous zookeeper, et bien déjà, sachez que vous ne pouvez plus mettre à jour vers de nouvelles versions, car Kraft est le mode par défaut pour les éléctions de leader.
-
-**⚠️ Depuis Kafka 4.0, le mode de fonctionnement par défaut est Kraft (Kafka Raft). Il n'y a plus de fonctionnement possible avec Zookeeper ⚠️**
 
 Pourquoi on a besoin de Zookeeper ? Parce que c'est lui qui gère les élections de leader entre les brokers. En effet, si on perd une région, il faut élire un nouveau leader, et pour cela, il faut que Zookeeper soit accessible. Ainsi, la consommation/production dans les topics n'est possible que si Zookeeper est disponible, car c'est lui qui indiquera au broker quelle est la partition leader.
 
@@ -183,12 +184,14 @@ Comment on fait dans ce cas ? On doit garantir la stabilité de notre zookeeper,
 ****
 
 [.small-title]
-=== Et si je suis à jour ?
+=== À partir de la version 4
 
 plantuml::diagrams/040-kafka.puml[format=svg,id=040-kafka,height=650px]
 
 [.notes]
 ****
+**⚠️ Depuis Kafka 4.0, le mode de fonctionnement par défaut est Kraft (Kafka Raft). Il n'y a plus de fonctionnement possible avec Zookeeper ⚠️**
+
 Si vous avez déjà migré sur Kraft (ça vous rappelle quelques choses ?), vous ne devriez rien avoir à faire, si ce n'est faire attention à la configuration de vos topics, afin de s'assurer de la bonne réplications de vos données. En effet, l'election est géré par les brokers eux-mêmes et non plus par Zookeeper. Il n'y a donc plus de dépendance à Zookeeper pour l'élection des leaders, mais il faut tout de même s'assurer que les brokers sont bien répartis sur les deux régions.
 
 Cependant, attention à la configuration applicative de vos topics, sinon, vous pourriez avoir un kafka certes disponible, mais les données de vos topics ne seront pas répliquées entre les deux régions.
@@ -215,8 +218,7 @@ spec:
 ****
 Activer la sélection basée sur les racks : RackAwareReplicaSelector dans replica.selector.class. Cela garantit que Kafka essaiera de placer les réplicas sur des racks (ou régions) différents.
 
-Même problématique que API K8S = 2/1 ou 3/0 ? Pas possible de faire du 3/0, si on perd la mauvaise région, on perd tout. On va donc préférer avoir 2 kafka sur chaque région, et assurer une réplication minimum de 2 pour chaque message dans les topics, afin de s'assurer d'avoir une copie du message dans chaque région.
-
+Le min in sync va permettre de dire qu'on veut un 2 copie du message avant d'accquitter la reception
 
 https://github.com/orgs/strimzi/discussions/11012
 ****

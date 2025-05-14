@@ -6,12 +6,6 @@ plantuml::diagrams/030-mono-cp-1.puml[format=svg,id=030-mono-cp-1]
 [.notes]
 ****
 1 control plane pour notre cluster, 1 vm CP sur un des 2 sites. En cas de besoin, on déplace/restaure automatiquement la VM de l'autre côté
-
-Attention, en cas d'indispo, plus de control plane, donc pas d'API, pas de scheduler. On ne peut donc plus faire grand chose sur notre cluster. Il faut garder en tête que les applications/opérateur kubernetes ne seront donc potentiellement pas disponible.
-
-Redondance à la VMWare (VRA ??) snapshot de la VM, on remonte de l'autre côté
-
-Présenter 3/0, sans parler d'ETCD RAFt, et besoin de CP sur les 2 côtés pour API haute dispo car opérateur qui met à jour services / pas de bascule auto VMWare car pas licence pour mon projet et aç créé problème supplémentaire, car mes opérateurs ne peuvent pas metre à jour les services / ...
 ****
 
 [%auto-animate.is-full.no-transition]
@@ -21,9 +15,9 @@ plantuml::diagrams/030-mono-cp-2.puml[format=svg,id=030-mono-cp-2]
 
 [.notes]
 ****
-mono CP. 1 control plane pour notre cluster, 1 vm CP sur un des 2 sites. Redondacne à la VMWare (VRA ??) snapshot de la VM, on remonte de l'autre côté
+Attention, en cas d'indispo, plus de control plane, donc pas d'API, pas de scheduler. On ne peut donc plus faire grand chose sur notre cluster. Il faut garder en tête que les applications/opérateur kubernetes ne seront donc potentiellement pas disponible.
 
-Présenter 3/0, sans parler d'ETCD RAFt, et besoin de CP sur les 2 côtés pour API haute dispo car opérateur qui met à jour services / pas de bascule auto VMWare car pas licence pour mon projet et aç créé problème supplémentaire, car mes opérateurs ne peuvent pas metre à jour les services / ...
+mono CP. 1 control plane pour notre cluster, 1 vm CP sur un des 2 sites. Redondacne à la VMWare (VRA ??) snapshot de la VM, on remonte de l'autre côté
 ****
 
 [%auto-animate.is-full.no-transition]
@@ -33,30 +27,20 @@ plantuml::diagrams/030-mono-cp-3.puml[format=svg,id=030-mono-cp-3]
 
 [.notes]
 ****
+Sylvain : Attention à ce que la bascule soit automatique via votre hyperviseur, il nous est arrivé d'avoir le cas ou la bascule nécessitait une intervention manuelle car la licence ne permettait pas de restaurer les VMs entre 2 régions, et dans ce cas, tant que la bascule n'est pas faite, votre service est perdu. Dans l'idée, on voudrait plutôt avoir plusieurs control plane pour pouvoir garantir qu'en cas de panne, le service puisse continuer d'être rendu.
+
 mono CP. 1 control plane pour notre cluster, 1 vm CP sur un des 2 sites. Redondacne à la VMWare (VRA ??) snapshot de la VM, on remonte de l'autre côté
 
-Présenter 3/0, sans parler d'ETCD RAFt, et besoin de CP sur les 2 côtés pour API haute dispo car opérateur qui met à jour services / pas de bascule auto VMWare car pas licence pour mon projet et aç créé problème supplémentaire, car mes opérateurs ne peuvent pas metre à jour les services / ...
 ****
 
-[%auto-animate.is-full.columns]
+[%auto-animate.is-full]
 == Multi Control Plane
 
-[.column.is-four-fifths]
---
 plantuml::diagrams/030-multi-cp.puml[format=svg,id=030-multi-cp]
---
-
-[.column]
---
-image::openshift-logo.svg[width=100]
---
 
 [.notes]
 ****
 En théorie, la mécanique reste la même : on bascule nos 3 control planes sur la région B. On a donc 3 control planes sur la région B.
-
-
-Bon, bah on va faire du 2/1, ça doit être possible ? Qu'est-ce qu'il y a derrière ce fameux control plane qui nous en empêche de faire ça ? Voyons ça !
 ****
 
 [%notitle]
@@ -68,5 +52,7 @@ video::c-est-pas-sorcier.mp4[width=900,options=autoplay,loop]
 ****
 ==> Attention, moi j'ai besoin d'avoir l'API disponible en continu, j'ai des opérateurs qui dépendent de l'API k8s ! Ca sert à rien ton truc de déplacer 3 nodes d'une même région, j'aurai le même downtime ?
 
-Cas ou hyperviseur ne gère pas déplacement à chaud, pas pratique et produit une indispo. Et pendant ce temps, les applications ne peuvent pas forcément être disponible. Donc, un seul CP ou 3 CP sur la mếmé région, sans hyperviseur capable de déplacer/restaurer les VMs à chaud, c'est pas vraiment la solution ?
+Si on perds la région ou sont nos CP, plus rien pendant que ça remonte. Et pendant ce temps, les applications ne peuvent pas forcément être disponible. Donc, un seul CP ou 3 CP sur la mếmé région, sans hyperviseur capable de déplacer/restaurer les VMs à chaud, c'est pas vraiment la solution ?
+
+Bon, bah on va faire du 2/1, ça doit être possible ? Qu'est-ce qu'il y a derrière ce fameux control plane qui nous en empêche de faire ça ? Voyons ça !
 ****

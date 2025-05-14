@@ -9,7 +9,7 @@ image::etcd-xkcd-2347.webp[]
 [.notes]
 ****
 Base clé-valeurs distribuée, créé par CoreOS en 2013, puis passé dans le giron de la CNCF depuis 2018.
-Composant du cœur de k8s
+Composant du cœur de k8s, qui contient la mémoire de k8s, et de tout ce qui est enregistré dedans
 ****
 
 === Raft consensus algorithm
@@ -21,6 +21,8 @@ image::raft-sticker.svg[]
 ****
 TODO Ajout légende = faut que ça figure sur l'aspect election (N/2+1) = slide qu'est-ce que l'élection ? Speaker notes à revoir > légende des données committées / en attente d'écriture (index.html à revoir)
 
+raft = consensus insister dessus qu'est-ce que c'est
+
 Algo de consensus implémenté dans etcd.
 
 Sinon une note sur la mécanique et explication orale uniquement.
@@ -28,17 +30,6 @@ Sinon une note sur la mécanique et explication orale uniquement.
 - le système évolue/avance tant que la majorité des nœuds sont disponibles
 - model d’erreur : fail-stop, delayed/lost messages
 - conçu pour la compréhensibilité
-****
-
-=== Raft - Consensus
-
-[.notes]
-****
-TOOD
-
-raft = consensus insister dessus qu'est-ce que c'est
-
-Schéma ?
 ****
 
 [%notitle,background-iframe="{raftscope_url}"]
@@ -96,6 +87,8 @@ plantuml::diagrams/030-recovery-1.puml[format=svg,id=030-recovery-1]
 [.notes]
 ****
 Importance d'avoir des sauvegardes, et pas uniquement sur le node !
+
+Recovery : ETCD crash, comment on récupère ? Snapshot d'une dernière VM / soit backup ETCD (avec recréation d'un nouveau quorum mono et intégration des autres membres)
 ****
 
 [.is-full.no-transition]
@@ -107,6 +100,7 @@ plantuml::diagrams/030-recovery-2.puml[format=svg,id=030-recovery-2]
 ****
 Phase de nettoyage : on supprime les données de l'ETCD avant de le réintégrer dans le cluster, sinon, il ne pourra pas se réintégrer au quorum en tant que nouveau membre
 
+On précise que l'on doit supprimer les données de l'ETCD encore disponible avant de le réintégrer dans le cluster, sinon, il ne pourra pas se réintégrer au quorum en tant que nouveau membre
 ****
 
 [.is-full.no-transition]
@@ -127,8 +121,4 @@ plantuml::diagrams/030-recovery-4.puml[format=svg,id=030-recovery-4]
 [.notes]
 ****
 Ajout des autres nodes + vérification
-
-Recovery : ETCD crash, comment on récupère ? Snapshot d'une dernière VM / soit backup ETCD (avec recréation d'un nouveau quorum mono et intégration des autres membres)
-
-On précise que l'on doit supprimer les données de l'ETCD encore disponible avant de le réintégrer dans le cluster, sinon, il ne pourra pas se réintégrer au quorum en tant que nouveau membre
 ****
