@@ -18,18 +18,18 @@ link:https://linkedin.com/in/nicolastrauwaen[image:linkedin.png[alt="linkedin Ni
 --
 [caption=]
 .Slides
-link:https://sylvainmetayer.github.io/talk-k8s-2-az[image:favico.ico[alt="Slides"]]
+link:https://sylvainmetayer.github.io/talk-k8s-2-az[image:slides.svg[alt="Slides",height=100]]
 
 [caption=]
-.Openfeedback
-link:https://openfeedback.io/cloud-toulouse-2025/0/noqFLsouCucbnVm6jbvf[image:openfeedback.png[alt="openfeedback"]]
+.Github
+link:https://github.com/sylvainmetayer/talk-k8s-2-az/[image:github.svg[alt="Github"]]
 --
 
 [.column]
 --
 [caption=]
-.Github
-link:https://github.com/sylvainmetayer/talk-k8s-2-az/[image:github.svg[alt="Github"]]
+.Openfeedback
+link:https://openfeedback.io/cloud-toulouse-2025/0/noqFLsouCucbnVm6jbvf[image:openfeedback.png[alt="openfeedback",width=300]]
 
 [caption=]
 .onepoint
