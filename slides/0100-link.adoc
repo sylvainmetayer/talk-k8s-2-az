@@ -1,0 +1,37 @@
+[#links.columns.small-title.transparency]
+= Un cluster Kubernetes sur deux sites, une simple histoire de disponibilité, non ?
+
+image::k8s-2az.png[background, size=fill]
+
+[.column]
+--
+[caption=]
+.Sylvain
+link:https://linkedin.com/in/sylvainmetayer[qrcode::https://linkedin.com/in/sylvainmetayer[format="png", xdim=4]]
+
+[caption=]
+.Nicolas
+link:https://linkedin.com/in/nicolastrauwaen[qrcode::https://linkedin.com/in/nicolastrauwaen[format="png", xdim=4]]
+--
+
+[.column]
+--
+[caption=]
+.Slides
+link:https://sylvainmetayer.github.io/talk-k8s-2-az[qrcode::https://sylvainmetayer.github.io/talk-k8s-2-az[format="png", xdim=4]]
+
+[caption=]
+.Openfeedback
+link:https://openfeedback.io/cloud-toulouse-2025/0/noqFLsouCucbnVm6jbvf[qrcode::https://openfeedback.io/cloud-toulouse-2025/0/noqFLsouCucbnVm6jbvf[format="png", xdim=4]]
+--
+
+[.column]
+--
+[caption=]
+.Github
+link:https://github.com/sylvainmetayer/talk-k8s-2-az/[qrcode::https://github.com/sylvainmetayer/talk-k8s-2-az/[format="png", xdim=4]]
+
+[caption=]
+.onepoint
+link:https://www.groupeonepoint.com/fr/[qrcode::https://www.groupeonepoint.com/fr/[format="png", xdim=4]]
+--

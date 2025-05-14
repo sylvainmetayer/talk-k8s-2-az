@@ -78,8 +78,8 @@ image::k8s-2az.png[background, size=fill]
 [.column]
 --
 [caption=]
-.Slides
-qrcode::https://sylvainmetayer.github.io/talk-k8s-2-az[height=300,alt='Slides',format="png", xdim=4]
+.Liens
+qrcode::{links_url}[height=300,alt='Slides',format="png", xdim=4]
 --
 
 // [.column]
