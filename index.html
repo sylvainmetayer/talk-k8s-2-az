@@ -453,7 +453,11 @@ Composant du cœur de k8s, qui contient la mémoire de k8s, et de tout ce qui es
 - algo pour implémenter la réplication de logs
 - le système évolue/avance tant que la majorité des nœuds sont disponibles
 - model d’erreur : fail-stop, delayed/lost messages
-- conçu pour la compréhensibilité</p></div></aside></div></section><section id="_démo" data-background-iframe="https://sylvainmetayer.github.io/talk-k8s-2-az/raftscope/"><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://github.com/ongardie/raftscope.git" class="bare">https://github.com/ongardie/raftscope.git</a></p></div>
+- conçu pour la compréhensibilité</p></div></aside></div></section><section id="_raft_consensus" class="transparency" data-background-image="images/definitions.jpg" data-background-size="cover"><h2>Raft - Consensus</h2><div class="slide-content">
+<div class="dlist"><dl><dt class="hdlist1">Consensus, ~subst. masc.~</dt><dd><p>Accord de plusieurs personnes, de plusieurs textes dans un domaine déterminé</p></dd></dl></div>
+<div class="paragraph"><p><a href="https://cnrtl.fr/definition/consensus" class="bare">https://cnrtl.fr/definition/consensus</a></p></div>
+<aside class="notes"></aside></div></section><section id="_raft_consensus_2"><h2>Raft - Consensus</h2><div class="slide-content"><div id="030-raft-consensus" class="imageblock"><img src="images/030-raft-consensus.svg" alt="Diagram"></div>
+<aside class="notes"></aside></div></section><section id="_démo" data-background-iframe="https://sylvainmetayer.github.io/talk-k8s-2-az/raftscope/"><div class="slide-content"><aside class="notes"><div class="paragraph"><p><a href="https://github.com/ongardie/raftscope.git" class="bare">https://github.com/ongardie/raftscope.git</a></p></div>
 <div class="paragraph"><p>scénario :
 1. Dès qu’un leader est élu, Request pour écrire
 2. Stop follower
@@ -463,7 +467,60 @@ Composant du cœur de k8s, qui contient la mémoire de k8s, et de tout ce qui es
 6. Resume followers
 7. Request, et Stop leader avant consensus
 8. Time out sur un follower, dès élection Request
-9. Retour de l’ancien leader : il se met à jour</p></div></aside></div></section><section id="_network_partition"><h2>Network partition</h2><div class="slide-content"><div id="030-etcd-netpart" class="imageblock"><img src="images/030-etcd-netpart.svg" alt="Diagram"></div>
+9. Retour de l’ancien leader : il se met à jour</p></div></aside></div></section><section id="_network_partition"><h2>Network partition</h2><div class="slide-content"><div id="030-etcd-netpart" class="listingblock"><div class="content"><pre>Failed to generate image: PlantUML preprocessing failed: [From &lt;input&gt; (line 13) ]
+
+@startmindmap
+
+top to bottom direction
+
+* Partition réseau - Cluster divisé (3 membres)
+** Majorité indisponible (1 membre)
+*** Leader dans majorité
+****[#orange]: Perte du consensus, nouvelle élection impossible
+  etcd bloqué en lecture seule sans leader
+  ;
+******[#green]: Retour de la majorité (3 membres)
+  Retour du consensus : résolution automatique
+  ;
+^^^^^
+ error42L (Assumed diagram type: mindmap)
+
+@startmindmap
+
+top to bottom direction
+
+* Partition réseau - Cluster divisé (3 membres)
+** Majorité indisponible (1 membre)
+*** Leader dans majorité
+****[#orange]: Perte du consensus, nouvelle élection impossible
+  etcd bloqué en lecture seule sans leader
+  ;
+******[#green]: Retour de la majorité (3 membres)
+  Retour du consensus : résolution automatique
+  ;
+
+******[#red] Majorité HS : disaster recovery
+
+*** Leader dans minorité (1 membre)
+**** Perte du consensus, pas de nouvelle élection
+  etcd bloqué en lecture seule avec leader
+  ;
+****** Retour de la majorité (3 membres)
+*******[#green] Retour de la majorité (3 membres)
+  Retour du consensus : résolution automatique
+  ;
+
+******[#red] Majorité HS : disaster recovery
+
+** Minorité indisponible (2 membres)
+*** Leader dans majorité
+****[#green] Consensus conservé, pas de nouvelle élection
+
+*** Leader dans minorité
+****[#green] Consensus conservé et nouvelle élection
+*****[#green] Nouveau leader élu dans la majorité
+
+@endmindmap</pre></div></div>
 <aside class="notes"><div class="paragraph"><p># Partition Réseau
 - <strong>Description</strong> : Une partition réseau divise un cluster etcd en deux parties : une majorité et une minorité de membres.
 - <strong>Absence de "Split-brain"</strong> : etcd évite le phénomène de "split-brain" car les membres du cluster sont explicitement ajoutés ou retirés avec l&#8217;approbation de la majorité actuelle.
@@ -563,8 +620,10 @@ spec:
 <div class="openblock column"><div class="content"><div class="imageblock"><a class="image" href="https://longhorn.io/"><img src="images/longhorn-logo.png" alt="longhorn logo"></a></div><div class="title">Longhorn</div></div></div>
 <aside class="notes"><div class="paragraph"><p>Si vous n&#8217;avez pas de stockage distribué via votre hyperviseur ou votre cloud, vous pouvez bâtir une solution de stockage distribué sur votre cluster Kubernetes.</p></div>
 <div class="paragraph"><p>Pourquoi on ne l&#8217;a pas fait ? Contraintes projet-client / hyperviseur qui devait initialement gérer stockage</p></div></aside></div></section><section id="_alternatives_externaliser_le_stockage" class="columns"><h2>Alternatives : Externaliser le stockage ?</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Utiliser un s3 managé, BDD managée, le stockage c&#8217;est galère à gérer, si c&#8217;est une contrainte majeure pour vous et que vous ne pouvez garantir la haute dispo, déléguez le.</p></div></aside></div></section><section id="_alternatives_multi_cluster"><h2>Alternatives : Multi cluster</h2><div class="slide-content"><div id="099-multi-cluster" class="imageblock"><img src="images/099-multi-cluster.svg" alt="Diagram" height="500px"></div>
-<aside class="notes"><div class="paragraph"><p>Multi cluster, et chaque cluster est sur sa zone. avec meta cluster en administration</p></div></aside></div></section><section id="_alternatives_multi_cluster_2"><h2>Alternatives : Multi cluster</h2><div class="slide-content"><aside class="notes"><div class="paragraph"><p>TODO Nico - Logo / Alternatives / autres ? rancher / rajout slides name drop et un peu de détail</p></div>
-<div class="paragraph"><p>GCP Anthos / redhat advanced cluster management / submariner spinacher multi cluster</p></div></aside></div></section></section>
+<aside class="notes"><div class="paragraph"><p>Multi cluster, chaque cluster est sur sa zone : chacun chez soit, à vous de gérer la répartition des applications dans vos CD</p></div></aside></div></section><section id="_alternatives_multi_cluster_federation"><h2>Alternatives : Multi cluster federation</h2><div class="slide-content"><div id="099-multi-cluster-federated" class="imageblock"><img src="images/099-multi-cluster_federated.svg" alt="Diagram" height="500px"></div>
+<aside class="notes"><div class="paragraph"><p>Avec un fédérateur en amont des clusters. Plusieurs solutions sur le marché, dont l’API k8s &#8230;&#8203;.</p></div>
+<div class="paragraph"><p>/!\ ne pas mentionner les solutions, les garder pour QA ou discussions ultérieures.
+GCP Anthos / redhat advanced cluster management / submariner spinacher multi cluster</p></div></aside></div></section></section>
 <section id="_merci" class="columns transparency is-vcentered" data-background-image="images/k8s-2az.png" data-background-size="fill"><div class="slide-content">
 <div class="openblock column"><div class="content"><div class="imageblock"><img src="images/diag-qrcode-md5-767a35f028a15646566aa6e0df4e19b0.png" alt="Slides" height="300"></div><div class="title">Liens</div></div></div>
 <div class="openblock column"><div class="content"><div class="imageblock"><img src="images/diag-qrcode-md5-8ddc16f7792aa80b5156742e59bc2fb6.png" alt="Vos retours" height="300"></div><div class="title">Openfeedback</div></div></div></div></section>
