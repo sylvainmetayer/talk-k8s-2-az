@@ -1,0 +1,10 @@
+@startuml
+
+[*] -> Follower: démarrage
+Follower -> Candidate : timeout, démarrage élection
+Candidate -> Candidate: Timeout, nouvelle élection
+Candidate --> Leader: Reçoit la majorité des votes des membres
+Leader -> Follower: Découvre un membre avec plus de votes que lui
+Candidate -> Follower: Découvre un leader ou un démarrage d'une nouvelle élection
+
+@enduml
