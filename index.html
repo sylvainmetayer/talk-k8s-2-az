@@ -430,7 +430,7 @@ ul.byline li + li {
 <section><section id="_définitions" data-background-image="images/definitions.jpg" data-background-size="cover"><div class="slide-content"><aside class="notes"><div class="paragraph"><p>Afin de s&#8217;assurer que l&#8217;on parle de la même chose durant cette présentation.</p></div></aside></div></section><section id="_haute_disponibilité" class="transparency" data-background-image="images/definitions.jpg" data-background-size="cover"><h2>Haute Disponibilité</h2><div class="slide-content">
 <div id="010-haute-dispo" class="imageblock"><img src="images/010-haute-dispo.svg" alt="Diagram" width="600"></div>
 <aside class="notes"><div class="paragraph"><p>Capacité à accéder à la plateforme au moment où on le souhaite, redondance = panne sur un premier site pour permettre l&#8217;accès, notion de haute dispo, différentes stratégies (actif/passif avec sauvegarde ou miroir, actif/actif avec partage de charge, etc.)</p></div></aside></div></section><section id="_stretched_cluster" class="transparency" data-background-image="images/definitions.jpg" data-background-size="cover"><h2>Stretched cluster</h2><div class="slide-content">
-<div id="010-contexte" class="imageblock"><img src="images/010-contexte.svg" alt="Diagram" height="500px"></div>
+<div id="010-stretched" class="imageblock"><img src="images/010-stretched.svg" alt="Diagram" height="500px"></div>
 <aside class="notes"><div class="paragraph"><p>Terminologie : pour les contextes dont nous allons parler, nous sommes partis sur une stratégie "stretched cluster". C&#8217;est-à-dire que nous avons un cluster k8s réparti sur deux sites en mode actif/actif.</p></div>
 <div class="paragraph"><p>Répartition charge - Partage de ressources (pool) sur les 2 sites. En cas de panne, le second peut récupérer charge du premier site et assurer service A</p></div></aside></div></section><section id="_control_plane" class="transparency" data-background-image="images/definitions.jpg" data-background-size="cover"><h2>Control Plane</h2><div class="slide-content">
 <div class="imageblock"><a class="image" href="https://kubernetes.io/docs/concepts/overview/components/"><img src="images/kubernetes-components.svg" alt="kubernetes components"></a></div>
@@ -467,7 +467,75 @@ Composant du cœur de k8s, qui contient la mémoire de k8s, et de tout ce qui es
 6. Resume followers
 7. Request, et Stop leader avant consensus
 8. Time out sur un follower, dès élection Request
-9. Retour de l’ancien leader : il se met à jour</p></div></aside></div></section><section id="_network_partition"><h2>Network partition</h2><div class="slide-content"><div id="030-etcd-netpart" class="imageblock"><img src="images/030-etcd-netpart.svg" alt="Diagram" height="450"></div>
+9. Retour de l’ancien leader : il se met à jour</p></div></aside></div></section><section id="_network_partition"><h2>Network partition</h2><div class="slide-content"><div id="030-etcd-netpart" class="listingblock"><div class="content"><pre>Failed to generate image: PlantUML preprocessing failed: [From &lt;input&gt; (line 11) ]
+
+@startmindmap
+top to bottom direction
+
+*: 3 membres;
+**: Majorité indisponible
+  (1 membre);
+***: Leader dans majorité
+  Leader failure;
+****[#darkorange]: Perte du consensus
+  nouvelle élection impossible
+  etcd en lecture seule;
+^^^^^
+ Bad indentation (Assumed diagram type: mindmap)
+
+@startmindmap
+top to bottom direction
+
+*: 3 membres;
+**: Majorité indisponible
+  (1 membre);
+***: Leader dans majorité
+  Leader failure;
+****[#darkorange]: Perte du consensus
+  nouvelle élection impossible
+  etcd en lecture seule;
+*****[#green]: Retour de la majorité
+  (3 membres)
+  Retour du consensus
+  Résolution automatique
+  la minorité se synchronise avec les données de la majorité;
+*****[#darkred]: Majorité HS
+  disaster recovery;
+
+***:Leader dans minorité
+  Follower failure;
+****[#darkorange]: Perte du consensus
+  pas de nouvelle élection
+  etcd en lecture seule;
+*****[#darkorange]: Retour de la majorité
+  (3 membres)
+  Split brain - 2 leaders;
+******[#darkorange] Il faut forcer une élection
+*****[#darkred]: Majorité HS
+  disaster recovery;
+
+**:Minorité indisponible
+  (2 membres);
+***: Leader dans majorité
+  Follower failure;
+****[#green]: Consensus conservé
+  pas de nouvelle élection;
+*****[#green]: Retour de la minorité
+  (3 membres)
+  Résolution automatique
+  la minorité se synchronise avec les données de la majorité;
+
+***: Leader dans minorité
+  Leader failure;
+****[#green]: Consensus conservé
+  et nouvelle élection;
+*****[#green] Nouveau leader élu dans la majorité
+******[#darkred]: Retour de la minorité
+  (3 membres)
+  Split brain - 2 leaders;
+*******[#darkorange] Il faut forcer une élection;
+
+@endmindmap</pre></div></div>
 <aside class="notes"><div class="paragraph"><p># Partition Réseau
 - <strong>Description</strong> : Une partition réseau divise un cluster etcd en deux parties : une majorité et une minorité de membres.
 - <strong>Absence de "Split-brain"</strong> : etcd évite le phénomène de "split-brain" car les membres du cluster sont explicitement ajoutés ou retirés avec l&#8217;approbation de la majorité actuelle.
