@@ -1,30 +1,53 @@
 @startmindmap
 top to bottom direction
 
-* Partition réseau - Cluster divisé (3 membres)
-** Majorité indisponible (1 membre)
-*** Leader dans majorité
-****[#orange]:Perte du consensus, nouvelle élection impossible
-etcd bloqué en lecture seule sans leader;
-*****[#green]:Retour de la majorité (3 membres)
-Retour du consensus
-Résolution automatique;
-*****[#red] Majorité HS : disaster recovery
+*: 3 membres;
+**: Majorité indisponible
+  (1 membre);
+***: Leader dans majorité
+  Leader failure;
+****[#darkorange]: Perte du consensus
+  nouvelle élection impossible
+  etcd en lecture seule;
+*****[#green]: Retour de la majorité
+  (3 membres)
+  Retour du consensus
+  Résolution automatique
+  la minorité se synchronise avec les données de la majorité;
+*****[#darkred]: Majorité HS
+  disaster recovery;
 
-*** Leader dans minorité
-****[#orange]:Perte du consensus, pas de nouvelle élection
-etcd bloqué en lecture seule avec leader;
-*****[#green]:Retour de la majorité (3 membres)
-Retour du consensus
-Résolution automatique;
-*****[#red] Majorité HS : disaster recovery
+***:Leader dans minorité
+  Follower failure;
+****[#darkorange]: Perte du consensus
+  pas de nouvelle élection
+  etcd en lecture seule;
+*****[#darkorange]: Retour de la majorité
+  (3 membres)
+  Split brain - 2 leaders;
+******[#darkorange] Il faut forcer une élection
+*****[#darkred]: Majorité HS
+  disaster recovery;
 
-** Minorité indisponible (2 membres)
-*** Leader dans majorité
-****[#green] Consensus conservé, pas de nouvelle élection
+**:Minorité indisponible
+  (2 membres);
+***: Leader dans majorité
+  Follower failure;
+****[#green]: Consensus conservé
+  pas de nouvelle élection;
+*****[#green]: Retour de la minorité
+  (3 membres)
+  Résolution automatique
+  la minorité se synchronise avec les données de la majorité;
 
-*** Leader dans minorité
-****[#green] Consensus conservé et nouvelle élection
+***: Leader dans minorité
+  Leader failure;
+****[#green]: Consensus conservé
+  et nouvelle élection;
 *****[#green] Nouveau leader élu dans la majorité
+******[#darkred]: Retour de la minorité
+  (3 membres)
+  Split brain - 2 leaders;
+*******[#darkorange] Il faut forcer une élection;
 
 @endmindmap

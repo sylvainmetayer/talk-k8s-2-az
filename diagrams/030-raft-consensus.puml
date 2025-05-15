@@ -1,10 +1,23 @@
 @startuml
 
-[*] -> Follower: démarrage
-Follower -> Candidate : timeout, démarrage élection
-Candidate -> Candidate: Timeout, nouvelle élection
-Candidate --> Leader: Reçoit la majorité des votes des membres
-Leader -> Follower: Découvre un membre avec plus de votes que lui
-Candidate -> Follower: Découvre un leader ou un démarrage d'une nouvelle élection
+note "Démarrage" as start
+note "Timeout, démarrage élection" as timeout
+note "Timeout, nouvelle élection" as newelec
+note "Reçoit la majorité des votes des membres" as elected
+note "Découvre un membre avec plus de votes que lui" as rejected
+note "Découvre un leader ou un démarrage d'une nouvelle élection" as goback
+
+( ) -right- start
+start -right-> (Follower)
+(Follower) -right- timeout
+timeout -right-> (Candidate)
+(Candidate) -right- newelec
+newelec -left-> (Candidate)
+(Candidate) -down- elected
+elected -down-> (Leader)
+(Leader) -up- rejected
+rejected -up-> (Follower)
+(Candidate) -up- goback
+goback -down-> (Follower)
 
 @enduml

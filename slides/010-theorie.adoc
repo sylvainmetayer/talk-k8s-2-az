@@ -65,7 +65,7 @@ Capacité à accéder à la plateforme au moment où on le souhaite, redondance 
 
 image::definitions.jpg[background,size=cover]
 
-plantuml::diagrams/010-contexte.puml[format=svg,id=010-contexte,height=500px]
+plantuml::diagrams/010-stretched.puml[format=svg,id=010-stretched,height=500px]
 
 [.notes]
 ****

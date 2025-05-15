@@ -76,7 +76,7 @@ scénario :
 
 === Network partition
 
-plantuml::diagrams/030-etcd-netpart.puml[format=svg,id=030-etcd-netpart,height=450]
+plantuml::diagrams/030-etcd-netpart.puml[format=svg,id=030-etcd-netpart,height=550]
 
 [.notes]
 ****
