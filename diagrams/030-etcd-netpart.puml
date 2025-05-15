@@ -1,7 +1,7 @@
 @startmindmap
 top to bottom direction
 
-*: 3 membres;
+* 3 membres
 **: Majorité indisponible
   (1 membre);
 ***: Leader dans majorité
@@ -14,7 +14,7 @@ top to bottom direction
   Retour du consensus
   Résolution automatique
   la minorité se synchronise avec les données de la majorité;
-*****[#darkred]: Majorité HS
+*****[#red]: Majorité HS
   disaster recovery;
 
 ***:Leader dans minorité
@@ -26,7 +26,7 @@ top to bottom direction
   (3 membres)
   Split brain - 2 leaders;
 ******[#darkorange] Il faut forcer une élection
-*****[#darkred]: Majorité HS
+*****[#red]: Majorité HS
   disaster recovery;
 
 **:Minorité indisponible
@@ -45,7 +45,7 @@ top to bottom direction
 ****[#green]: Consensus conservé
   et nouvelle élection;
 *****[#green] Nouveau leader élu dans la majorité
-******[#darkred]: Retour de la minorité
+******[#red]: Retour de la minorité
   (3 membres)
   Split brain - 2 leaders;
 *******[#darkorange] Il faut forcer une élection;
