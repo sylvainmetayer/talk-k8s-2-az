@@ -1,4 +1,25 @@
 @startuml
+
+skinparam package {
+    BackgroundColor #fff
+    BorderColor #bbb
+    BorderThickness 2
+    FontColor #326ce5
+    TitleFontColor #326ce5
+}
+skinparam node {
+    BackgroundColor #326ce5
+    BorderColor white
+    BorderThickness 4
+    FontColor white
+}
+
+skinparam component {
+    BackgroundColor white
+    BorderColor #326ce5
+    FontColor #326ce5
+}
+
 actor Utilisateur
 package "Région A" {
     rectangle "Control Plane" {

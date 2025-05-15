@@ -22,7 +22,7 @@ top to bottom direction
 ****[#darkorange]: Perte du consensus
   pas de nouvelle élection
   etcd en lecture seule;
-*****[#darkorange]: Retour de la majorité
+*****[#red]: Retour de la majorité
   (3 membres)
   Split brain - 2 leaders;
 ******[#darkorange] Il faut forcer une élection
@@ -48,6 +48,6 @@ top to bottom direction
 ******[#red]: Retour de la minorité
   (3 membres)
   Split brain - 2 leaders;
-*******[#darkorange] Il faut forcer une élection;
+*******[#darkorange] Il faut forcer une élection
 
 @endmindmap
