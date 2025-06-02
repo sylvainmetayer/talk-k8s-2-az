@@ -60,7 +60,7 @@ footer {
 
 body::after {
     background-color: rgba(242, 243, 245, 0.5);
-    content: url("../images/cloud-toulouse/logo.png");
+    content: url("../images/france-devops/logo.png");
     position: fixed;
     left: 10px;
     bottom: 10px;

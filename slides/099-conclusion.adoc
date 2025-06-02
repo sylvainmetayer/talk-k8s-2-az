@@ -89,10 +89,10 @@ qrcode::{base_url}{links_url}[height=300,alt='Liens',format="png", xdim=4]
 // --
 // link:https://sylvain.dev[*sylvain.dev*]
 // --
-
-[.column]
---
-[caption=]
-.Openfeedback
-qrcode::https://openfeedback.io/cloud-toulouse-2025/0/noqFLsouCucbnVm6jbvf[height=300,alt='Vos retours',format="png", xdim=4]
---
+//
+// [.column]
+// --
+// [caption=]
+// .Openfeedback
+// qrcode::https://openfeedback.io/cloud-toulouse-2025/0/noqFLsouCucbnVm6jbvf[height=300,alt='Vos retours',format="png", xdim=4]
+// --

@@ -41,15 +41,7 @@ plantuml::diagrams/030-multi-cp.puml[format=svg,id=030-multi-cp]
 [.notes]
 ****
 En théorie, la mécanique reste la même : on bascule nos 3 control planes sur la région B. On a donc 3 control planes sur la région B.
-****
 
-[%notitle]
-=== Dis-moi Jamy
-
-video::c-est-pas-sorcier.mp4[width=900,options=autoplay,loop]
-
-[.notes]
-****
 ==> Attention, moi j'ai besoin d'avoir l'API disponible en continu, j'ai des opérateurs qui dépendent de l'API k8s ! Ca sert à rien ton truc de déplacer 3 nodes d'une même région, j'aurai le même downtime ?
 
 Si on perds la région ou sont nos CP, plus rien pendant que ça remonte. Et pendant ce temps, les applications ne peuvent pas forcément être disponible. Donc, un seul CP ou 3 CP sur la mếmé région, sans hyperviseur capable de déplacer/restaurer les VMs à chaud, c'est pas vraiment la solution ?

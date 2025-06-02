@@ -20,12 +20,3 @@ Tech Lead
 
 // link:https://sylvain.dev[]
 --
-
-=== Merci aux sponsors
-
-image::cloud-toulouse/sponsors.png[]
-
-[.notes]
-****
-Merci aux sponsors de l'événement qui rendent cet évènement possible !
-****
