@@ -263,6 +263,93 @@ td.hdlist1 {
   padding: .25em 0
 }
 
+/* Unstyled lists (e.g. [unstyled], [none], [no-bullet]) — matches the
+ * asciidoctor-default.css convention (see #77) */
+ul.checklist, ul.none, ol.none, ul.no-bullet, ol.no-bullet, ol.unnumbered, ul.unstyled, ol.unstyled {
+  list-style-type: none
+}
+
+ul.no-bullet, ol.no-bullet, ol.unnumbered {
+  margin-left: .625em
+}
+
+ul.unstyled, ol.unstyled {
+  margin-left: 0
+}
+
+/* Block quote/verse attribution — matches the asciidoctor-default.css
+ * convention. Needed because reveal.js's own core CSS sets
+ * `.reveal .slides { text-align: center }`, which otherwise centers the
+ * attribution (and leaves it visually identical to the quoted text) since
+ * this converter doesn't ship any quoteblock/verseblock CSS of its own
+ * (see #506) */
+.reveal .quoteblock .attribution, .reveal .verseblock .attribution {
+  font-size: .9375em;
+  font-style: italic
+}
+
+.reveal .quoteblock .attribution {
+  margin-top: .75em;
+  margin-right: .5ex;
+  text-align: right
+}
+
+.reveal .verseblock .attribution {
+  margin-top: 1.25rem;
+  margin-left: .5ex;
+  text-align: left
+}
+
+/* Collapsible blocks ([%collapsible]) — matches the asciidoctor-default.css
+ * convention; reveal.js ships no CSS for <details>/<summary> at all (see #484) */
+details {
+  margin-bottom: 1.25em;
+  margin-left: 1.25rem
+}
+
+details > summary {
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  padding-left: 1rem;
+  position: relative;
+  line-height: 1.6;
+  margin-bottom: .625rem;
+  outline: none;
+  -webkit-tap-highlight-color: transparent
+}
+
+details > summary::-webkit-details-marker {
+  display: none
+}
+
+details > summary::before {
+  content: "";
+  border: solid transparent;
+  border-left: solid;
+  border-width: .3em 0 .3em .5em;
+  position: absolute;
+  top: .5em;
+  left: -1.25rem;
+  transform: translateX(15%)
+}
+
+details[open] > summary::before {
+  border: solid transparent;
+  border-top: solid;
+  border-width: .5em .3em 0;
+  transform: translateY(15%)
+}
+
+details > summary::after {
+  content: "";
+  width: 1.25rem;
+  height: 1em;
+  position: absolute;
+  top: .3em;
+  left: -1.25rem
+}
+
 /* Override Asciidoctor CSS that causes issues with reveal.js features */
 .reveal .hljs table {
   border: 0
@@ -413,7 +500,7 @@ ul.byline {
 ul.byline li + li {
   margin-top: 0.25em;
 }
-</style><link rel="stylesheet" href="css/meetup.css"></head><body><div class="reveal"><div class="slides"><section class="title" data-state="title" data-background-size="auto" data-background-image="images/k8s-2az.png" data-background-repeat="repeat"><h1>Un cluster Kubernetes sur deux sites, une simple histoire de disponibilité, non ?</h1></section><section id="_présentation" class="columns is-vcentered transparency"><div class="slide-content"><div class="openblock column is-half has-text-left medium"><div class="content"><div class="imageblock"><img src="images/ntrauwaen.webp" alt="ntrauwaen"></div>
+</style><link rel="stylesheet" href="css/meetup.css"></head><body><div class="reveal"><div class="slides"><section id="_présentation" class="columns is-vcentered transparency"><div class="slide-content"><div class="openblock column is-half has-text-left medium"><div class="content"><div class="imageblock"><img src="images/ntrauwaen.webp" alt="ntrauwaen"></div>
 <div class="paragraph"><p>Nicolas TRAUWAEN</p></div>
 <div class="paragraph"><p>Ingénieur production / SRE</p></div></div></div>
 <div class="openblock column is-half has-text-left medium"><div class="content"><div class="imageblock"><img src="images/smetayer.png" alt="smetayer"></div>
@@ -573,7 +660,10 @@ spec:
 <div class="paragraph"><p>/!\ ne pas mentionner les solutions, les garder pour QA ou discussions ultérieures.
 GCP Anthos / redhat advanced cluster management / submariner spinacher multi cluster</p></div></aside></div></section></section>
 <section id="_merci" class="columns transparency is-vcentered" data-background-image="images/k8s-2az.png" data-background-size="fill"><div class="slide-content">
-<div class="openblock column"><div class="content"><div class="imageblock"><img src="images/diag-qrcode-md5-349313cdf131c284a7fc9606dd713379.png" alt="Liens" height="300"></div><div class="title">Liens</div></div></div></div></section></div></div><script src="reveal.js/dist/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
+<div class="openblock column"><div class="content"><div class="imageblock"><img src="images/diag-qrcode-md5-349313cdf131c284a7fc9606dd713379.png" alt="Liens" height="300"></div><div class="title">Liens</div></div></div></div></section></div></div><script src="reveal.js/dist/reveal.js"></script>
+<script src="reveal.js/dist/plugin/zoom.js"></script>
+<script src="reveal.js/dist/plugin/notes.js"></script>
+<script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
   if (slide.getAttribute('data-background-color')) return;
   // user needs to explicitly say he wants CSS color to override otherwise we might break custom css or theme (#226)
   if (!(slide.classList.contains('canvas') || slide.classList.contains('background'))) return;
@@ -730,11 +820,10 @@ Reveal.initialize({
   pdfMaxPagesPerSlide: 1,
 
   // Optional libraries used to extend on reveal.js
-  dependencies: [
-      { src: 'reveal.js/plugin/zoom/zoom.js', async: true, callback: function () { Reveal.registerPlugin(RevealZoom) } },
-      { src: 'reveal.js/plugin/notes/notes.js', async: true, callback: function () { Reveal.registerPlugin(RevealNotes) } }
-  ],
-});</script><script>var dom = {};
+  plugins: [RevealZoom, RevealNotes],
+});
+
+var dom = {};
 dom.slides = document.querySelector('.reveal .slides');
 
 function getRemainingHeight(element, slideElement, height) {
@@ -805,467 +894,452 @@ Reveal.addEventListener('resize', function () {
 <script src="js/highlight/languages/ini.min.js"></script>
 
 <script>
-
-/* highlightjs-line-numbers.js 2.6.0 | (C) 2018 Yauheni Pakala | MIT License | github.com/wcoder/highlightjs-line-numbers.js */
-/* Edited by Hakim for reveal.js; removed async timeout */
-!function(n,e){"use strict";function t(){var n=e.createElement("style");n.type="text/css",n.innerHTML=g(".{0}{border-collapse:collapse}.{0} td{padding:0}.{1}:before{content:attr({2})}",[v,L,b]),e.getElementsByTagName("head")[0].appendChild(n)}function r(t){"interactive"===e.readyState||"complete"===e.readyState?i(t):n.addEventListener("DOMContentLoaded",function(){i(t)})}function i(t){try{var r=e.querySelectorAll("code.hljs,code.nohighlight");for(var i in r)r.hasOwnProperty(i)&&l(r[i],t)}catch(o){n.console.error("LineNumbers error: ",o)}}function l(n,e){"object"==typeof n&&f(function(){n.innerHTML=s(n,e)})}function o(n,e){if("string"==typeof n){var t=document.createElement("code");return t.innerHTML=n,s(t,e)}}function s(n,e){e=e||{singleLine:!1};var t=e.singleLine?0:1;return c(n),a(n.innerHTML,t)}function a(n,e){var t=u(n);if(""===t[t.length-1].trim()&&t.pop(),t.length>e){for(var r="",i=0,l=t.length;i<l;i++)r+=g('<tr><td class="{0}"><div class="{1} {2}" {3}="{5}"></div></td><td class="{4}"><div class="{1}">{6}</div></td></tr>',[j,m,L,b,p,i+1,t[i].length>0?t[i]:" "]);return g('<table class="{0}">{1}</table>',[v,r])}return n}function c(n){var e=n.childNodes;for(var t in e)if(e.hasOwnProperty(t)){var r=e[t];h(r.textContent)>0&&(r.childNodes.length>0?c(r):d(r.parentNode))}}function d(n){var e=n.className;if(/hljs-/.test(e)){for(var t=u(n.innerHTML),r=0,i="";r<t.length;r++){var l=t[r].length>0?t[r]:" ";i+=g('<span class="{0}">{1}</span>\n',[e,l])}n.innerHTML=i.trim()}}function u(n){return 0===n.length?[]:n.split(y)}function h(n){return(n.trim().match(y)||[]).length}function f(e){e()}function g(n,e){return n.replace(/{(\d+)}/g,function(n,t){return e[t]?e[t]:n})}var v="hljs-ln",m="hljs-ln-line",p="hljs-ln-code",j="hljs-ln-numbers",L="hljs-ln-n",b="data-line-number",y=/\r\n|\r|\n/g;n.hljs?(n.hljs.initLineNumbersOnLoad=r,n.hljs.lineNumbersBlock=l,n.hljs.lineNumbersValue=o,t()):n.console.error("highlight.js not detected!")}(window,document);
-
-/**
- * This reveal.js plugin is wrapper around the highlight.js
- * syntax highlighting library.
- */
-(function( root, factory ) {
-  if (typeof define === 'function' && define.amd) {
-    root.RevealHighlight = factory();
-  } else if( typeof exports === 'object' ) {
-    module.exports = factory();
-  } else {
-    // Browser globals (root is window)
-    root.RevealHighlight = factory();
-  }
-}( this, function() {
-
-  // Function to perform a better "data-trim" on code snippets
-  // Will slice an indentation amount on each line of the snippet (amount based on the line having the lowest indentation length)
-  function betterTrim(snippetEl) {
-    // Helper functions
-    function trimLeft(val) {
-      // Adapted from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim#Polyfill
-      return val.replace(/^[\s\uFEFF\xA0]+/g, '');
-    }
-    function trimLineBreaks(input) {
-      var lines = input.split('\n');
-
-      // Trim line-breaks from the beginning
-      for (var i = 0; i < lines.length; i++) {
-        if (lines[i].trim() === '') {
-          lines.splice(i--, 1);
-        } else break;
-      }
-
-      // Trim line-breaks from the end
-      for (var i = lines.length-1; i >= 0; i--) {
-        if (lines[i].trim() === '') {
-          lines.splice(i, 1);
-        } else break;
-      }
-
-      return lines.join('\n');
-    }
-
-    // Main function for betterTrim()
-    return (function(snippetEl) {
-      var content = trimLineBreaks(snippetEl.innerHTML);
-      var lines = content.split('\n');
-      // Calculate the minimum amount to remove on each line start of the snippet (can be 0)
-      var pad = lines.reduce(function(acc, line) {
-        if (line.length > 0 && trimLeft(line).length > 0 && acc > line.length - trimLeft(line).length) {
-          return line.length - trimLeft(line).length;
-        }
-        return acc;
-      }, Number.POSITIVE_INFINITY);
-      // Slice each line with this amount
-      return lines.map(function(line, index) {
-        return line.slice(pad);
-      })
-        .join('\n');
-    })(snippetEl);
-  }
-
-  var RevealHighlight = {
-
-    HIGHLIGHT_STEP_DELIMITER: '|',
-    HIGHLIGHT_LINE_DELIMITER: ',',
-    HIGHLIGHT_LINE_RANGE_DELIMITER: '-',
-
-    init: function( reveal ) {
-
-      // Read the plugin config options and provide fallbacks
-      var config = Reveal.getConfig().highlight || {};
-      config.highlightOnLoad = typeof config.highlightOnLoad === 'boolean' ? config.highlightOnLoad : true;
-      config.escapeHTML = typeof config.escapeHTML === 'boolean' ? config.escapeHTML : true;
-
-      [].slice.call( reveal.getRevealElement().querySelectorAll( 'pre code' ) ).forEach( function( block ) {
-
-        block.parentNode.className = 'code-wrapper';
-
-        // Code can optionally be wrapped in script template to avoid
-        // HTML being parsed by the browser (i.e. when you need to
-        // include <, > or & in your code).
-        let substitute = block.querySelector( 'script[type="text/template"]' );
-        if( substitute ) {
-          // textContent handles the HTML entity escapes for us
-          block.textContent = substitute.innerHTML;
-        }
-
-        // Trim whitespace if the "data-trim" attribute is present
-        if( block.hasAttribute( 'data-trim' ) && typeof block.innerHTML.trim === 'function' ) {
-          block.innerHTML = betterTrim( block );
-        }
-
-        // Escape HTML tags unless the "data-noescape" attrbute is present
-        if( config.escapeHTML && !block.hasAttribute( 'data-noescape' )) {
-          block.innerHTML = block.innerHTML.replace( /</g,"&lt;").replace(/>/g, '&gt;' );
-        }
-
-        // Re-highlight when focus is lost (for contenteditable code)
-        block.addEventListener( 'focusout', function( event ) {
-          hljs.highlightElement( event.currentTarget );
-        }, false );
-
-        if( config.highlightOnLoad ) {
-          RevealHighlight.highlightBlock( block );
-        }
-      } );
-
-      // If we're printing to PDF, scroll the code highlights of
-      // all blocks in the deck into view at once
-      reveal.on( 'pdf-ready', function() {
-        [].slice.call( reveal.getRevealElement().querySelectorAll( 'pre code[data-line-numbers].current-fragment' ) ).forEach( function( block ) {
-          RevealHighlight.scrollHighlightedLineIntoView( block, {}, true );
-        } );
-      } );
-    },
-
-    /**
-     * Highlights a code block. If the <code> node has the
-     * 'data-line-numbers' attribute we also generate slide
-     * numbers.
-     *
-     * If the block contains multiple line highlight steps,
-     * we clone the block and create a fragment for each step.
-     */
-    highlightBlock: function( block ) {
-
-      hljs.highlightElement( block );
-
-      // Don't generate line numbers for empty code blocks
-      if( block.innerHTML.trim().length === 0 ) return;
-
-      if( block.hasAttribute( 'data-line-numbers' ) ) {
-        hljs.lineNumbersBlock( block, { singleLine: true } );
-
-        var scrollState = { currentBlock: block };
-
-        // If there is at least one highlight step, generate
-        // fragments
-        var highlightSteps = RevealHighlight.deserializeHighlightSteps( block.getAttribute( 'data-line-numbers' ) );
-        if( highlightSteps.length > 1 ) {
-
-          // When rendered with asciidoc, data-fragment index if it exists lies on the listing block element, so we have to lookup
-          // If the original code block has a fragment-index,
-          // each clone should follow in an incremental sequence
-          var preCodeWrapper = block.parentElement;
-          var divContent = preCodeWrapper.parentElement;
-          var listingBlock = divContent.parentElement;
-          var fragmentIndex = parseInt( listingBlock.getAttribute( 'data-fragment-index' ), 10 );
-
-          if( typeof fragmentIndex !== 'number' || isNaN( fragmentIndex ) ) {
-            fragmentIndex = null;
-          } else {
-            fragmentIndex += 1;
-          }
-
-          // Generate fragments for all steps except the original block
-          highlightSteps.slice(1).forEach( function( highlight ) {
-
-            var fragmentBlock = block.cloneNode( true );
-            fragmentBlock.setAttribute( 'data-line-numbers', RevealHighlight.serializeHighlightSteps( [ highlight ] ) );
-            fragmentBlock.classList.add( 'fragment' );
-            block.parentNode.appendChild( fragmentBlock );
-            RevealHighlight.highlightLines( fragmentBlock );
-
-            if( typeof fragmentIndex === 'number' ) {
-              fragmentBlock.setAttribute( 'data-fragment-index', fragmentIndex );
-              fragmentIndex += 1;
-            }
-            else {
-              fragmentBlock.removeAttribute( 'data-fragment-index' );
-            }
-
-            // Scroll highlights into view as we step through them
-            fragmentBlock.addEventListener( 'visible', RevealHighlight.scrollHighlightedLineIntoView.bind( Plugin, fragmentBlock, scrollState ) );
-            fragmentBlock.addEventListener( 'hidden', RevealHighlight.scrollHighlightedLineIntoView.bind( Plugin, fragmentBlock.previousSibling, scrollState ) );
-
-          } );
-
-          block.removeAttribute( 'data-fragment-index' )
-          block.setAttribute( 'data-line-numbers', RevealHighlight.serializeHighlightSteps( [ highlightSteps[0] ] ) );
-
-        }
-
-        // Scroll the first highlight into view when the slide
-        // becomes visible. Note supported in IE11 since it lacks
-        // support for Element.closest.
-        var slide = typeof block.closest === 'function' ? block.closest( 'section:not(.stack)' ) : null;
-        if( slide ) {
-          var scrollFirstHighlightIntoView = function() {
-            RevealHighlight.scrollHighlightedLineIntoView( block, scrollState, true );
-            slide.removeEventListener( 'visible', scrollFirstHighlightIntoView );
-          }
-          slide.addEventListener( 'visible', scrollFirstHighlightIntoView );
-        }
-
-        RevealHighlight.highlightLines( block );
-
-      }
-
-    },
-
-    /**
-     * Animates scrolling to the first highlighted line
-     * in the given code block.
-     */
-    scrollHighlightedLineIntoView: function( block, scrollState, skipAnimation ) {
-
-      cancelAnimationFrame( scrollState.animationFrameID );
-
-      // Match the scroll position of the currently visible
-      // code block
-      if( scrollState.currentBlock ) {
-        block.scrollTop = scrollState.currentBlock.scrollTop;
-      }
-
-      // Remember the current code block so that we can match
-      // its scroll position when showing/hiding fragments
-      scrollState.currentBlock = block;
-
-      var highlightBounds = RevealHighlight.getHighlightedLineBounds( block )
-      var viewportHeight = block.offsetHeight;
-
-      // Subtract padding from the viewport height
-      var blockStyles = getComputedStyle( block );
-      viewportHeight -= parseInt( blockStyles.paddingTop ) + parseInt( blockStyles.paddingBottom );
-
-      // Scroll position which centers all highlights
-      var startTop = block.scrollTop;
-      var targetTop = highlightBounds.top + ( Math.min( highlightBounds.bottom - highlightBounds.top, viewportHeight ) - viewportHeight ) / 2;
-
-      // Account for offsets in position applied to the
-      // <table> that holds our lines of code
-      var lineTable = block.querySelector( '.hljs-ln' );
-      if( lineTable ) targetTop += lineTable.offsetTop - parseInt( blockStyles.paddingTop );
-
-      // Make sure the scroll target is within bounds
-      targetTop = Math.max( Math.min( targetTop, block.scrollHeight - viewportHeight ), 0 );
-
-      if( skipAnimation === true || startTop === targetTop ) {
-        block.scrollTop = targetTop;
-      }
-      else {
-
-        // Don't attempt to scroll if there is no overflow
-        if( block.scrollHeight <= viewportHeight ) return;
-
-        var time = 0;
-        var animate = function() {
-          time = Math.min( time + 0.02, 1 );
-
-          // Update our eased scroll position
-          block.scrollTop = startTop + ( targetTop - startTop ) * RevealHighlight.easeInOutQuart( time );
-
-          // Keep animating unless we've reached the end
-          if( time < 1 ) {
-            scrollState.animationFrameID = requestAnimationFrame( animate );
-          }
-        };
-
-        animate();
-
-      }
-
-    },
-
-    /**
-     * The easing function used when scrolling.
-     */
-    easeInOutQuart: function( t ) {
-
-      // easeInOutQuart
-      return t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t;
-
-    },
-
-    getHighlightedLineBounds: function( block ) {
-
-      var highlightedLines = block.querySelectorAll( '.highlight-line' );
-      if( highlightedLines.length === 0 ) {
-        return { top: 0, bottom: 0 };
-      }
-      else {
-        var firstHighlight = highlightedLines[0];
-        var lastHighlight = highlightedLines[ highlightedLines.length -1 ];
-
-        return {
-          top: firstHighlight.offsetTop,
-          bottom: lastHighlight.offsetTop + lastHighlight.offsetHeight
-        }
-      }
-
-    },
-
-    /**
-     * Visually emphasize specific lines within a code block.
-     * This only works on blocks with line numbering turned on.
-     *
-     * @param {HTMLElement} block a <code> block
-     * @param {String} [linesToHighlight] The lines that should be
-     * highlighted in this format:
-     * "1" 		= highlights line 1
-     * "2,5"	= highlights lines 2 & 5
-     * "2,5-7"	= highlights lines 2, 5, 6 & 7
-     */
-    highlightLines: function( block, linesToHighlight ) {
-
-      var highlightSteps = RevealHighlight.deserializeHighlightSteps( linesToHighlight || block.getAttribute( 'data-line-numbers' ) );
-
-      if( highlightSteps.length ) {
-
-        highlightSteps[0].forEach( function( highlight ) {
-
-          var elementsToHighlight = [];
-
-          // Highlight a range
-          if( typeof highlight.end === 'number' ) {
-            elementsToHighlight = [].slice.call( block.querySelectorAll( 'table tr:nth-child(n+'+highlight.start+'):nth-child(-n+'+highlight.end+')' ) );
-          }
-          // Highlight a single line
-          else if( typeof highlight.start === 'number' ) {
-            elementsToHighlight = [].slice.call( block.querySelectorAll( 'table tr:nth-child('+highlight.start+')' ) );
-          }
-
-          if( elementsToHighlight.length ) {
-            elementsToHighlight.forEach( function( lineElement ) {
-              lineElement.classList.add( 'highlight-line' );
-            } );
-
-            block.classList.add( 'has-highlights' );
-          }
-
-        } );
-
-      }
-
-    },
-
-    /**
-     * Parses and formats a user-defined string of line
-     * numbers to highlight.
-     *
-     * @example
-     * RevealHighlight.deserializeHighlightSteps( '1,2|3,5-10' )
-     * // [
-     * //   [ { start: 1 }, { start: 2 } ],
-     * //   [ { start: 3 }, { start: 5, end: 10 } ]
-     * // ]
-     */
-    deserializeHighlightSteps: function( highlightSteps ) {
-
-      // Remove whitespace
-      highlightSteps = highlightSteps.replace( /\s/g, '' );
-
-      // Divide up our line number groups
-      highlightSteps = highlightSteps.split( RevealHighlight.HIGHLIGHT_STEP_DELIMITER );
-
-      return highlightSteps.map( function( highlights ) {
-
-        return highlights.split( RevealHighlight.HIGHLIGHT_LINE_DELIMITER ).map( function( highlight ) {
-
-          // Parse valid line numbers
-          if( /^[\d-]+$/.test( highlight ) ) {
-
-            highlight = highlight.split( RevealHighlight.HIGHLIGHT_LINE_RANGE_DELIMITER );
-
-            var lineStart = parseInt( highlight[0], 10 ),
-              lineEnd = parseInt( highlight[1], 10 );
-
-            if( isNaN( lineEnd ) ) {
-              return {
-                start: lineStart
-              };
-            }
-            else {
-              return {
-                start: lineStart,
-                end: lineEnd
-              };
-            }
-
-          }
-          // If no line numbers are provided, no code will be highlighted
-          else {
-
-            return {};
-
-          }
-
-        } );
-
-      } );
-
-    },
-
-    /**
-     * Serializes parsed line number data into a string so
-     * that we can store it in the DOM.
-     */
-    serializeHighlightSteps: function( highlightSteps ) {
-
-      return highlightSteps.map( function( highlights ) {
-
-        return highlights.map( function( highlight ) {
-
-          // Line range
-          if( typeof highlight.end === 'number' ) {
-            return highlight.start + RevealHighlight.HIGHLIGHT_LINE_RANGE_DELIMITER + highlight.end;
-          }
-          // Single line
-          else if( typeof highlight.start === 'number' ) {
-            return highlight.start;
-          }
-          // All lines
-          else {
-            return '';
-          }
-
-        } ).join( RevealHighlight.HIGHLIGHT_LINE_DELIMITER );
-
-      } ).join( RevealHighlight.HIGHLIGHT_STEP_DELIMITER );
-
-    }
-
-  }
-
-  Reveal.registerPlugin( 'highlight', RevealHighlight );
-
-  return RevealHighlight;
-
-}));
-        
 hljs.configure({
   ignoreUnescapedHTML: true,
 });
-hljs.highlightAll();
-</script><footer>
-    <svg class="onepoint-logo" xmlns="http://www.w3.org/2000/svg" width="140" height="36" aria-hidden="true" focusable="false">
-        <path fill="currentColor" d="M7.8 3.246C3.247 3.246 0 6.638 0 10.66c0 4.022 3.246 7.365 7.752 7.365 4.555 0 7.801-3.392 7.801-7.413 0-4.022-3.246-7.365-7.752-7.365Zm0 10.563c-1.743 0-3.003-1.502-3.003-3.198S5.96 7.46 7.752 7.46c1.745 0 3.004 1.502 3.004 3.198s-1.162 3.15-2.955 3.15ZM70.691 3.246c-4.554 0-7.8 3.392-7.8 7.413 0 4.022 3.246 7.365 7.752 7.365 4.555 0 7.8-3.392 7.8-7.413 0-4.022-3.245-7.365-7.752-7.365Zm0 10.563c-1.744 0-3.004-1.502-3.004-3.198s1.163-3.15 2.956-3.15c1.744 0 3.004 1.502 3.004 3.198-.048 1.696-1.163 3.15-2.956 3.15ZM16.62 3.586h4.941v1.986c.92-1.163 2.23-2.277 4.216-2.277 3.004 0 4.796 1.986 4.796 5.184v9.255h-4.942V10.03c0-1.55-.823-2.374-1.986-2.374-1.212 0-2.084.823-2.084 2.374v7.655H16.62v-14.1ZM45.787 10.998c0-4.167-2.229-7.704-7.123-7.704-4.215-.048-7.122 3.247-7.122 7.365 0 4.36 3.15 7.365 7.558 7.365 2.81 0 4.797-1.163 6.154-2.859l-2.762-2.277c-1.017.97-1.938 1.454-3.15 1.454-1.55 0-2.664-.776-3.052-2.326h9.449c.048-.34.048-.727.048-1.018Zm-9.594-1.55c.243-1.55 1.163-2.568 2.471-2.568 1.357 0 2.278.969 2.471 2.568h-4.942ZM56.06 3.246c-2.133 0-3.295 1.018-4.264 2.18v-1.89h-4.943v18.267h4.943v-5.862c.92 1.065 2.18 2.035 4.312 2.035 3.343 0 6.25-2.81 6.25-7.414-.048-4.506-2.907-7.316-6.299-7.316Zm-1.503 10.611c-1.599 0-2.858-1.356-2.858-3.246 0-1.841 1.26-3.198 2.858-3.198 1.6 0 2.908 1.357 2.908 3.198 0 1.89-1.309 3.246-2.908 3.246ZM84.549 3.586h-4.943v14.1h4.943v-14.1ZM86.245 3.586h4.942v1.986c.92-1.163 2.229-2.277 4.216-2.277 3.004 0 4.796 1.986 4.796 5.184v9.255h-4.942V10.03c0-1.55-.824-2.374-1.986-2.374-1.212 0-2.084.823-2.084 2.374v7.655h-4.942v-14.1ZM102.719 17.685V7.56h-1.648V3.585h1.648V0h4.99v3.585h3.295V7.56h-3.295v10.126h-4.99Z"></path>
-        <path fill="#009ddf" d="M115.898 15.02a2.988 2.988 0 0 1-3.004 3.004 2.988 2.988 0 0 1-3.004-3.004 2.988 2.988 0 0 1 3.004-3.004c1.647-.049 3.004 1.308 3.004 3.004Z"></path>
-        <path fill="currentColor" d="M51.165 28.15c.388.242.679.533.873.97.193.435.339.92.339 1.501 0 .582-.097 1.066-.34 1.502-.242.436-.484.727-.872.97-.387.241-.823.338-1.26.338a2.16 2.16 0 0 1-1.26-.387 2.064 2.064 0 0 1-.726-.97v1.26h-1.114V25.97h1.114v3.15c.145-.389.388-.728.727-.97.339-.242.775-.387 1.26-.387.484.048.92.145 1.26.387Zm-2.47.872c-.243.146-.437.34-.582.63-.145.29-.242.581-.242.97 0 .387.096.677.242.968.145.29.34.485.581.63.243.145.533.242.872.242.485 0 .921-.145 1.212-.484.29-.34.436-.775.436-1.308 0-.582-.145-1.018-.436-1.309-.29-.339-.727-.484-1.212-.484-.339-.049-.63 0-.872.145ZM58.288 30.864h-4.216c0 .581.194.969.485 1.26.29.29.63.387 1.066.387.388 0 .678-.097.969-.29.242-.194.436-.437.484-.776h1.212a3.234 3.234 0 0 1-.436 1.018c-.243.29-.533.532-.92.678a3.432 3.432 0 0 1-1.26.242c-.534 0-1.018-.097-1.406-.339-.387-.242-.727-.533-.969-.97-.242-.435-.339-.92-.339-1.501 0-.582.097-1.066.34-1.502.241-.436.532-.727.968-.97.388-.241.872-.338 1.405-.338s1.018.097 1.405.339c.388.242.727.533.921.92.194.388.34.824.34 1.309 0 .242-.05.387-.05.533ZM56.98 29.41c-.146-.242-.34-.436-.533-.533-.243-.097-.485-.194-.776-.194-.436 0-.823.146-1.114.388-.29.29-.485.678-.485 1.211h3.101c0-.29-.048-.63-.194-.872ZM59.596 27.908l1.648 4.022 1.502-4.022h1.26L60.71 36h-1.26l1.163-2.714-2.326-5.33 1.308-.048ZM68.124 28.15c.436.243.775.534 1.017.97.242.436.34.92.34 1.502 0 .581-.098 1.066-.34 1.502-.242.436-.581.727-1.017.969-.436.242-.921.339-1.454.339-.533 0-1.017-.097-1.405-.34-.436-.241-.775-.532-1.018-.968-.242-.436-.339-.92-.339-1.502s.097-1.066.34-1.502c.242-.436.58-.727 1.017-.97.436-.242.92-.338 1.405-.338.581 0 1.066.096 1.454.339Zm-2.23.873c-.242.145-.435.339-.58.63a2.253 2.253 0 0 0 0 2.035c.145.29.339.484.58.63.243.145.534.193.824.193.291 0 .582-.048.824-.193.242-.146.436-.34.582-.63a2.252 2.252 0 0 0 0-2.035 1.472 1.472 0 0 0-.582-.63c-.242-.145-.533-.194-.824-.194-.29-.048-.581.049-.823.194ZM74.907 28.393c.388.387.582 1.017.582 1.744v3.198h-1.115v-3.053c0-.484-.145-.872-.387-1.163-.242-.29-.582-.387-1.018-.387-.436 0-.823.145-1.066.436-.29.29-.387.727-.387 1.26v2.907H70.4V27.86h1.115v1.21c.145-.387.387-.726.727-.968.339-.242.726-.34 1.21-.34.582.05 1.115.243 1.454.63ZM80.043 28.199c.34.242.582.581.727.969v-3.15h1.163v7.365H80.77v-1.26a2.064 2.064 0 0 1-.727.97 2.16 2.16 0 0 1-1.26.387c-.484 0-.92-.097-1.26-.339-.387-.242-.677-.533-.871-.969a3.609 3.609 0 0 1-.34-1.502c0-.582.097-1.066.34-1.502.194-.436.484-.727.872-.97.387-.241.823-.338 1.26-.338.484-.049.92.097 1.26.339Zm-2.132 1.114c-.29.34-.436.776-.436 1.309 0 .58.146 1.017.436 1.308.291.29.727.484 1.212.484.339 0 .581-.097.872-.242.242-.145.436-.34.581-.63.146-.29.243-.581.243-.969 0-.34-.097-.678-.243-.969a1.474 1.474 0 0 0-.581-.63 1.674 1.674 0 0 0-.872-.242c-.485.097-.92.242-1.212.581ZM87.892 32.366v.969h-.678c-.582 0-1.018-.146-1.308-.436-.291-.291-.436-.727-.436-1.405v-2.665h-.776v-.97h.776v-1.356h1.162v1.357h1.309v.969h-1.309v2.713c0 .29.049.533.194.63.097.097.34.194.63.194h.436ZM93.319 28.392c.387.388.581 1.018.581 1.745v3.197h-1.114v-3.052c0-.485-.145-.872-.388-1.163-.242-.29-.581-.387-1.017-.387-.436 0-.824.145-1.066.436-.291.29-.388.726-.388 1.26v2.906h-1.211V25.97h1.114v3.1c.146-.387.388-.726.727-.968.34-.243.727-.34 1.211-.34.63.049 1.163.243 1.55.63ZM100.006 30.864H95.79c0 .581.194.969.485 1.26.29.29.63.387 1.066.387.387 0 .678-.097.969-.29.242-.194.436-.437.484-.776h1.212a3.244 3.244 0 0 1-.436 1.018c-.243.29-.533.532-.921.678a3.433 3.433 0 0 1-1.26.242c-.533 0-1.017-.097-1.405-.339-.388-.242-.727-.533-.97-.97-.241-.435-.338-.92-.338-1.501 0-.582.097-1.066.339-1.502.242-.436.533-.727.969-.97.388-.241.872-.338 1.405-.338s1.018.097 1.405.339c.388.242.727.533.92.92.195.388.34.824.34 1.309 0 .242 0 .387-.048.533Zm-1.26-1.454c-.146-.242-.34-.436-.533-.533-.242-.097-.485-.194-.775-.194-.437 0-.824.146-1.115.388-.29.29-.484.678-.484 1.211h3.1c0-.29-.096-.63-.193-.872ZM106.934 28.15c.436.243.775.534 1.018.97.242.436.339.92.339 1.502 0 .581-.097 1.066-.339 1.502-.243.436-.582.727-1.018.969-.436.242-.92.339-1.453.339s-1.018-.097-1.406-.34c-.436-.241-.775-.532-1.017-.968-.242-.436-.339-.92-.339-1.502s.097-1.066.339-1.502c.242-.436.581-.727 1.017-.97.436-.242.921-.338 1.406-.338.581 0 1.017.096 1.453.339Zm-2.229.873c-.242.145-.436.339-.581.63a2.257 2.257 0 0 0 0 2.035c.145.29.339.484.581.63.243.145.533.193.824.193.291 0 .581-.048.824-.193.242-.146.436-.34.581-.63a2.257 2.257 0 0 0 0-2.035 1.472 1.472 0 0 0-.581-.63c-.243-.145-.533-.194-.824-.194-.291-.048-.581.049-.824.194ZM113.572 28.15c.387.242.678.533.872.97.194.435.339.92.339 1.501 0 .582-.097 1.066-.339 1.502-.242.436-.485.727-.872.97-.388.241-.824.338-1.26.338a2.16 2.16 0 0 1-1.26-.387 2.07 2.07 0 0 1-.727-.97v1.26h-1.114V25.97h1.114v3.15a2.07 2.07 0 0 1 .727-.97 2.159 2.159 0 0 1 1.26-.387c.436.048.872.145 1.26.387Zm-2.471.872c-.243.146-.436.34-.582.63a2.052 2.052 0 0 0 0 1.938c.146.29.339.485.582.63.242.145.533.242.872.242.484 0 .92-.145 1.211-.484.291-.34.436-.775.436-1.308 0-.582-.145-1.018-.436-1.309-.291-.339-.727-.484-1.211-.484-.339-.049-.63 0-.872.145ZM117.642 32.172l1.55-4.313h1.211l-2.083 5.475h-1.357l-2.083-5.475h1.211l1.551 4.313ZM121.034 25.825c.145-.146.29-.194.533-.194.242 0 .387.048.533.194.145.145.193.29.193.484s-.048.34-.193.485c-.146.097-.291.194-.533.194-.243 0-.388-.049-.533-.194-.146-.097-.194-.291-.194-.485s.048-.387.194-.484Zm1.066 2.083v5.475h-1.115v-5.475h1.115ZM127.187 28.15c.436.243.775.534 1.018.97.242.436.339.92.339 1.502 0 .581-.097 1.066-.339 1.502-.243.436-.582.727-1.018.969-.436.242-.921.339-1.454.339-.533 0-1.017-.097-1.405-.34-.436-.241-.775-.532-1.017-.968-.242-.436-.339-.92-.339-1.502s.097-1.066.339-1.502c.242-.436.581-.727 1.017-.97.436-.242.921-.338 1.405-.338.533 0 1.018.096 1.454.339Zm-2.229.873c-.242.145-.436.339-.581.63-.146.29-.242.63-.242 1.017 0 .388.096.727.242 1.018.145.29.339.484.581.63.242.145.533.193.824.193.291 0 .581-.048.824-.193.242-.146.436-.34.581-.63a2.257 2.257 0 0 0 0-2.035 1.472 1.472 0 0 0-.581-.63c-.243-.145-.533-.194-.824-.194-.339-.048-.582.049-.824.194ZM134.455 27.908v5.475h-1.163v-1.211c-.146.387-.388.726-.727.92-.339.194-.727.34-1.211.34-.63 0-1.163-.194-1.551-.63-.388-.388-.581-1.018-.581-1.745V27.86h1.114v3.053c0 .484.145.872.388 1.163.242.29.581.387 1.017.387.436 0 .824-.145 1.066-.436.291-.29.388-.727.388-1.26V27.86l1.26.049ZM138.912 28.296c.388.34.63.775.727 1.308h-1.066a1.336 1.336 0 0 0-.388-.726c-.194-.194-.484-.291-.823-.291-.291 0-.485.048-.679.194a.779.779 0 0 0-.242.533c0 .193.048.29.145.436.097.145.243.193.436.242.146.048.388.145.727.194.388.097.727.194 1.018.29.242.097.484.243.678.485.194.194.291.533.291.872 0 .436-.194.824-.533 1.114-.339.291-.824.436-1.405.436-.679 0-1.212-.145-1.648-.484-.436-.34-.678-.775-.775-1.357h1.114c.049.291.146.533.388.727.242.194.533.29.921.29.29 0 .484-.048.63-.193a.779.779 0 0 0 .242-.533c0-.194-.049-.34-.194-.436-.097-.097-.291-.194-.436-.242-.194-.049-.436-.146-.727-.194a8.053 8.053 0 0 1-.969-.29c-.242-.098-.484-.243-.63-.437-.194-.194-.242-.484-.242-.872 0-.484.194-.824.533-1.114.339-.291.824-.437 1.453-.437.533 0 1.066.194 1.454.485Z"></path>
-    </svg>
-</footer>
-<script src="reveal.js/plugin/menu/menu.js"></script>
-<script>
-    Reveal.configure({
-        viewDistance: 6,
-        mobileViewDistance: 4,
-        hideInactiveCursor: true,
-        hash: true,
-        controls: false,
-        menu: {
-            side: 'right',
-            openButton: false,
-            numbers: true
-        },
-    })
-    Reveal.registerPlugin(RevealMenu)
+
+/* highlightjs-line-numbers.js 2.8.0 | (C) 2018 Yauheni Pakala | MIT License | github.com/wcoder/highlightjs-line-numbers.js */
+!function(r,o){"use strict";var e,i="hljs-ln",l="hljs-ln-line",h="hljs-ln-code",s="hljs-ln-numbers",c="hljs-ln-n",m="data-line-number",a=/\r\n|\r|\n/g;function u(e){for(var n=e.toString(),t=e.anchorNode;"TD"!==t.nodeName;)t=t.parentNode;for(var r=e.focusNode;"TD"!==r.nodeName;)r=r.parentNode;var o=parseInt(t.dataset.lineNumber),a=parseInt(r.dataset.lineNumber);if(o==a)return n;var i,l=t.textContent,s=r.textContent;for(a<o&&(i=o,o=a,a=i,i=l,l=s,s=i);0!==n.indexOf(l);)l=l.slice(1);for(;-1===n.lastIndexOf(s);)s=s.slice(0,-1);for(var c=l,u=function(e){for(var n=e;"TABLE"!==n.nodeName;)n=n.parentNode;return n}(t),d=o+1;d<a;++d){var f=p('.{0}[{1}="{2}"]',[h,m,d]);c+="\n"+u.querySelector(f).textContent}return c+="\n"+s}function n(e){try{var n=o.querySelectorAll("code.hljs,code.nohighlight");for(var t in n)n.hasOwnProperty(t)&&(n[t].classList.contains("nohljsln")||d(n[t],e))}catch(e){r.console.error("LineNumbers error: ",e)}}function d(e,n){if("object"==typeof e)e.innerHTML=f(e,n)}function f(e,n){var t,r,o=(t=e,{singleLine:function(e){return!!e.singleLine&&e.singleLine}(r=(r=n)||{}),startFrom:function(e,n){var t=1;isFinite(n.startFrom)&&(t=n.startFrom);var r=function(e,n){return e.hasAttribute(n)?e.getAttribute(n):null}(e,"data-ln-start-from");return null!==r&&(t=function(e,n){if(!e)return n;var t=Number(e);return isFinite(t)?t:n}(r,1)),t}(t,r)});return function e(n){var t=n.childNodes;for(var r in t){var o;t.hasOwnProperty(r)&&(o=t[r],0<(o.textContent.trim().match(a)||[]).length&&(0<o.childNodes.length?e(o):v(o.parentNode)))}}(e),function(e,n){var t=g(e);""===t[t.length-1].trim()&&t.pop();if(1<t.length||n.singleLine){for(var r="",o=0,a=t.length;o<a;o++)r+=p('<tr><td class="{0} {1}" {3}="{5}"><div class="{2}" {3}="{5}"></div></td><td class="{0} {4}" {3}="{5}">{6}</td></tr>',[l,s,c,m,h,o+n.startFrom,0<t[o].length?t[o]:" "]);return p('<table class="{0}">{1}</table>',[i,r])}return e}(e.innerHTML,o)}function v(e){var n=e.className;if(/hljs-/.test(n)){for(var t=g(e.innerHTML),r=0,o="";r<t.length;r++){o+=p('<span class="{0}">{1}</span>\n',[n,0<t[r].length?t[r]:" "])}e.innerHTML=o.trim()}}function g(e){return 0===e.length?[]:e.split(a)}function p(e,t){return e.replace(/\{(\d+)\}/g,function(e,n){return void 0!==t[n]?t[n]:e})}hljs?(hljs.initLineNumbersOnLoad=function(e){"interactive"===o.readyState||"complete"===o.readyState?n(e):r.addEventListener("DOMContentLoaded",function(){n(e)})},hljs.lineNumbersBlock=d,hljs.lineNumbersValue=function(e,n){if("string"!=typeof e)return;var t=document.createElement("code");return t.innerHTML=e,f(t,n)},(e=o.createElement("style")).type="text/css",e.innerHTML=p(".{0}{border-collapse:collapse}.{0} td{padding:0}.{1}:before{content:attr({2})}",[i,c,m]),o.getElementsByTagName("head")[0].appendChild(e)):r.console.error("highlight.js not detected!"),document.addEventListener("copy",function(e){var n,t=window.getSelection();!function(e){for(var n=e;n;){if(n.className&&-1!==n.className.indexOf("hljs-ln-code"))return 1;n=n.parentNode}}(t.anchorNode)||(n=-1!==window.navigator.userAgent.indexOf("Edge")?u(t):t.toString(),e.clipboardData.setData("text/plain",n),e.preventDefault())})}(window,document);
+
+/*!
+ * reveal.js plugin that adds syntax highlight support.
+ * Shared with the Ruby implementation; see lib/asciidoctor_revealjs/highlightjs.rb.
+ * Adapted from the reveal.js ES module (plugin/highlight/plugin.js) into a plain
+ * script: `hljs` is already a global (loaded from the CDN before this script
+ * runs) and the plugin registers itself with the `Reveal` global directly,
+ * since this file is inlined into the page rather than loaded as a module.
+ */
+(function() {
+
+	const Plugin = {
+
+		id: 'highlight',
+
+		HIGHLIGHT_STEP_DELIMITER: '|',
+		HIGHLIGHT_LINE_DELIMITER: ',',
+		HIGHLIGHT_LINE_RANGE_DELIMITER: '-',
+
+		hljs,
+
+		/**
+		 * Highlights code blocks within the given deck.
+		 *
+		 * Note that this can be called multiple times if
+		 * there are multiple presentations on one page.
+		 *
+		 * @param {Reveal} reveal the reveal.js instance
+		 */
+		init: function( reveal ) {
+
+			// Read the plugin config options and provide fallbacks
+			let config = reveal.getConfig().highlight || {};
+
+			config.highlightOnLoad = typeof config.highlightOnLoad === 'boolean' ? config.highlightOnLoad : true;
+			config.escapeHTML = typeof config.escapeHTML === 'boolean' ? config.escapeHTML : true;
+
+			Array.from( reveal.getRevealElement().querySelectorAll( 'pre code' ) ).forEach( block => {
+
+				block.parentNode.classList.add('code-wrapper');
+
+				// Code can optionally be wrapped in script template to avoid
+				// HTML being parsed by the browser (i.e. when you need to
+				// include <, > or & in your code).
+				let substitute = block.querySelector( 'script[type="text/template"]' );
+				if( substitute ) {
+					// textContent handles the HTML entity escapes for us
+					block.textContent = substitute.innerHTML;
+				}
+
+				// Trim whitespace if the "data-trim" attribute is present
+				if( block.hasAttribute( 'data-trim' ) && typeof block.innerHTML.trim === 'function' ) {
+					block.innerHTML = betterTrim( block );
+				}
+
+				// Escape HTML tags unless the "data-noescape" attribute is present
+				if( config.escapeHTML && !block.hasAttribute( 'data-noescape' )) {
+					block.innerHTML = block.innerHTML.replace( /</g,"&lt;").replace(/>/g, '&gt;' );
+				}
+
+				// Re-highlight when focus is lost (for contenteditable code)
+				block.addEventListener( 'focusout', function( event ) {
+					hljs.highlightElement( event.currentTarget );
+				}, false );
+
+			} );
+
+			// Triggers a callback function before we trigger highlighting
+			if( typeof config.beforeHighlight === 'function' ) {
+				config.beforeHighlight( hljs );
+			}
+
+			// Run initial highlighting for all code
+			if( config.highlightOnLoad ) {
+				Array.from( reveal.getRevealElement().querySelectorAll( 'pre code' ) ).forEach( block => {
+					Plugin.highlightBlock( block );
+				} );
+			}
+
+			// If we're printing to PDF, scroll the code highlights of
+			// all blocks in the deck into view at once
+			reveal.on( 'pdf-ready', function() {
+				[].slice.call( reveal.getRevealElement().querySelectorAll( 'pre code[data-line-numbers].current-fragment' ) ).forEach( function( block ) {
+					Plugin.scrollHighlightedLineIntoView( block, {}, true );
+				} );
+			} );
+
+		},
+
+		/**
+		 * Highlights a code block. If the <code> node has the
+		 * 'data-line-numbers' attribute we also generate slide
+		 * numbers.
+		 *
+		 * If the block contains multiple line highlight steps,
+		 * we clone the block and create a fragment for each step.
+		 */
+		highlightBlock: function( block ) {
+
+			hljs.highlightElement( block );
+
+			// Don't generate line numbers for empty code blocks
+			if( block.innerHTML.trim().length === 0 ) return;
+
+			if( block.hasAttribute( 'data-line-numbers' ) ) {
+				hljs.lineNumbersBlock( block, { singleLine: true } );
+
+				var scrollState = { currentBlock: block };
+
+				// If there is more than one highlight step, generate
+				// fragments
+				var highlightSteps = Plugin.deserializeHighlightSteps( block.getAttribute( 'data-line-numbers' ) );
+				if( highlightSteps.length > 1 ) {
+
+					// If the original code block has a fragment-index,
+					// each clone should follow in an incremental sequence
+					var fragmentIndex = parseInt( block.getAttribute( 'data-fragment-index' ), 10 );
+
+					if( typeof fragmentIndex !== 'number' || isNaN( fragmentIndex ) ) {
+						fragmentIndex = null;
+					}
+
+					// Generate fragments for all steps except the original block
+					highlightSteps.slice(1).forEach( function( highlight ) {
+
+						var fragmentBlock = block.cloneNode( true );
+						fragmentBlock.setAttribute( 'data-line-numbers', Plugin.serializeHighlightSteps( [ highlight ] ) );
+						fragmentBlock.classList.add( 'fragment' );
+						block.parentNode.appendChild( fragmentBlock );
+						Plugin.highlightLines( fragmentBlock );
+
+						if( typeof fragmentIndex === 'number' ) {
+							fragmentBlock.setAttribute( 'data-fragment-index', fragmentIndex );
+							fragmentIndex += 1;
+						}
+						else {
+							fragmentBlock.removeAttribute( 'data-fragment-index' );
+						}
+
+						// Scroll highlights into view as we step through them
+						fragmentBlock.addEventListener( 'visible', Plugin.scrollHighlightedLineIntoView.bind( Plugin, fragmentBlock, scrollState ) );
+						fragmentBlock.addEventListener( 'hidden', Plugin.scrollHighlightedLineIntoView.bind( Plugin, fragmentBlock.previousElementSibling, scrollState ) );
+
+					} );
+
+					block.removeAttribute( 'data-fragment-index' );
+					block.setAttribute( 'data-line-numbers', Plugin.serializeHighlightSteps( [ highlightSteps[0] ] ) );
+
+				}
+
+				// Scroll the first highlight into view when the slide
+				// becomes visible. Note supported in IE11 since it lacks
+				// support for Element.closest.
+				var slide = typeof block.closest === 'function' ? block.closest( 'section:not(.stack)' ) : null;
+				if( slide ) {
+					var scrollFirstHighlightIntoView = function() {
+						Plugin.scrollHighlightedLineIntoView( block, scrollState, true );
+						slide.removeEventListener( 'visible', scrollFirstHighlightIntoView );
+					}
+					slide.addEventListener( 'visible', scrollFirstHighlightIntoView );
+				}
+
+				Plugin.highlightLines( block );
+
+			}
+
+		},
+
+		/**
+		 * Animates scrolling to the first highlighted line
+		 * in the given code block.
+		 */
+		scrollHighlightedLineIntoView: function( block, scrollState, skipAnimation ) {
+
+			cancelAnimationFrame( scrollState.animationFrameID );
+
+			// Match the scroll position of the currently visible
+			// code block
+			if( scrollState.currentBlock ) {
+				block.scrollTop = scrollState.currentBlock.scrollTop;
+			}
+
+			// Remember the current code block so that we can match
+			// its scroll position when showing/hiding fragments
+			scrollState.currentBlock = block;
+
+			var highlightBounds = this.getHighlightedLineBounds( block )
+			var viewportHeight = block.offsetHeight;
+
+			// Subtract padding from the viewport height
+			var blockStyles = getComputedStyle( block );
+			viewportHeight -= parseInt( blockStyles.paddingTop ) + parseInt( blockStyles.paddingBottom );
+
+			// Scroll position which centers all highlights
+			var startTop = block.scrollTop;
+			var targetTop = highlightBounds.top + ( Math.min( highlightBounds.bottom - highlightBounds.top, viewportHeight ) - viewportHeight ) / 2;
+
+			// Account for offsets in position applied to the
+			// <table> that holds our lines of code
+			var lineTable = block.querySelector( '.hljs-ln' );
+			if( lineTable ) targetTop += lineTable.offsetTop - parseInt( blockStyles.paddingTop );
+
+			// Make sure the scroll target is within bounds
+			targetTop = Math.max( Math.min( targetTop, block.scrollHeight - viewportHeight ), 0 );
+
+			if( skipAnimation === true || startTop === targetTop ) {
+				block.scrollTop = targetTop;
+			}
+			else {
+
+				// Don't attempt to scroll if there is no overflow
+				if( block.scrollHeight <= viewportHeight ) return;
+
+				var time = 0;
+				var animate = function() {
+					time = Math.min( time + 0.02, 1 );
+
+					// Update our eased scroll position
+					block.scrollTop = startTop + ( targetTop - startTop ) * Plugin.easeInOutQuart( time );
+
+					// Keep animating unless we've reached the end
+					if( time < 1 ) {
+						scrollState.animationFrameID = requestAnimationFrame( animate );
+					}
+				};
+
+				animate();
+
+			}
+
+		},
+
+		/**
+		 * The easing function used when scrolling.
+		 */
+		easeInOutQuart: function( t ) {
+
+			// easeInOutQuart
+			return t<.5 ? 8*t*t*t*t : 1-8*(--t)*t*t*t;
+
+		},
+
+		getHighlightedLineBounds: function( block ) {
+
+			var highlightedLines = block.querySelectorAll( '.highlight-line' );
+			if( highlightedLines.length === 0 ) {
+				return { top: 0, bottom: 0 };
+			}
+			else {
+				var firstHighlight = highlightedLines[0];
+				var lastHighlight = highlightedLines[ highlightedLines.length -1 ];
+
+				return {
+					top: firstHighlight.offsetTop,
+					bottom: lastHighlight.offsetTop + lastHighlight.offsetHeight
+				}
+			}
+
+		},
+
+		/**
+		 * Visually emphasize specific lines within a code block.
+		 * This only works on blocks with line numbering turned on.
+		 *
+		 * @param {HTMLElement} block a <code> block
+		 * @param {String} [linesToHighlight] The lines that should be
+		 * highlighted in this format:
+		 * "1" 		= highlights line 1
+		 * "2,5"	= highlights lines 2 & 5
+		 * "2,5-7"	= highlights lines 2, 5, 6 & 7
+		 */
+		highlightLines: function( block, linesToHighlight ) {
+
+			var highlightSteps = Plugin.deserializeHighlightSteps( linesToHighlight || block.getAttribute( 'data-line-numbers' ) );
+
+			if( highlightSteps.length ) {
+
+				highlightSteps[0].forEach( function( highlight ) {
+
+					var elementsToHighlight = [];
+
+					// Highlight a range
+					if( typeof highlight.end === 'number' ) {
+						elementsToHighlight = [].slice.call( block.querySelectorAll( 'table tr:nth-child(n+'+highlight.start+'):nth-child(-n+'+highlight.end+')' ) );
+					}
+					// Highlight a single line
+					else if( typeof highlight.start === 'number' ) {
+						elementsToHighlight = [].slice.call( block.querySelectorAll( 'table tr:nth-child('+highlight.start+')' ) );
+					}
+
+					if( elementsToHighlight.length ) {
+						elementsToHighlight.forEach( function( lineElement ) {
+							lineElement.classList.add( 'highlight-line' );
+						} );
+
+						block.classList.add( 'has-highlights' );
+					}
+
+				} );
+
+			}
+
+		},
+
+		/**
+		 * Parses and formats a user-defined string of line
+		 * numbers to highlight.
+		 *
+		 * @example
+		 * Plugin.deserializeHighlightSteps( '1,2|3,5-10' )
+		 * // [
+		 * //   [ { start: 1 }, { start: 2 } ],
+		 * //   [ { start: 3 }, { start: 5, end: 10 } ]
+		 * // ]
+		 */
+		deserializeHighlightSteps: function( highlightSteps ) {
+
+			// Remove whitespace
+			highlightSteps = highlightSteps.replace( /\s/g, '' );
+
+			// Divide up our line number groups
+			highlightSteps = highlightSteps.split( Plugin.HIGHLIGHT_STEP_DELIMITER );
+
+			return highlightSteps.map( function( highlights ) {
+
+				return highlights.split( Plugin.HIGHLIGHT_LINE_DELIMITER ).map( function( highlight ) {
+
+					// Parse valid line numbers
+					if( /^[\d-]+$/.test( highlight ) ) {
+
+						highlight = highlight.split( Plugin.HIGHLIGHT_LINE_RANGE_DELIMITER );
+
+						var lineStart = parseInt( highlight[0], 10 ),
+							lineEnd = parseInt( highlight[1], 10 );
+
+						if( isNaN( lineEnd ) ) {
+							return {
+								start: lineStart
+							};
+						}
+						else {
+							return {
+								start: lineStart,
+								end: lineEnd
+							};
+						}
+
+					}
+					// If no line numbers are provided, no code will be highlighted
+					else {
+
+						return {};
+
+					}
+
+				} );
+
+			} );
+
+		},
+
+		/**
+		 * Serializes parsed line number data into a string so
+		 * that we can store it in the DOM.
+		 */
+		serializeHighlightSteps: function( highlightSteps ) {
+
+			return highlightSteps.map( function( highlights ) {
+
+				return highlights.map( function( highlight ) {
+
+					// Line range
+					if( typeof highlight.end === 'number' ) {
+						return highlight.start + Plugin.HIGHLIGHT_LINE_RANGE_DELIMITER + highlight.end;
+					}
+					// Single line
+					else if( typeof highlight.start === 'number' ) {
+						return highlight.start;
+					}
+					// All lines
+					else {
+						return '';
+					}
+
+				} ).join( Plugin.HIGHLIGHT_LINE_DELIMITER );
+
+			} ).join( Plugin.HIGHLIGHT_STEP_DELIMITER );
+
+		}
+
+	}
+
+	// Function to perform a better "data-trim" on code snippets
+	// Will slice an indentation amount on each line of the snippet (amount based on the line having the lowest indentation length)
+	function betterTrim(snippetEl) {
+		// Helper functions
+		function trimLeft(val) {
+			// Adapted from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim#Polyfill
+			return val.replace(/^[\s\uFEFF\xA0]+/g, '');
+		}
+		function trimLineBreaks(input) {
+			var lines = input.split('\n');
+
+			// Trim line-breaks from the beginning
+			for (var i = 0; i < lines.length; i++) {
+				if (lines[i].trim() === '') {
+					lines.splice(i--, 1);
+				} else break;
+			}
+
+			// Trim line-breaks from the end
+			for (var i = lines.length-1; i >= 0; i--) {
+				if (lines[i].trim() === '') {
+					lines.splice(i, 1);
+				} else break;
+			}
+
+			return lines.join('\n');
+		}
+
+		// Main function for betterTrim()
+		return (function(snippetEl) {
+			var content = trimLineBreaks(snippetEl.innerHTML);
+			var lines = content.split('\n');
+			// Calculate the minimum amount to remove on each line start of the snippet (can be 0)
+			var pad = lines.reduce(function(acc, line) {
+				if (line.length > 0 && trimLeft(line).length > 0 && acc > line.length - trimLeft(line).length) {
+					return line.length - trimLeft(line).length;
+				}
+				return acc;
+			}, Number.POSITIVE_INFINITY);
+			// Slice each line with this amount
+			return lines.map(function(line, index) {
+				return line.slice(pad);
+			})
+			.join('\n');
+		})(snippetEl);
+	}
+
+	Reveal.registerPlugin( 'highlight', Plugin );
+
+})();
 </script></body></html>
